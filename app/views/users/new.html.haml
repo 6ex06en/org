@@ -1,0 +1,28 @@
+%h3.text-center Create new user
+.form_signup
+  =form_for @user, html: {role:"form", class: "form-horizontal"} do |u|
+    .form-group
+      =u.label :Name, for: "inputName", class: "col-sm-4 control-label"
+      .col-sm-4
+        =u.email_field :name, id: "inputName", class: "form-control", placeholder: "name"
+    .form-group
+      =u.label "E-mail", for: "inputEmail", class: "col-sm-4 control-label"
+      .col-sm-4
+        =u.email_field :email, id: "inputEmail", class: "form-control", placeholder: "email"
+    .form-group
+      =u.label "Confirm e-mail", for: "inputEmail_confirm", class: "col-sm-4 control-label"
+      .col-sm-4
+        =u.email_field :email, id: "inputEmail_confirm", class: "form-control", placeholder: "email confirm"
+    .form-group
+      =u.label :Password, for: "inputPassword", class: "col-sm-4 control-label"
+      .col-sm-4
+        =u.password_field :password, id: "inputPassword", class: "form-control", placeholder: "password"
+    .form-group
+      =u.label "Confirm password", for: "inputPassword_confirm", class: "col-sm-4 control-label"
+      .col-sm-4
+        =u.password_field :password_confirm, id: "inputPassword_confirm", class: "form-control", placeholder: "password confirm"
+    .form-group
+      .col-sm-offset-4.col-sm-3
+        =u.submit "Submit", class: "btn btn-primary"
+      .col-sm-1.main_link_signup
+        =link_to "SignIn", root_path

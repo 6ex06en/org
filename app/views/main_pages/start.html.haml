@@ -1,0 +1,16 @@
+%h1.text-center History
+.form_main_signin
+  =form_for @user, html: {role:"form", class: "form-horizontal"} do |u|
+    .form-group
+      =u.label "E-mail", for: "inputEmail", class: "col-sm-4 control-label"
+      .col-sm-4
+        =u.email_field :email, id: "inputEmail", class: "form-control", placeholder: "email"
+    .form-group
+      =u.label :Password, for: "inputPassword", class: "col-sm-4 control-label"
+      .col-sm-4
+        =u.password_field :password, id: "inputPassword", class: "form-control", placeholder: "password"
+    .form-group
+      .col-sm-offset-4.col-sm-3
+        =u.submit "Submit", class: "btn btn-primary"
+      .col-sm-1.main_link_signup
+        =link_to "SignUp", new_user_path
