@@ -8,7 +8,14 @@
 </head>
 <body>
 <div class="container-fluid">
-
+<div class="flash">
+  <% flash.each do |key, value| %>
+    <div class="col-sm-offset-4 col-sm-4 alert alert-<%=key%>" >
+    	<%= value %>
+    </div>
+  <% end %>
+</div>
+<div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
 <%= yield %>
 
 </div>
