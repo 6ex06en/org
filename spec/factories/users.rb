@@ -1,9 +1,10 @@
 FactoryGirl.define do
   factory :user do
-    name "MyString"
-email ""
-password "MyString"
-auth_token "MyString"
+    name "user"
+	email "ex@ample.com"
+	email_confirmation "ex@ample.com"
+	password "password"
+	password_confirmation "password"
   end
 
 end

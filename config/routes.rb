@@ -1,13 +1,6 @@
 Rails.application.routes.draw do
   root "main_pages#start"
-  get 'sessions/new'
-
-  get 'sessions/create'
-
-  get 'sessions/destroy'
-
-  get 'sessions/update'
-
+  resources :sessions, only: [:create, :destroy]
   resources :users
 
   get 'main_pages/start'

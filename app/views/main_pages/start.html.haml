@@ -1,6 +1,9 @@
-%h1.text-center History
+.row
+  %h1.col-sm-offset-4.col-sm-4.text-center History
+  -if signed_in?
+    .container_login_user.col-sm-offset-1.col-sm-2=current_user.name
 .form_main_signin
-  =form_for @user, html: {role:"form", class: "form-horizontal"} do |u|
+  =form_for :session, url: sessions_path, html: {role:"form", class: "form-horizontal"} do |u|
     .form-group
       =u.label "E-mail", for: "inputEmail", class: "col-sm-4 control-label"
       .col-sm-4
@@ -11,6 +14,6 @@
         =u.password_field :password, id: "inputPassword", class: "form-control", placeholder: "password"
     .form-group
       .col-sm-offset-4.col-sm-3
-        =u.submit "Submit", class: "btn btn-primary"
+        =u.submit :Submit, class: "btn btn-primary", id: "submit_signin"
       .col-sm-1.main_link_signup
         =link_to "SignUp", new_user_path

@@ -15,7 +15,7 @@ RSpec.describe "users/new.html.erb", type: :view do
 
   it "error messages after create invalid user" do
   	click_button "Submit"
-  	is_expected.to have_content("Name can't be blank")
+  	is_expected.to have_content("Name is too short")
   end
 
   describe "when create user" do

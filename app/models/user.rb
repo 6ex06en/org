@@ -4,4 +4,21 @@ class User < ActiveRecord::Base
 	validates :password, length: {minimum: 8}
 	validates :email_confirmation, :password_confirmation, presence: true
 	has_secure_password
+	before_create :create_auth_token 
+
+def User.new_token
+	SecureRandom.urlsafe_base64
 end
+
+def User.encrypt(token)
+	Digest::SHA1.hexdigest(token)
+end
+
+private
+
+def create_auth_token
+	self.auth_token = User.encrypt(User.new_token)
+end
+
+end
+
