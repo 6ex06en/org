@@ -43,6 +43,7 @@ group :development, :test do
   gem 'byebug'
   gem 'rspec-rails'
   gem 'capybara'
+  # gem 'capybara-webkit'
   gem 'factory_girl_rails'
   gem 'guard'
   gem 'spork-rails'

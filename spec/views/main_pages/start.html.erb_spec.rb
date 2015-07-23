@@ -28,5 +28,29 @@ RSpec.describe "start page,", type: :view do
   		is_expected.to have_content("Welcome #{user.name}")
   	end
 
+    describe "after click sign_out", js: true do
+      before do
+          find(".dropdown-toggle").click
+          click_link "Log out"
+      end
+
+      it "respond with :success" do
+        expect(page).to have_http_status(200)
+      end
+
+      it "page should have signin button" do
+        is_expected.to have_css("#submit_signin")
+      end
+
+      it "page have not content user name" do
+        is_expected.to_not have_content(user.name)
+      end
+
+      it "page should Submit button" do
+        render "main_pages/start"
+        expect(rendered).to match /Submit/
+      end
+    end
   end
+
 end

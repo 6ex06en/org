@@ -1,7 +1,13 @@
 .row
   %h1.col-sm-offset-4.col-sm-4.text-center History
   -if signed_in?
-    .container_login_user.col-sm-offset-1.col-sm-2=current_user.name
+    .btn-group.col-sm-offset-1.col-sm-2
+      %button.btn.btn-success.dropdown-toggle(data-toggle="dropdown")<
+        =@current_user.name
+        %span.caret
+      %ul.dropdown-menu(role="menu")
+        %li
+          =link_to "Log out", session_path(@current_user), method: :delete
 .form_main_signin
   =form_for :session, url: sessions_path, html: {role:"form", class: "form-horizontal"} do |u|
     .form-group

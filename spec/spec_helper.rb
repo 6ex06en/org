@@ -1,16 +1,19 @@
 require 'rubygems'
 require 'spork'
-require File.expand_path('../../config/environment', __FILE__)
-require 'rspec/rails'
-require 'capybara'
-require 'capybara/rails'
-require 'capybara/rspec'
-require 'database_cleaner'
+
 
 #uncomment the following line to use spork with the debugger
 #require 'spork/ext/ruby-debug'
 
 Spork.prefork do
+  ENV["RAILS_ENV"] = 'test'
+  require File.expand_path('../../config/environment', __FILE__)
+  require 'rspec/rails'
+  require 'capybara'
+  require 'capybara/rails'
+  require 'capybara/rspec'
+  require 'database_cleaner'
+  ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
   RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest

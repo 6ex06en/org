@@ -6,6 +6,13 @@ module SessionsHelper
 		self.current_user = user
 	end
 
+	def sign_out
+		token = User.new_token
+		current_user.update_attribute(:auth_token, User.encrypt(token))
+		cookies.delete(:token)
+		self.current_user= nil
+	end
+
 	def current_user=(user)
 		@current_user = user
 	end

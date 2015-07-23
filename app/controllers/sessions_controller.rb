@@ -15,6 +15,10 @@ class SessionsController < ApplicationController
   end
 
   def destroy
+    if signed_in?
+      sign_out
+      redirect_to root_path
+    end
   end
 
   def update
