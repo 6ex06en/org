@@ -1,6 +1,19 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+.calendar_day_wrapper {
+	margin: 0 auto;
+	background: darkgrey;
+	border: 1px solid grey;
+}
+.calendar_day_container {
+  
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 50%;
+  padding-bottom: 50%;
+}
+
 .main_link_signup {
 	line-height: 2.2;
 	font-size: 1.2em;
