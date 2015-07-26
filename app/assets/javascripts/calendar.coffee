@@ -59,8 +59,8 @@ $(document).ready( ->
 	$calendar.html(calendar.currentMonth().html)
 	# добавить все дни текущего месяца 
 	$calendar.children().each((index) -> 
-		$(this).addClass("calendar_day_wrapper col-sm-1 col-md-1").append(document.createElement("div"))
-		$(this).children().first().text(index+1).addClass("calendar_day_container text-center")
+		$(this).addClass("calendar_day_wrapper col-xs-1 col-sm-1 col-md-1 col-lg-1").append(document.createElement("div"))
+		$(this).children().first().text(index+1).addClass("calendar_day_container text-center").attr("data-day-cur", index+1)
 		)
 	#добавление дней предыдущего месяца
 	if calendar.currentMonth().firstDayofMonth > 1
@@ -68,27 +68,28 @@ $(document).ready( ->
 		firstOfAddedDays = calendar.previousMonth().firstOfAddedDays
 		$calendar.children().each((index) ->
 			return false if index == calendar.previousMonth().countAddDays
-			$(this).addClass("calendar_day_wrapper col-sm-1 col-md-1 pr").append(document.createElement("div"))
+			$(this).addClass("calendar_day_wrapper col-xs-1 col-sm-1 col-md-1 col-lg-1 pr").append(document.createElement("div"))
 			$(this).children().first().text(firstOfAddedDays).addClass("calendar_day_container text-center")
+			$(this).children().first().attr("data-day-pr", firstOfAddedDays)
 			firstOfAddedDays++
 		)
 	#добавлениее разделителей строк bootstrap
-	count = 0
-	$calendar.children().each((index) ->
-		count++
-		if count == 7		
-			$(this).after($("<div/>", {class: "col-md-5 col-md-5 col-g-5"}))
-			$(this).next().after($("<div/>", {class: "clearfix visible-sm-block visible-md-block visible-lg-block"}))
-			count = 0
-		)
+	# count = 0
+	# $calendar.children().each((index) ->		
+	# 	count++
+	# 	if count == 7		
+	# 		$(this).after($("<div/>", {class: "col-sm-4 col-md-4 col-lg-4"}))
+	# 		$(this).next().after($("<div/>", {class: "clearfix visible-sm-block visible-md-block visible-lg-block"}))
+	# 		count = 0
+	# 	)
 	#добавление дней со следующего месяца 
 	$calendar.append(calendar.nextMonth("next").html)
-	$calendar.children(".next").addClass("calendar_day_wrapper col-sm-1 col-md-1").each((index) ->
-		$(this).append($("<div/>", {class: "calendar_day_container text-center", text: index+1 }))
+	$calendar.children(".next").addClass("calendar_day_wrapper col-xs-1 col-sm-1 col-md-1 col-lg-1").each((index) ->
+		$(this).append($("<div/>", {class: "calendar_day_container text-center", text: index+1, "data-Day-Next": index+1 }))
 		)
 )
 $(document).ready( -> 
-	$(".calendar_day_wrapper").mouseenter( ()->
+	$(".calendar_day_wrapper").click( ()->
 		$offset = $(this).offset()
 		$div_clone = $(this).clone()
 		$(this).parent().append($div_clone)

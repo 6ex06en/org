@@ -2,17 +2,20 @@
 @import "bootstrap";
 
 .calendar_day_wrapper {
-	margin: 0 auto;
+	/*margin: 0 auto;*/
+	width: 14.2857%;
 	background: #D3D3D3;
 	border: 1px solid grey;
 	&.pr, &.next {
 		background: #B5B5B5;
 	}
+	&:hover {
+		background: orange;
+	}
 }
 .calendar_day_wrapper.clone {
-	position: absolute;
 	background: yellow;
-	/*border: 1pt solid black;*/
+	border: 1pt solid black;
 }
 .calendar_day_container {
   

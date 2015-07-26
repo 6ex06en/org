@@ -9,6 +9,8 @@
         %li
           =link_to "Log out", session_path(@current_user), method: :delete
     .clearfix.visible-sm-block.visible-md-block.visible-lg-block
-    #container_calendar
+    .col-sm-7.col-md-7.col-lg-7
+      #container_calendar
+    .col-sm-5.col-md-5.col-lg-5
 -unless signed_in?
   =render "shared/form_signin"
