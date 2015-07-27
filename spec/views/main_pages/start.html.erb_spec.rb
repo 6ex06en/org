@@ -28,14 +28,15 @@ RSpec.describe "start page,", type: :view do
   		is_expected.to have_content("Welcome #{user.name}")
   	end
 
-    describe "after click sign_out", js: true do
+    it "should be calendar", js:true do
+      is_expected.to have_css(".calendar_day_wrapper")
+      is_expected.to have_css(".calendar_day_container")
+    end
+
+    describe "after click sign_out" do
       before do
           find(".dropdown-toggle").click
           click_link "Log out"
-      end
-
-      it "respond with :success" do
-        expect(page).to have_http_status(200)
       end
 
       it "page should have signin button" do
@@ -46,10 +47,6 @@ RSpec.describe "start page,", type: :view do
         is_expected.to_not have_content(user.name)
       end
 
-      # it "page should Submit button" do
-      #   render "main_pages/start"
-      #   expect(rendered).to match //
-      # end
     end
   end
 
