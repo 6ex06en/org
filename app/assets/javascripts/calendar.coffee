@@ -81,9 +81,10 @@ calendar = (obj) -> # январь - 1
 		)
 		#установка в заголовке название месяца и год
 		month = $(".dropmenu-month").children()[current_month]
-		$(".dropdown-togle-month").text(month.textContent).attr("mn", current_month+1)
-		$(".dropdown-togle-year").text(current_year)
-
+		$(".dropdown-togle-month").text(month.textContent+" ").attr("mn", current_month+1).append("<span class='caret'></span>")
+		$(".dropdown-togle-year").text(current_year+" ").append("<span class='caret'></span>")
+		
+		#обработчик на заголовке
 		$(".list-month").click( ->
 			calendar(month: $(this).index()+1)()
 			)
