@@ -1,6 +1,11 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+#header_calendar {
+	border-radius: 15px 15px 0 0;
+	background: orange;
+	border: 1px solid grey; 
+}
 .calendar_day_wrapper {
 	/*margin: 0 auto;*/
 	width: 14.2857%;
@@ -29,3 +34,27 @@
 	line-height: 2.2;
 	font-size: 1.2em;
 }
+.container-dropdown-month, .container-dropdown-year {
+	left: -70px;
+	border: 1px solid green;
+	background: #D3D3D3;
+}
+.dropdown-togle-month, .dropdown-togle-year {
+	border: 1px solid grey; 
+}
+.dropmenu-month, .dropmenu-year {
+	margin: -10px;
+	padding: 12px 12px;	
+}
+.list-month, .list-year {
+	padding-left: 5px;
+	padding-right: 5px;
+	font-size: 0.95em;
+	font-weight: bold; 
+	color: black;
+	cursor: pointer;
+	&:hover {
+		color: white;
+	}
+}
+

@@ -79,8 +79,20 @@ calendar = (obj) -> # январь - 1
 		$calendar.children(".next").addClass("calendar_day_wrapper col-xs-1 col-sm-1 col-md-1 col-lg-1").each((index) ->
 			$(this).append($("<div/>", {class: "calendar_day_container text-center", text: index+1, "data-Day-Next": index+1 }))
 		)
+		#установка в заголовке название месяца и год
+		month = $(".dropmenu-month").children()[current_month]
+		$(".dropdown-togle-month").text(month.textContent).attr("mn", current_month+1)
+		$(".dropdown-togle-year").text(current_year)
+
+		$(".list-month").click( ->
+			calendar(month: $(this).index()+1)()
+			)
+		$(".list-year").click( ->
+			calendar({month: $(".dropdown-togle-month").attr("mn"), year: $(this).text()})()
+			)
 
 		$(document).ready( -> 
+			#эффект увеличения дня месяца
 			$(".calendar_day_wrapper").click( ()->
 				$offset = $(this).offset()
 				$div_clone = $(this).clone()
@@ -96,5 +108,6 @@ calendar = (obj) -> # январь - 1
 
 $(document).ready( () ->
 	 calendar({})()
+
 )
 
