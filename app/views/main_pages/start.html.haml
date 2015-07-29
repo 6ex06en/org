@@ -2,7 +2,7 @@
   %h1.col-sm-offset-4.col-sm-4.text-center History
   -if signed_in?
     .btn-group.col-sm-offset-1.col-sm-2
-      %button.btn.btn-success.dropdown-toggle(data-toggle="dropdown")<
+      %button.btn.btn-success.dropdown-toggle.dropdown_login(data-toggle="dropdown")<
         =@current_user.name
         %span.caret
       %ul.dropdown-menu(role="menu")
@@ -21,12 +21,10 @@
                 %span.col-md-3.text-center.list-month Фев
                 %span.col-md-3.text-center.list-month Мар
                 %span.col-md-3.text-center.list-month Апр
-              .row.dropmenu-month.text-center
                 %span.col-md-3.text-center.list-month Мар
                 %span.col-md-3.text-center.list-month Июн
                 %span.col-md-3.text-center.list-month Июл
                 %span.col-md-3.text-center.list-month Авг
-              .row.dropmenu-month.text-center
                 %span.col-md-3.text-center.list-month Сен
                 %span.col-md-3.text-center.list-month Окт
                 %span.col-md-3.text-center.list-month Ноя

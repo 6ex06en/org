@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
+
+
   root "main_pages#start"
   resources :sessions, only: [:create, :destroy]
-  resources :users
+  resources :organizations do
+    resources :users
+  end
 
   get 'main_pages/start'
 

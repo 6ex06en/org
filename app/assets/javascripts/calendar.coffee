@@ -65,10 +65,11 @@ calendar = (obj) -> # январь - 1
 			)
 		#добавление дней предыдущего месяца
 		if currentMonth().firstDayofMonth > 1
+			countAddDays = previousMonth().countAddDays
 			$calendar.prepend(previousMonth().lastDayOfMonthHTML)
 			firstOfAddedDays = previousMonth().firstOfAddedDays
 			$calendar.children().each((index) ->
-				return false if index == previousMonth().countAddDays
+				return false if index == countAddDays
 				$(this).addClass("calendar_day_wrapper col-xs-1 col-sm-1 col-md-1 col-lg-1 pr").append(document.createElement("div"))
 				$(this).children().first().text(firstOfAddedDays).addClass("calendar_day_container text-center")
 				$(this).children().first().attr("data-day-pr", firstOfAddedDays)

@@ -35,7 +35,7 @@ RSpec.describe "start page,", type: :view do
 
     describe "after click sign_out" do
       before do
-          find(".dropdown-toggle").click
+          find(".dropdown_login").click
           click_link "Log out"
       end
 

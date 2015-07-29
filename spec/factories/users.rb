@@ -5,6 +5,11 @@ FactoryGirl.define do
 	email_confirmation "ex@ample.com"
 	password "password"
 	password_confirmation "password"
+	organization
+  end
+
+  factory :organization do
+    name "test_org"
   end
 
 end
