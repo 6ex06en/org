@@ -85,31 +85,31 @@ calendar = (obj) -> # январь - 1
 		$(".dropdown-togle-month").text(month.textContent+" ").attr("mn", current_month+1).append("<span class='caret'></span>")
 		$(".dropdown-togle-year").text(current_year+" ").append("<span class='caret'></span>")
 		
-		#обработчик на заголовке
-		$(".list-month").click( ->
-			calendar(month: $(this).index()+1)()
-			)
-		$(".list-year").click( ->
-			calendar({month: $(".dropdown-togle-month").attr("mn"), year: $(this).text()})()
-			)
+		
 
-		$(document).ready( -> 
-			#эффект увеличения дня месяца
-			$(".calendar_day_wrapper").click( ()->
-				$offset = $(this).offset()
-				$div_clone = $(this).clone()
-				$(this).parent().append($div_clone)
-				$div_clone.css({"position":"absolute"}).offset((i,val) ->
-					{left: $offset.left - 15, top: $offset.top - 15}).width((i,val) ->
-						val + 30).addClass("clone")
-				$div_clone.mouseleave( ()->
-					$(this).remove()
-				)
+		#эффект увеличения дня месяца
+		$(".calendar_day_wrapper").click( ()->
+			$offset = $(this).offset()
+			$div_clone = $(this).clone()
+			$(this).parent().append($div_clone)
+			$div_clone.css({"position":"absolute"}).offset((i,val) ->
+				{left: $offset.left - 15, top: $offset.top - 15}).width((i,val) ->
+					val + 30).addClass("clone")
+			$div_clone.mouseleave( ()->
+				$(this).remove()
 			)
 		)
 
 $(document).ready( () ->
-	 calendar({})()
+	#обработчик на заголовке
+	$(".list-month").click( ->
+			calendar(month: $(this).index()+1)()
+			)
+
+	$(".list-year").click( ->
+		calendar({month: $(".dropdown-togle-month").attr("mn"), year: $(this).text()})()
+		)
+	calendar({})()
 
 )
 
