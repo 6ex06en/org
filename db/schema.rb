@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150729100026) do
+ActiveRecord::Schema.define(version: 20150730113019) do
 
   create_table "organizations", force: :cascade do |t|
     t.string   "name"
@@ -28,6 +28,8 @@ ActiveRecord::Schema.define(version: 20150729100026) do
     t.datetime "updated_at",                      null: false
     t.string   "password_digest"
     t.integer  "organization_id"
+    t.string   "privilages"
+    t.boolean  "invited",         default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email"

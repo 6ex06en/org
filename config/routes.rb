@@ -3,9 +3,8 @@ Rails.application.routes.draw do
 
   root "main_pages#start"
   resources :sessions, only: [:create, :destroy]
-  resources :organizations do
-    resources :users
-  end
+  resources :organizations
+  resources :users
 
   get 'main_pages/start'
 

@@ -40,5 +40,9 @@
                 %span.col-md-3.text-center.list-year 2018      
       #container_calendar
     .col-sm-7.col-md-7.col-lg-7.col-xs-7
+      -unless current_user.invited?
+        .row
+          %div(id="сontainer_create_org" class="col-md-12 col-lg-12")
+            =link_to "Создать организацию", new_organization_path, remote:true
 -unless signed_in?
   =render "shared/form_signin"
