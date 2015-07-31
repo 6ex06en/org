@@ -44,5 +44,9 @@
         .row
           %div(id="сontainer_create_org" class="col-md-12 col-lg-12")
             =link_to "Создать организацию", new_organization_path, remote:true
+            %div
+              organization
+              =@organization.errors.count
+              =render "shared/errors", object: @organization
 -unless signed_in?
   =render "shared/form_signin"

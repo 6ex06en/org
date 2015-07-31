@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "start page,", type: :view do
+  
 	subject { page }
 	before { visit root_path }
 
@@ -13,7 +14,18 @@ RSpec.describe "start page,", type: :view do
   	is_expected.to have_content("Create new user")
   end
 
-  describe "when signin" do
+  describe "wnen signin privited user" do
+    let(:invited_user) { FactoryGirl.create(:user, invited: true)}
+    before do
+      fill_in "E-mail", with: invited_user.email
+      fill_in "Password", with: invited_user.password
+      click_button "Submit"
+    end
+
+     it {expect(page).not_to have_css("#container_create_org")}
+  end
+
+  describe "when signin," do
   	let(:user) { FactoryGirl.create(:user) }
   	before do
 	  	fill_in "E-mail", with: user.email
@@ -31,6 +43,20 @@ RSpec.describe "start page,", type: :view do
     it "should be calendar", js:true do
       is_expected.to have_css(".calendar_day_wrapper")
       is_expected.to have_css(".calendar_day_container")
+    end
+
+    describe "when logged in user is not invited" do
+      name = "corp"
+      it {is_expected.to have_css("#сontainer_create_org")}
+      it {is_expected.to have_link("Создать организацию", href: new_organization_path)}
+
+      it "create organization", js:true do
+        click_link "Создать организацию"
+        fill_in "Name", with: name
+        click_button "Create"
+
+        expect(user.organization.name).to eql(name)
+      end
     end
 
     describe "after click sign_out" do

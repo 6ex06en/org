@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe OrganizationsController, type: :controller do
   let(:user) {FactoryGirl.create(:user)}
   let(:organization) { FactoryGirl(:organization)}
-  let(:current_user) { current_user= user}
+
   # describe "GET #create" do
   #   it "returns http success" do
   #     get :create
@@ -32,14 +32,12 @@ RSpec.describe OrganizationsController, type: :controller do
   #   end
   # end
 
-  describe "GET #new" do
-    it "returns http success" do
-      get :new
-      expect(response).to have_http_status(:success)
-    end
-
-
-  end
+  # describe "GET #new" do
+  #   it "returns http success" do
+  #     get :new
+  #     expect(response).to have_http_status(:success)
+  #   end
+  # end
 
   # describe "GET #edit" do
   #   it "returns http success" do

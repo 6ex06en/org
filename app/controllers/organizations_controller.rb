@@ -1,5 +1,12 @@
 class OrganizationsController < ApplicationController
   def create
+    @organization = current_user.build_organization(organization_params)
+    if current_user.save && @organization.save
+      flash[:success] = "Организация создана"
+      redirect_to root_path
+    else
+      render "main_pages/start"
+    end
   end
 
   def destroy
@@ -20,4 +27,12 @@ class OrganizationsController < ApplicationController
 
   def edit
   end
+
+
+  private
+
+  def organization_params
+    params.require(:organization).permit(:name)
+  end
+  
 end
