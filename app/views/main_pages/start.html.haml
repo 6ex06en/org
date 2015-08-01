@@ -15,38 +15,44 @@
         %li
           =link_to "Log out", session_path(@current_user), method: :delete
         -unless @current_user.organization.nil?
-          %li=link_to "Покинуть организацию", organization_path(@current_user.organization.id), method: :delete
+          -if one_admin?(@current_user.organization.id)
+            %li
+              =link_to "Покинуть организацию", organization_path(@current_user.organization.id), method: :delete, data: { confirm: "Администраторов этой организации не осталось. Вы уверены?"}
+          -else
+            %li
+              =link_to "Покинуть организацию", organization_path(@current_user.organization.id), method: :delete, data: { confirm: "Покинуть организацию?"}
     .clearfix.visible-sm-block.visible-md-block.visible-lg-block
-    .col-sm-5.col-md-5.col-lg-5.col-xs-5
-      #header_calendar.text-center
-        .btn-group
+    -if @current_user.invited?
+      .col-sm-5.col-md-5.col-lg-5.col-xs-5
+        #header_calendar.text-center
           .btn-group
-            %button.btn.btn-success.dropdown-toggle.dropdown-togle-month(data-toggle="dropdown")<
-              %span.caret
-            .dropdown-menu.container-dropdown-month.text-center(role="menu")
-              .row.dropmenu-month.text-center
-                %span.col-md-3.text-center.list-month Янв
-                %span.col-md-3.text-center.list-month Фев
-                %span.col-md-3.text-center.list-month Мар
-                %span.col-md-3.text-center.list-month Апр
-                %span.col-md-3.text-center.list-month Мар
-                %span.col-md-3.text-center.list-month Июн
-                %span.col-md-3.text-center.list-month Июл
-                %span.col-md-3.text-center.list-month Авг
-                %span.col-md-3.text-center.list-month Сен
-                %span.col-md-3.text-center.list-month Окт
-                %span.col-md-3.text-center.list-month Ноя
-                %span.col-md-3.text-center.list-month Дек
-          .btn-group
-            %button.btn.btn-success.dropdown-toggle.dropdown-togle-year(data-toggle="dropdown")<
-              %span.caret  
-            .dropdown-menu.text-center.container-dropdown-year(role="menu")
-              .row.dropmenu-year.text-center
-                %span.col-md-3.text-center.list-year 2015
-                %span.col-md-3.text-center.list-year 2016
-                %span.col-md-3.text-center.list-year 2017
-                %span.col-md-3.text-center.list-year 2018      
-      #container_calendar
+            .btn-group
+              %button.btn.btn-success.dropdown-toggle.dropdown-togle-month(data-toggle="dropdown")<
+                %span.caret
+              .dropdown-menu.container-dropdown-month.text-center(role="menu")
+                .row.dropmenu-month.text-center
+                  %span.col-md-3.text-center.list-month Янв
+                  %span.col-md-3.text-center.list-month Фев
+                  %span.col-md-3.text-center.list-month Мар
+                  %span.col-md-3.text-center.list-month Апр
+                  %span.col-md-3.text-center.list-month Мар
+                  %span.col-md-3.text-center.list-month Июн
+                  %span.col-md-3.text-center.list-month Июл
+                  %span.col-md-3.text-center.list-month Авг
+                  %span.col-md-3.text-center.list-month Сен
+                  %span.col-md-3.text-center.list-month Окт
+                  %span.col-md-3.text-center.list-month Ноя
+                  %span.col-md-3.text-center.list-month Дек
+            .btn-group
+              %button.btn.btn-success.dropdown-toggle.dropdown-togle-year(data-toggle="dropdown")<
+                %span.caret  
+              .dropdown-menu.text-center.container-dropdown-year(role="menu")
+                .row.dropmenu-year.text-center
+                  %span.col-md-3.text-center.list-year 2015
+                  %span.col-md-3.text-center.list-year 2016
+                  %span.col-md-3.text-center.list-year 2017
+                  %span.col-md-3.text-center.list-year 2018      
+        #container_calendar
     .col-sm-7.col-md-7.col-lg-7.col-xs-7
       -unless @current_user.invited?
         .row
