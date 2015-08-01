@@ -1,3 +1,9 @@
+-if signed_in?
+  -provide(:title) do 
+    -title = @current_user.name
+    -unless @current_user.organization.nil?
+      -title = title + "| #{current_user.organization.name}"
+    -title 
 .row
   %h1.col-sm-offset-4.col-sm-4.text-center History
   -if signed_in?
@@ -8,6 +14,8 @@
       %ul.dropdown-menu(role="menu")
         %li
           =link_to "Log out", session_path(@current_user), method: :delete
+        -unless @current_user.organization.nil?
+          %li=link_to "Покинуть организацию", organization_path(@current_user.organization.id), method: :delete
     .clearfix.visible-sm-block.visible-md-block.visible-lg-block
     .col-sm-5.col-md-5.col-lg-5.col-xs-5
       #header_calendar.text-center
@@ -40,13 +48,12 @@
                 %span.col-md-3.text-center.list-year 2018      
       #container_calendar
     .col-sm-7.col-md-7.col-lg-7.col-xs-7
-      -unless current_user.invited?
+      -unless @current_user.invited?
         .row
           %div(id="сontainer_create_org" class="col-md-12 col-lg-12")
-            =link_to "Создать организацию", new_organization_path, remote:true
+            %h3
+              =link_to "Создать организацию", new_organization_path, class: "col-sm-offset-4 col-md-offset-4 col-lg-offset-4 col-xs-offset-4 col-sm-5 col-md-5 col-lg-5 col-xs-5", remote:true
             %div
-              organization
-              =@organization.errors.count
               =render "shared/errors", object: @organization
 -unless signed_in?
   =render "shared/form_signin"

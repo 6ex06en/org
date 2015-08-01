@@ -46,17 +46,9 @@ RSpec.describe "start page,", type: :view do
     end
 
     describe "when logged in user is not invited" do
-      name = "corp"
+
       it {is_expected.to have_css("#сontainer_create_org")}
       it {is_expected.to have_link("Создать организацию", href: new_organization_path)}
-
-      it "create organization", js:true do
-        click_link "Создать организацию"
-        fill_in "Name", with: name
-        click_button "Create"
-
-        expect(user.organization.name).to eql(name)
-      end
     end
 
     describe "after click sign_out" do

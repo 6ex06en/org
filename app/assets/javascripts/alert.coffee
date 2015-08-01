@@ -1,5 +1,5 @@
 $(document).ready( ->
 	x = setTimeout( ->
-		$(".alert").fadeOut(1500)
+		$(".alert-success").fadeOut(1500)
 	,1000)
 )

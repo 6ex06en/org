@@ -2,8 +2,8 @@ class User < ActiveRecord::Base
 	belongs_to :organization
 	validates :name, length: { minimum: 3, maximum: 20 }
 	validates :email, presence: true, confirmation: true, uniqueness: { case_sensitive: false }
-	validates :password, length: {minimum: 8}
-	validates :email_confirmation, :password_confirmation, presence: true
+	validates :password, length: {minimum: 8}, on: :create
+	validates :email_confirmation, :password_confirmation, presence: true, on: :create
 	has_secure_password
 	before_create :create_auth_token 
 
