@@ -5,9 +5,10 @@ class Main < ApplicationMailer
   #
   #   en.main.join_to_organization.subject
   #
-  def join_to_organization
-    @greeting = "Hi"
-
-    mail to: "to@example.org"
+  def join_to_organization(user, inviter)
+    @greeting = "Здравствуйте"
+    @inviter = inviter
+    @user = user
+    mail(to: @user.email, subject: "Organizer.Приглашение")
   end
 end

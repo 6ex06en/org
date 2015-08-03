@@ -19,6 +19,10 @@ def invited?
 	self.invited
 end
 
+def User.create_invite_key(user)
+	user.invite_key = User.new_token
+end
+
 private
 
 def create_auth_token

@@ -36,4 +36,13 @@ module SessionsHelper
         redirect_to root_url, notice: "Please sign in."
       end
   	end
+
+  	def current_user?(user)
+	    current_user == user
+  	end
+
+  	def redirect_back_or(default)
+    	redirect_to(session[:return_to] || default)
+    	session.delete(:return_to)
+    end
 end

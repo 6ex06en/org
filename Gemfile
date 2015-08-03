@@ -29,6 +29,7 @@ gem 'angular-rails-templates'
 gem 'bootstrap-sass'
 gem 'tzinfo-data'
 gem 'sidekiq'
+gem 'sinatra', :require => nil
 
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'

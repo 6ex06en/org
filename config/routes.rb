@@ -1,11 +1,20 @@
 Rails.application.routes.draw do
 
+  require 'sidekiq/web'
+  Sidekiq::Web.use Rack::Auth::Basic do |username, password|
+  username == "1qa2ws3ed" && password == "1qa2ws3ed"
+  end if Rails.env.production?
+  mount Sidekiq::Web, at: "/sidekiq"
 
   root "main_pages#start"
   resources :sessions, only: [:create, :destroy]
-  resources :organizations
+  resources :organizations do
+    member do
+      post "invited/:invite_id" => "organizations#join_to_organization", as: :join_to
+    end
+  end
   resources :users
-
+  get "invite_user/:id" => "organizations#invite_user", as: :invite_user
   get 'main_pages/start'
 
   # The priority is based upon order of creation: first created -> highest priority.
