@@ -1,5 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe "users/edit.html.erb", type: :view do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  describe "when admin user" do
+  	let(:admin) {FactoryGirl.create(:user, admin:true)}
+  	before { sign_in user}
+  end
+
+  it "page should contain invite form" do
+  end
+
 end

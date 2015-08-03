@@ -9,6 +9,6 @@ class Main < ApplicationMailer
     @greeting = "Здравствуйте"
     @inviter = inviter
     @user = user
-    mail(to: @user.email, subject: "Organizer.Приглашение")
+    mail(to: @user.email, subject: "Organizer")
   end
 end

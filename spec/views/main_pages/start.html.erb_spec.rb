@@ -14,7 +14,7 @@ RSpec.describe "start page,", type: :view do
   	is_expected.to have_content("Create new user")
   end
 
-  describe "wnen signin privited user" do
+  describe "wnen signin invited user" do
     let(:invited_user) { FactoryGirl.create(:user, invited: true)}
     before do
       fill_in "E-mail", with: invited_user.email
@@ -23,6 +23,11 @@ RSpec.describe "start page,", type: :view do
     end
 
      it {expect(page).not_to have_css("#container_create_org")}
+
+     it "should be calendar", js:true do
+      is_expected.to have_css(".calendar_day_wrapper")
+      is_expected.to have_css(".calendar_day_container")
+     end
   end
 
   describe "when signin," do
@@ -39,11 +44,6 @@ RSpec.describe "start page,", type: :view do
   	it "should be flash notice" do
   		is_expected.to have_content("Welcome #{user.name}")
   	end
-
-    it "should be calendar", js:true do
-      is_expected.to have_css(".calendar_day_wrapper")
-      is_expected.to have_css(".calendar_day_container")
-    end
 
     describe "when logged in user is not invited" do
 
@@ -64,8 +64,19 @@ RSpec.describe "start page,", type: :view do
       it "page have not content user name" do
         is_expected.to_not have_content(user.name)
       end
-
     end
+
+    describe "when click on user's option link" do
+      before do
+          find(".dropdown_login").click
+          click_link "Настройки"
+      end
+
+      it "renders edit_user_path" do
+        is_expected.to have_content(user.name)
+      end
+    end
+    
   end
 
 end
