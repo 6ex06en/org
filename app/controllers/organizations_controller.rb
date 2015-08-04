@@ -3,15 +3,15 @@ class OrganizationsController < ApplicationController
   before_action :admin?, only: [:invite_user]
 
   def create
-    user = current_user
-    unless user.organization_id.nil?
+    @current_user = current_user
+    unless @current_user.organization_id.nil?
       flash.now[:danger] = "Вы уже состоите в организации"
       render "main_pages/start"
     else 
-      @organization = user.build_organization(organization_params)
-      if @organization.valid? && user.save && @organization.save
-        user.assign_attributes(admin: true, invited: true)
-        user.save(validate: false)
+      @organization = @current_user.build_organization(organization_params)
+      if @organization.valid? && @current_user.save && @organization.save
+        @current_user.assign_attributes(admin: true, invited: true)
+        @current_user.save(validate: false)
         flash[:success] = "Организация создана"
         redirect_to root_path
       else

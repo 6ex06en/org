@@ -1,7 +1,7 @@
 -if signed_in?
   -provide(:title) do 
     -title = @current_user.name
-    -unless @current_user.organization.nil?
+    -if @current_user.organization
       -title = title + "| #{current_user.organization.name}"
     -title 
 .row
@@ -16,13 +16,12 @@
           =link_to "Log out", session_path(@current_user), method: :delete
         %li
           =link_to "Настройки", edit_user_path(@current_user)
-        -unless @current_user.organization.nil?
+        -if @current_user.organization.try(:id)
           -if one_admin?(@current_user.organization.id)
-            %li
-              =link_to "Покинуть организацию", organization_path(@current_user.organization.id), method: :delete, data: { confirm: "Администраторов этой организации не осталось. Вы уверены?"}
+            %li=link_to "Покинуть организацию", organization_path(@current_user.organization.try(:id)), method: :delete, data: { confirm: "Администраторов этой организации не осталось. Вы уверены?"}
           -else
-            %li
-              =link_to "Покинуть организацию", organization_path(@current_user.organization.id), method: :delete, data: { confirm: "Покинуть организацию?"}
+            =@current_user.organization
+            %li=link_to("Покинуть организацию", organization_path(@current_user.organization.try(:id)), data: { confirm: "Покинуть организацию?"}, method: :delete)
     .clearfix.visible-sm-block.visible-md-block.visible-lg-block
     -if @current_user.invited?
       .col-sm-5.col-md-5.col-lg-5.col-xs-5

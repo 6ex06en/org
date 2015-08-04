@@ -10,10 +10,14 @@ Rails.application.routes.draw do
   resources :sessions, only: [:create, :destroy]
   resources :organizations do
     member do
-      post "invited/:invite_id" => "organizations#join_to_organization", as: :join_to
+      post "invite" => "organizations#join_to_organization", as: :join_to
     end
   end
-  resources :users
+  resources :users do
+    member do
+      get "destroy_invitation" => "users#destroy_invitation"
+    end
+  end
   get "invite_user/:id" => "organizations#invite_user", as: :invite_user
   get 'main_pages/start'
 

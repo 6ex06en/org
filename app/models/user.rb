@@ -20,7 +20,7 @@ def invited?
 end
 
 def User.create_invite_key(user)
-	user.invite_key = User.new_token
+	user.invite_key = User.encrypt(User.new_token)
 end
 
 private

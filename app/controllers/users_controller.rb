@@ -7,6 +7,8 @@ class UsersController < ApplicationController
   end
 
   def edit
+    @user = current_user
+    @orgnization = Organization.find_by_id(@user.join_to)
   end
 
   def show
@@ -29,6 +31,9 @@ class UsersController < ApplicationController
   end
 
   def update
+  end
+
+  def destroy_invitation
   end
 
   private

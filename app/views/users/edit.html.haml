@@ -1,2 +1,27 @@
-<h1>Users#edit</h1>
-<p>Find me in app/views/users/edit.html.erb</p>
+%h1 Hello, #{@user.name}
+.row
+  .col-md-5.col-lg-5.col-sm-5
+    #personal_info_container
+      .avatar Тут будет аватар
+      #task_info_container
+        %span Полученные задания
+        %span Назначенные задания
+  .col-md-6.col-sm-6.col-lg-6
+    -if @user.admin
+      #invite_user_form
+        =form_for(:invite_user, url: join_to_organization_path(@user.organization.id), html: {role: "form", class: "form-horizontal"}) do |u|
+          .form-group
+            =u.label "Email", for: "invite_email_input", class: "label-control col-sm-offset-1 col-md-offset-1 col-lg-offset-1 col-xs-offset-1 col-md-2 col-sm-2 col-lg-2"
+            .col-sm-4.col-md-4.col-lg-4.col-xs-4
+              =u.email_field :email, id: "invite_email_input", class: "form-control"
+          .form-group
+            .col-sm-offset-3.col-md-offset-3.col-lg-offset-3.col-xs-offset-3.col-md-2.col-sm-2.col-lg-2
+              =u.submit "Пригласить", class: "btn btn-primary", id: "invite_user"
+    -if @user.invite_key
+      #accept_invitation_form
+        =form_for(@organization.users.build, html: {role: "form", class: "form-horizontal"}) do |u|
+          .form-group
+            =u.label "Email", for: "accept_invitation", class: "label-control col-sm-offset-2 col-md-offset-2 col-lg-offset-2 col-xs-offset-2 col-md-2 col-sm-2 col-lg-2"
+            .col-md-2.col-sm-2.col-lg-2
+              =u.submit "Пригласить", class: "btn btn-primary", id: "accept_invitation"
+            =link_to "Удалить приглашение", destroy_invitation_user_path(@user.id)
