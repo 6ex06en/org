@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'tasks/new'
+
   require 'sidekiq/web'
   Sidekiq::Web.use Rack::Auth::Basic do |username, password|
   username == "1qa2ws3ed" && password == "1qa2ws3ed"
