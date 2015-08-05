@@ -20,7 +20,7 @@ Rails.application.routes.draw do
       get "destroy_invitation" => "users#destroy_invitation"
     end
   end
-  get "invite_user/:id" => "organizations#invite_user", as: :invite_user
+  post "invite_user" => "organizations#invite_user", as: :invite_user
   get 'main_pages/start'
 
   # The priority is based upon order of creation: first created -> highest priority.

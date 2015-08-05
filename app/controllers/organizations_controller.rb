@@ -1,5 +1,5 @@
 class OrganizationsController < ApplicationController
-  before_action :signed_in_user, only: [:destroy, :create, :invite_user]
+  before_action :signed_in_user, only: [:destroy, :create, :invite_user, :join_to_organization]
   before_action :admin?, only: [:invite_user]
 
   def create
@@ -34,19 +34,24 @@ class OrganizationsController < ApplicationController
   end
 
   def invite_user
-    user = User.find_by_email(params[:user][:email])
+    user = User.find_by_email(params[:invite_user][:email])
     if user
-      User.create_invite_key(user)        
+      User.create_invitation(user, current_user)        
       Main.delay.join_to_organization(user, current_user)
-      redirect_back_or root_path
+      flash[:success] = "Приглашение отправлено"
+      redirect_to edit_user_path(current_user)
     else
-      flash.now[:notice] = "Пользователь с таким e-mail не найден"
-      render "main_pages/start"
+      flash[:danger] = "Пользователь с таким e-mail не найден"
+      redirect_to edit_user_path(current_user)
     end
   end
 
   def join_to_organization
-    render text: params
+    organization = Organization.find(params[:id])
+    current_user.update_attributes(join_to: nil, invited: true, organization_id: organization.id)
+    flash[:success] = "Добро пожаловать в #{organization.name}!"
+    redirect_to edit_user_path(@current_user)
+    # invite: true, join_to: nil, oraganization_id : not_nil
   end
 
   def new

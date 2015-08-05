@@ -16,6 +16,7 @@
   <% end %>
 </div>
 <div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
+<%= render "layouts/header" %>
 <%= yield %>
 </div>
 <%= debug(params) if Rails.env.development? %>

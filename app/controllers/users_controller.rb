@@ -8,7 +8,7 @@ class UsersController < ApplicationController
 
   def edit
     @user = current_user
-    @orgnization = Organization.find_by_id(@user.join_to)
+    @organization = Organization.find_by_id(@user.join_to)
   end
 
   def show
@@ -34,6 +34,11 @@ class UsersController < ApplicationController
   end
 
   def destroy_invitation
+    current_user.update_attributes(join_to: nil)
+    respond_to do |format|
+      format.html { redirect_to edit_user_path(@current_user)}
+      format.js
+    end
   end
 
   private

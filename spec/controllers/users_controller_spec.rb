@@ -5,9 +5,7 @@ RSpec.describe UsersController, type: :controller do
 
   let(:user){ FactoryGirl.create(:user)}
   before do
-    auth_token = User.new_token
-    cookies[:token] = auth_token
-    user.update_attribute(:auth_token, User.encrypt(auth_token))
+    sign_in user, no_capybara:true
   end
 
   describe "GET #new" do
@@ -23,7 +21,7 @@ RSpec.describe UsersController, type: :controller do
       expect(response).to have_http_status(:success)
     end
 
-    it "returns http redirect" do
+    it "returns http redirect if the user page of another users" do
       get :edit, {id: user.id+1}
       expect(response).to have_http_status(:redirect)
     end
@@ -57,5 +55,13 @@ RSpec.describe UsersController, type: :controller do
       expect(response).to have_http_status(:success)
     end
   end
+
+  describe "GET #destroy_invitation" do
+    it "returns http success" do
+      get :destroy_invitation, {id: user.id}
+      expect(response).to have_http_status(:success)
+    end
+  end
+
 
 end

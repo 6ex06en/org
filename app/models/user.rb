@@ -19,8 +19,8 @@ def invited?
 	self.invited
 end
 
-def User.create_invite_key(user)
-	user.invite_key = User.encrypt(User.new_token)
+def User.create_invitation(user, inviter)
+	user.update_attribute(:join_to, inviter.organization.id)
 end
 
 private
