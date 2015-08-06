@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     end
   end
   resources :users do
+    resources :tasks
     member do
       get "destroy_invitation" => "users#destroy_invitation"
     end

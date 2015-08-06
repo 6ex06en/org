@@ -11,13 +11,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150805071424) do
+ActiveRecord::Schema.define(version: 20150806074138) do
 
   create_table "organizations", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "tasks", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "date_exec"
+    t.integer  "manager_id"
+    t.integer  "executor_id"
+    t.string   "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "tasks", ["date_exec"], name: "index_tasks_on_date_exec"
+  add_index "tasks", ["executor_id"], name: "index_tasks_on_executor_id"
+  add_index "tasks", ["manager_id"], name: "index_tasks_on_manager_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "name"

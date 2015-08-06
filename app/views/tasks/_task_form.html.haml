@@ -1,0 +1,13 @@
+%div
+  =form_for([@current_user, @current_user.tasks_from_me.build], html: {class: "form-horizontal", role: "form"}) do |t|
+    .form-group
+      =t.label :name, for: "input_task_name", class: "label-control col-xs-2 col-md-2 col-sm-2 col-lg-2"
+      .col-xs-6.col-sm-6.col-md-6.col-lg-6
+        =t.text_field :name, id: "input_task_name", class: "form-control"
+    .form-group
+      =t.label :description, for: "input_task_description", class: "label-control col-xs-2 col-md-2 col-sm-2 col-lg-2"
+      .col-xs-6.col-sm-6.col-md-6.col-lg-6
+        =t.text_area :description, id: "input_task_description", class: "form-control"
+    .form-group
+      .col-xs-offset-2.col-sm-offset-2.col-md-offset-2.col-lg-offset-2.col-xs-2.col-sm-2.col-md-2.col-lg-2
+        =t.submit "Создать", class: "btn btn-primary"

@@ -59,7 +59,8 @@ RSpec.describe UsersController, type: :controller do
   describe "GET #destroy_invitation" do
     it "returns http success" do
       get :destroy_invitation, {id: user.id}
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(:redirect)
+      expect(response).to redirect_to(edit_user_path(user))
     end
   end
 
