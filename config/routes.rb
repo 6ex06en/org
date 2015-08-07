@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   end
   post "invite_user" => "organizations#invite_user", as: :invite_user
   get 'main_pages/start'
+  get 'get_tasks' => "tasks#get_tasks", as: :get_tasks
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

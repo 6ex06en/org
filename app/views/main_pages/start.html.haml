@@ -3,7 +3,7 @@
     -title = @current_user.name
     -if @current_user.organization
       -title = title + " | #{current_user.organization.name}"
-    -title
+    -title    
 -if signed_in? 
   .row
     -if @current_user.invited?
@@ -40,7 +40,7 @@
       .col-sm-7.col-md-7.col-lg-7.col-xs-7
         -if @current_user.invited?
           #task_form_container
-            =render 'tasks/task_form'
+            / =render 'tasks/task_form'
         -unless @current_user.invited?
           .row
             %div(id="сontainer_create_org" class="col-md-12 col-lg-12")

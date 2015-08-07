@@ -14,4 +14,6 @@ class TasksController < ApplicationController
   def update
   end
   
+  def get_tasks
+  end
 end
