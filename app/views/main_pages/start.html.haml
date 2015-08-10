@@ -37,16 +37,18 @@
                   %span.col-md-3.text-center.list-year 2017
                   %span.col-md-3.text-center.list-year 2018      
         #container_calendar
-      .col-sm-7.col-md-7.col-lg-7.col-xs-7
-        -if @current_user.invited?
-          #task_form_container
-            / =render 'tasks/task_form'
-        -unless @current_user.invited?
-          .row
-            %div(id="сontainer_create_org" class="col-md-12 col-lg-12")
-              %h3
-                =link_to "Создать организацию", new_organization_path, class: "col-sm-offset-4 col-md-offset-4 col-lg-offset-4 col-xs-offset-4 col-sm-5 col-md-5 col-lg-5 col-xs-5", remote:true
-              %div
-                =render "shared/errors", object: @organization
+    .col-sm-7.col-md-7.col-lg-7.col-xs-7
+      -if @current_user.invited?
+        #task_form_container
+          =render 'tasks/task_form'
+        %div
+          =render "shared/errors", object: @object_with_errors
+      -unless @current_user.invited?
+        .row
+          %div(id="сontainer_create_org" class="col-md-12 col-lg-12")
+            %h3
+              =link_to "Создать организацию", new_organization_path, class: "col-sm-offset-4 col-md-offset-4 col-lg-offset-4 col-xs-offset-4 col-sm-5 col-md-5 col-lg-5 col-xs-5", remote:true
+            %div
+              =render "shared/errors", object: @object_with_errors
 -unless signed_in?
   =render "shared/form_signin"

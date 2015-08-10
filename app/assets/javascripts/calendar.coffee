@@ -3,9 +3,15 @@ calendar = (obj) -> # январь - 1
   month = obj.month || new Date().getMonth() + 1
   year = obj.year || new Date().getFullYear()
   container = $(obj.container) if obj.container # куда будет помещен календарь
-  tasks = {}
-  $.get("/get_tasks").success( (data)->
-    tasks = data)
+  tasks = {}  
+  if obj.ajax
+    dateToSend = year + "-" + month + "-" + 1
+    $.getJSON("get_tasks.json", {date: dateToSend})
+    .done( (data, status)->
+      tasks = data)
+    .fail( (jqxhr, textStatus, error)->
+      err = textStatus + ", " + error
+      console.log( "Request Failed: " + err ))
   current_year = year
   current_month = month - 1 # январь - 0
   previous_month = current_month - 1
@@ -61,9 +67,13 @@ calendar = (obj) -> # январь - 1
     $calendar = container || $("#container_calendar")
     $calendar.html(currentMonth().html)
     # добавить все дни текущего месяца 
-    $calendar.children().each((index) -> 
+    $calendar.children().each((index) ->
       $(this).addClass("calendar_day_wrapper col-xs-1 col-sm-1 col-md-1 col-lg-1").append(document.createElement("div"))
       $(this).children().first().text(index+1).addClass("calendar_day_container text-center").attr("data-day-cur", index+1)
+      if manager_tasks_count || executor_tasks_count != 0
+        $(this).append($("<span/>"), {text: manager_tasks_count})
+        $(this).append($("<span/>"), {text: executor_tasks_count})
+        manager_tasks_count = executor_tasks_count = 0
       )
     #добавление дней предыдущего месяца
     if currentMonth().firstDayofMonth > 1
@@ -110,7 +120,7 @@ $(document).ready( () ->
       )
 
   $(".list-year").click( ->
-    calendar({month: $(".dropdown-togle-month").attr("mn"), year: $(this).text()})()
+    calendar({month: $(".dropdown-togle-month").attr("mn"), year: $(this).text(), ajax:true})()
     )
   calendar({})()
 

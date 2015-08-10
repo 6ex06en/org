@@ -4,10 +4,14 @@ FactoryGirl.define do
     name "test_org"
   end
 
+  factory :task do
+    name "first"  
+  end
+
   factory :user do
-    name "user"
-  	email "ex@ample.com"
-  	email_confirmation "ex@ample.com"
+    sequence(:name) {|n| "user#{n}" } 
+  	sequence(:email) {|n| "ex_#{n}@ample.com" }
+  	sequence(:email_confirmation) {|n| "ex_#{n}@ample.com" }
   	password "password"
   	password_confirmation "password"
       factory :user_with_org do

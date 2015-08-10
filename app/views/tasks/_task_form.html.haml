@@ -7,7 +7,7 @@
     .form-group
       =t.label "Ответственный", for: "input_task_executor", class: "label-control col-xs-2 col-md-2 col-sm-2 col-lg-2"
       .col-xs-6.col-sm-6.col-md-6.col-lg-6
-        =t.collection_select(:executor_id, @current_user.organization.users.reject{|x| x == @current_user}, :name, :name, {prompt: "Выберите ответственного"}, {if: "input_task_executor", class: "form-control"})
+        =t.collection_select(:executor_id, @current_user.organization.users.reject{|x| x == @current_user}, :id, :name, {prompt: "Выберите ответственного"}, {if: "input_task_executor", class: "form-control"})
     .form-group
       =t.label "Дата выполнения", for: "input_task_date_exec", class: "label-control col-xs-2 col-md-2 col-sm-2 col-lg-2"
       .col-xs-6.col-sm-6.col-md-6.col-lg-6

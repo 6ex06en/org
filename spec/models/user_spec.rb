@@ -4,6 +4,7 @@ RSpec.describe User, type: :model do
   describe "User" do
   	let(:token) { SecureRandom.urlsafe_base64 }
   	let(:user) { FactoryGirl.create(:user) }
+    let(:user_with_org) { FactoryGirl.create(:user_with_org) }
   	let(:other_user) {user = User.new(name: "user", email: "qw@qw.ru", email_confirmation: "qw@qw.ru", password: "qwertyui", 
   		password_confirmation: "qwertyui")}
     let(:admin) { FactoryGirl.create(:admin)}

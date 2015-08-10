@@ -14,19 +14,23 @@ RSpec.describe "start page,", type: :view do
   	is_expected.to have_content("Create new user")
   end
 
-  describe "wnen signin invited user" do
-    let(:invited_user) { FactoryGirl.create(:user, invited: true)}
+  describe "wnen signin invited user", js:true do
+    let(:user_with_org) { FactoryGirl.create(:user_with_org, invited: true) }
     before do
-      fill_in "E-mail", with: invited_user.email
-      fill_in "Password", with: invited_user.password
+      fill_in "E-mail", with: user_with_org.email
+      fill_in "Password", with: user_with_org.password
       click_button "Submit"
     end
 
      it {expect(page).not_to have_css("#container_create_org")}
 
-     it "should be calendar", js:true do
+     it "should be calendar" do
       is_expected.to have_css(".calendar_day_wrapper")
       is_expected.to have_css(".calendar_day_container")
+     end
+
+     it "should be task_form" do
+      is_expected.to have_css("#task_form_container")
      end
   end
 
@@ -49,6 +53,11 @@ RSpec.describe "start page,", type: :view do
 
       it {is_expected.to have_css("#сontainer_create_org")}
       it {is_expected.to have_link("Создать организацию", href: new_organization_path)}
+
+      it "should not be task_form" do
+        is_expected.not_to have_css("#task_form_container")
+      end
+
     end
 
     describe "after click sign_out" do

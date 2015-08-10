@@ -15,6 +15,7 @@ class OrganizationsController < ApplicationController
         flash[:success] = "Организация создана"
         redirect_to root_path
       else
+        @object_with_errors = @organization
         render "main_pages/start"
       end
     end
@@ -51,7 +52,6 @@ class OrganizationsController < ApplicationController
     current_user.update_attributes(join_to: nil, invited: true, organization_id: organization.id)
     flash[:success] = "Добро пожаловать в #{organization.name}!"
     redirect_to edit_user_path(@current_user)
-    # invite: true, join_to: nil, oraganization_id : not_nil
   end
 
   def new

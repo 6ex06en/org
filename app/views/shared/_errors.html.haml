@@ -1,4 +1,4 @@
--if object.errors.any?
+-if object.try(:errors).try(:any?)
   .row
     .form-errors.col-sm-offset-4.col-sm-4.alert.alert-danger
       %ul
