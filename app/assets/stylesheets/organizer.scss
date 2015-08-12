@@ -7,27 +7,41 @@
 	border: 1px solid grey; 
 }
 .calendar_day_wrapper {
-	/*margin: 0 auto;*/
+	padding: 0;
 	width: 14.2857%;
-	background: #D3D3D3;
+	background: #E8E8E8;
 	border: 1px solid grey;
 	&.pr, &.next {
-		background: #B5B5B5;
+		background: #CEFFBC;
 	}
 	&:hover {
 		background: orange;
 	}
 }
+
 .calendar_day_wrapper.clone {
 	background: yellow;
 	border: 1pt solid black;
 }
-.calendar_day_container {
-  
+/*.calendar_day_container {
   margin-left: auto;
   margin-right: auto;
   padding-top: 50%;
   padding-bottom: 50%;
+}*/
+.dummy {
+	height: 0;
+	padding-bottom: 60%;
+	padding-top: 33%;
+}
+.calendar_day_container {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top:0;
+	left: 0;
+	right:0;
+	bottom: 0;
 }
 
 .main_link_signup {
@@ -61,4 +75,20 @@
 	label[for="accept_invitation"] {
 		margin: 10px 0;
 	}
+}
+.day_number {
+	font-size: 0.8em;
+}
+#man_task, #exec_task {
+	display: block;
+	width: 15%;
+	margin: 0 auto;
+	font:120% serif;
+	font-weight: 900;
+}
+#man_task {
+	color: #6BFF23;
+}
+#exec_task {
+	color: red;
 }

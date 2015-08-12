@@ -26,7 +26,7 @@ class TasksController < ApplicationController
   
   def get_tasks
     respond_to do |format|
-      format.json { render json: JSON.parse(Task.collect_tasks(params[:date], @current_user).to_json), status: 200}
+      format.json { render json: JSON.parse(Task.collect_tasks_year(params[:date], @current_user).to_json), status: 200}
     end
   end
 
