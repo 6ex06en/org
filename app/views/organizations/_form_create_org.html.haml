@@ -2,9 +2,9 @@
 .form_create_org
   =form_for(:organization, url: organizations_path, html: {role:"form", class: "form-horizontal"}) do |org|
     .form-group
-      =org.label "Name", for: "input_org_name", class: "label-control col-sm-offset-2 col-md-offset-2 col-lg-offset-2 col-sm-1 col-md-1 col-lg-1"
+      =org.label "Название", for: "input_org_name", class: "label-control col-sm-offset-3 col-md-offset-3 col-lg-offset-3 col-sm-1 col-md-1 col-lg-1"
       .col-sm-5.col-md-5.col-lg-5
-        =org.text_field :name, id: "input_org_name", class: "form-control"
+        =org.text_field :name, id: "input_org_name", class: "form-control", placeholder: "Введите название организации"
     .form-group
-      .col-sm-offset-3.col-sm-offset-3.col-lg-offset-3.col-sm-2.col-md-2.col-lg-2
-        =org.submit "Create", class: "btn btn-default" 
+      .col-sm-offset-4.col-sm-offset-4.col-lg-offset-4.col-sm-2.col-md-2.col-lg-2
+        =org.submit "Create", class: "btn btn-primary" 
