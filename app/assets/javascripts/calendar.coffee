@@ -1,32 +1,60 @@
 
-calendar = (obj) -> # январь - 1
-  month = obj.month || new Date().getMonth() + 1
-  year = obj.year || new Date().getFullYear()
-  container = $(obj.container) if obj.container # куда будет помещен календарь
+Calendar = () -> # январь - 1
+
+  year = month = next_month = current_month = previous_month = current_year = container = id = undefined
   tasks = {}
-  manager_tasks_count = executor_tasks_count = 0  
-  if obj.ajax
-    dateToSend = year + "-" + month + "-" + 1
-    $.ajax({
-      type: "GET",
-      url: "get_tasks.json", 
-      data: {date: dateToSend},
-      async: false,      
-      success: ( (data, status)->
-        tasks = data
-        tasks.executor = tasks.executor.join("|")
-        tasks.manager = tasks.manager.join("|") ),
-      error: ( (jqxhr, textStatus, error)->
-        err = textStatus + ", " + error
-        console.log( "Request Failed: " + err ))
-    })
+  manager_tasks_count = executor_tasks_count = 0
+  dayHTML = clicked_day = undefined
+
+  initialize = (obj)->
+    dayHTML = "<div></div>"
+    month = parseInt(obj.month) || new Date().getMonth() + 1
+    year = parseInt(obj.year) || new Date().getFullYear()
+    container = $(obj.container) if obj.container # куда будет помещен календарь
+    current_year = year
+    current_month = month - 1 # январь - 0
+    previous_month = current_month - 1
+    next_month = current_month + 1 
+    if obj.ajax
+      dateToSend = year + "-" + month + "-" + 1
+      $.ajax({
+        type: "GET",
+        url: "get_tasks.json", 
+        data: {date: dateToSend},
+        async: false,      
+        success: ( (data, status)->
+          tasks = data
+          id = data.id
+          tasks.executor = tasks.executor.join("|")
+          tasks.manager = tasks.manager.join("|") ),
+        error: ( (jqxhr, textStatus, error)->
+          err = textStatus + ", " + error
+          console.log( "Request Failed: " + err ))
+      })
+
   $.fn.highlight = ->
-    this.css("background", "#6E796E")
-  current_year = year
-  current_month = month - 1 # январь - 0
-  previous_month = current_month - 1
-  next_month = current_month + 1
-  dayHTML = "<div></div>"
+    this.parent().addClass("highlight")
+
+  create_task = () ->
+    $.ajax({
+      url: "/create_task",
+      type: "GET",
+      success: (data, status)->
+      error: (jqxhr, textStatus, error)->
+        err = textStatus + ", " + error
+        console.log( "Request Failed: " + err )     
+    })
+
+  show_tasks = () ->
+    $.ajax({
+      url: "/show_tasks/#{id}"
+      type: "GET",
+      success: (data, status)->
+      error: (jqxhr, textStatus, error)->
+        err = textStatus + ", " + error
+        console.log( "Request Failed: " + err )  
+    })
+
   currentMonth = () ->
     maxDays = new Date(current_year,next_month,0).getDate()
     firstDayofMonth = new Date(current_year, current_month, 1).getDay()
@@ -73,7 +101,8 @@ calendar = (obj) -> # январь - 1
       needAddDays: needAddDays,
       html: allDaysHTML
     }
-  buildCalendar = () ->
+  buildCalendar = (obj) ->
+    initialize(obj)
     $calendar = container || $("#container_calendar")
     $calendar.html(currentMonth().html)
     # добавить все дни текущего месяца
@@ -96,9 +125,8 @@ calendar = (obj) -> # январь - 1
       $calendar_day_container = $(this).children().first()  
       $calendar_day_container.addClass("calendar_day_container").attr("data-day-cur", correct_index)
       $calendar_day_container.append($("<span/>", {class: "day_number", text: index+1}))
-      $calendar_day_container.append($("<span/>", {text: manager_tasks_count, id: "man_task"}))
-      .highlight() if manager_tasks_count
-      $calendar_day_container.append($("<span/>", {text: executor_tasks_count, id: "exec_task"})) if executor_tasks_count
+      $calendar_day_container.append($("<span/>", {text: manager_tasks_count, id: "man_task"})).highlight() if manager_tasks_count
+      $calendar_day_container.append($("<span/>", {text: executor_tasks_count, id: "exec_task"})).highlight() if executor_tasks_count
       manager_tasks_count = executor_tasks_count = 0
     )
     #добавление дней предыдущего месяца
@@ -122,8 +150,8 @@ calendar = (obj) -> # январь - 1
         $calendar_day_container = $(this).children().first() 
         $calendar_day_container.addClass("calendar_day_container").attr("data-day-pr", firstOfAddedDays)
         $calendar_day_container.append($("<span/>", {class: "day_number", text: firstOfAddedDays}))
-        $calendar_day_container.append($("<span/>", {text: manager_tasks_count, id: "man_task"})) if manager_tasks_count
-        $calendar_day_container.append($("<span/>", {text: executor_tasks_count, id: "exec_task"})) if executor_tasks_count
+        $calendar_day_container.append($("<span/>", {text: manager_tasks_count, id: "man_task"})).highlight() if manager_tasks_count
+        $calendar_day_container.append($("<span/>", {text: executor_tasks_count, id: "exec_task"})).highlight() if executor_tasks_count
         manager_tasks_count = executor_tasks_count = 0
         firstOfAddedDays++
       )
@@ -136,47 +164,61 @@ calendar = (obj) -> # январь - 1
       else
         monthReg = next_month + 1
       regexp = ///#{current_year}\-#{monthReg}\-#{correct_index}///g
+      if tasks.executor
+          executor_tasks_count = tasks.executor.match(regexp).length if tasks.executor.match(regexp)
+        if tasks.manager
+          manager_tasks_count = tasks.manager.match(regexp).length if tasks.manager.match(regexp)
       $(this)
       .append($("<div/>", {class: "calendar_day_container", "data-Day-Next": correct_index }))
       .append($("<div/>", {class: "dummy"}))
       $calendar_day_container = $(this).children().first()
       $calendar_day_container.append($("<span/>", {class: "day_number", text: index+1}))
-      $calendar_day_container.append($("<span/>", {text: manager_tasks_count, id: "man_task"})) if manager_tasks_count
-      $calendar_day_container.append($("<span/>", {text: executor_tasks_count, id: "exec_task"})) if executor_tasks_count
+      $calendar_day_container.append($("<span/>", {text: manager_tasks_count, id: "man_task"})).highlight() if manager_tasks_count
+      $calendar_day_container.append($("<span/>", {text: executor_tasks_count, id: "exec_task"})).highlight() if executor_tasks_count
       manager_tasks_count = executor_tasks_count = 0 
     )
     #установка в заголовке название месяца и год
     month = $(".dropmenu-month").children()[current_month]
-    $(".dropdown-togle-month").text(month.textContent+" ").attr("mn", current_month+1).append("<span class='caret'></span>")
+    $(".dropdown-togle-month").text(month.textContent+" ")
+    .attr("mn", current_month+1)
+    .append("<span class='caret'></span>")
     $(".dropdown-togle-year").text(current_year+" ").append("<span class='caret'></span>")
     
     
 
     #эффект увеличения дня месяца
-    $(".calendar_day_wrapper").click( ()->
+    $(".calendar_day_wrapper").click( (e)->
+      clicked_day = $(this).children().first().data()
       $offset = $(this).offset()
       $div_clone = $(this).clone()
       $(this).parent().append($div_clone)
       $div_clone.css({"position":"absolute"}).offset((i,val) ->
         {left: $offset.left - 15, top: $offset.top - 15}).width((i,val) ->
           val + 30).addClass("clone")
-      # $div_clone.append("<a><span id='create_task'>Создать задачу</span></a>")
+      $div_clone.children().first().html("<a><span id='create_task'>Создать задачу</span></a><a><span id='show_tasks'>Посмотреть задачи</span></a>")
       $div_clone.mouseleave( ()->
         $(this).remove()
       )
+      $("#create_task").click( (e)->
+        e.stopPropagation()
+        create_task())
+
+      $("#show_tasks").click( (e)->
+        e.stopPropagation()
+        # show_tasks()
+        )
     )
 
-
 $(document).ready( () ->
+  calendar = Calendar()
+  calendar(ajax: true)
   #обработчик на заголовке
   $(".list-month").click( ->
-      calendar(month: $(this).index()+1)()
+      calendar(month: $(this).index()+1, year: $(".dropdown-togle-year").text())
       )
 
   $(".list-year").click( ->
-    calendar({month: $(".dropdown-togle-month").attr("mn"), year: $(this).text(), ajax:true})()
+    calendar(month: $(".dropdown-togle-month").attr("mn"), year: $(this).text(), ajax:true)
     )
-  calendar({ajax:true})()
-
 )
 

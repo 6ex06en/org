@@ -1,6 +1,10 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+#signed_container {
+	margin-top: 40px;
+}
+
 #header_calendar {
 	border-radius: 15px 15px 0 0;
 	background: orange;
@@ -11,8 +15,20 @@
 	width: 14.2857%;
 	background: #E8E8E8;
 	border: 1px solid grey;
+	font-size: 1.25vmax;
+	/*font-size: 1vmin;*/
 	&.pr, &.next {
 		background: #CEFFBC;
+	}
+	&:hover {
+		background: orange;
+		cursor: pointer;
+	}
+}
+.highlight {
+	background: #6E796E;
+	&.pr, &.next {
+		background: #B1FB96;
 	}
 	&:hover {
 		background: orange;
@@ -22,6 +38,17 @@
 .calendar_day_wrapper.clone {
 	background: yellow;
 	border: 1pt solid black;
+	border-radius: 7px;
+	a {
+		display: block;
+		margin: 5% auto;
+		width: 80%;
+		text-align: center;
+		text-decoration: none;
+		cursor: pointer;
+		font-size: 90%;
+		font-weight: bold;
+	}
 }
 /*.calendar_day_container {
   margin-left: auto;
@@ -87,8 +114,8 @@
 	font-weight: 900;
 }
 #man_task {
-	color: #6BFF23;
+	color: #F98300;
 }
 #exec_task {
-	color: red;
+	color: blue;
 }

@@ -21,6 +21,29 @@ RSpec.describe TasksController, type: :controller do
   #     expect(response.status).to eql(200)
   #   end
   # end
+  # describe "GET #create_task" do
+  #   before { sign_in admin}
+  #   it "returns http success" do
+  #     get :create_task
+  #     expect(response).to have_http_status(200) 
+  #   end
+  # end
+
+  # describe "GET #index" do
+  #   before { sign_in admin}
+  #   it "returns http success" do
+  #     get :index
+  #     expect(response).to have_http_status(200) 
+  #   end
+  # end
+
+  # describe "GET #show_tasks" do
+  #   before { sign_in admin}
+  #   it "returns http success" do
+  #     get :show_tasks
+  #     expect(response).to have_http_status(200) 
+  #   end
+  # end
 
   describe "POST #create" do
   	before { sign_in admin}	

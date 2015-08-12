@@ -56,7 +56,7 @@ class OrganizationsController < ApplicationController
 
   def new
     respond_to do |format|
-      format.html { redirect_to root_path }
+      format.html {}
       format.js
     end
   end

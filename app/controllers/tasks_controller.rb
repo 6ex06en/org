@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :signed_in_user, only: [:create, :destroy, :edit, :get_tasks]
+  before_action :signed_in_user, only: [:create, :destroy, :edit, :get_tasks, :create_task]
 
   def new
   end
@@ -23,10 +23,19 @@ class TasksController < ApplicationController
 
   def update
   end
-  
+
+  def tasks_of_day
+  end
+
+  def create_task
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def get_tasks
     respond_to do |format|
-      format.json { render json: JSON.parse(Task.collect_tasks_year(params[:date], @current_user).to_json), status: 200}
+      format.json { render json: JSON.parse(Task.collect_tasks_year(params[:date], @current_user).to_json).merge(id: current_user.id), status: 200}
     end
   end
 

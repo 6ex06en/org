@@ -19,11 +19,13 @@ Rails.application.routes.draw do
     resources :tasks
     member do
       get "destroy_invitation" => "users#destroy_invitation"
+      get 'tasks_of_day' => "tasks#tasks_of_day"
     end
   end
   post "invite_user" => "organizations#invite_user", as: :invite_user
   get 'main_pages/start'
   get 'get_tasks' => "tasks#get_tasks", as: :get_tasks
+  get 'create_task' => "tasks#create_task", as: :create_task
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
