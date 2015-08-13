@@ -54,10 +54,11 @@ Calendar = () -> # январь - 1
         console.log( "Request Failed: " + err ))     
     })
 
-  show_tasks = () ->
+  show_tasks = (data) ->
     $.ajax({
-      url: "/show_tasks/#{id}"
+      url: "/users/#{id}/tasks_of_day",
       type: "GET",
+      data: {date: data},
       success: (data, status)->
       error: (jqxhr, textStatus, error)->
         err = textStatus + ", " + error
@@ -216,7 +217,7 @@ Calendar = () -> # январь - 1
 
       $("#show_tasks").click( (e)->
         e.stopPropagation()
-        # show_tasks()
+        show_tasks(prepare_date(clicked_day))
         )
     )
 

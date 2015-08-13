@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
   include SessionsHelper
   include OrganizationsHelper
+  include UsersHelper
 
   protected
 

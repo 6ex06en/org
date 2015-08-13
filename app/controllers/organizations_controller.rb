@@ -48,10 +48,15 @@ class OrganizationsController < ApplicationController
   end
 
   def join_to_organization
-    organization = Organization.find(params[:id])
-    current_user.update_attributes(join_to: nil, invited: true, organization_id: organization.id)
-    flash[:success] = "Добро пожаловать в #{organization.name}!"
-    redirect_to edit_user_path(@current_user)
+    if current_user.admin?
+      flash[:danger] = "Сначала покиньте текущую организацию"
+      redirect_to edit_user_path(@current_user)
+    else
+      organization = Organization.find(params[:id])
+      current_user.update_attributes(join_to: nil, invited: true, organization_id: organization.id)
+      flash[:success] = "Добро пожаловать в #{organization.name}!"
+      redirect_to edit_user_path(@current_user)
+    end
   end
 
   def new

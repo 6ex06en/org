@@ -1,0 +1,18 @@
+#manager_tasks_of_day
+  -@tasks[:manager].each do |t|
+    %ul
+      %li
+        %span.task_name
+          =t.name
+        %span.task_date_exec
+          =t.date_exec
+        =link_to("Подробнее", "#")
+#executor_tasks_of_day
+  -@tasks[:executor].each do |t|
+    %ul
+      %li
+        %span.task_name
+          =t.name
+        %span.task_date_exec
+          =t.date_exec
+        =link_to("Подробнее", "#")

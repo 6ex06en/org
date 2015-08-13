@@ -19,10 +19,9 @@
               =u.submit "Пригласить", class: "btn btn-primary", id: "invite_user"
     -if @user.join_to
       #accept_invitation_form
-        .row
-          =form_for(:invited_user, url: join_to_organization_path(@user.join_to), html: {role: "form", class: "form-horizontal"}) do |u|
-            .form-group
-              =u.label @organization.name, for: "accept_invitation", class: "label-control col-sm-offset-1 col-md-offset-1 col-lg-offset-1 col-xs-offset-1 col-md-2 col-sm-2 col-lg-2"
-              .col-md-2.col-sm-2.col-lg-2
-                =u.submit "Принять", class: "btn btn-primary", id: "accept_invitation"
-              =link_to "Удалить приглашение", destroy_invitation_user_path(@user.id), class: "col-md-2 col-sm-2 col-lg-2", remote: true
+        =form_for(:invited_user, url: join_to_organization_path(@user.join_to), html: {role: "form", class: "form-horizontal"}) do |u|
+          .form-group
+            =u.label @organization.name, for: "accept_invitation", class: "label-control col-sm-offset-1 col-md-offset-1 col-lg-offset-1 col-xs-offset-1 col-md-2 col-sm-2 col-lg-2"
+            .col-md-2.col-sm-2.col-lg-2.col-xs-2
+              =u.submit "Принять", class: "btn btn-primary form-control", id: "accept_invitation"
+            =link_to "Удалить приглашение", destroy_invitation_user_path(@user.id), class: "col-md-2 col-sm-2 col-lg-2", remote: true
