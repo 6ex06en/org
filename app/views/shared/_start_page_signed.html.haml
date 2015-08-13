@@ -34,13 +34,14 @@
                   %span.col-md-3.text-center.list-year 2015
                   %span.col-md-3.text-center.list-year 2016
                   %span.col-md-3.text-center.list-year 2017
-                  %span.col-md-3.text-center.list-year 2018      
+                  %span.col-md-3.text-center.list-year 2018 
         #container_calendar
     .col-sm-7.col-md-7.col-lg-7.col-xs-7
       -if @current_user.invited?
         #show_tasks
         #task_form_container
-          / =render 'tasks/task_form'
+          -if @render
+            =render 'tasks/task_form'
         %div
           =render "shared/errors", object: @object_with_errors
     -unless @current_user.invited?

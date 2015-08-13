@@ -1,2 +1,2 @@
 :plain
-  $('#task_form_container').html("#{escape_javascript(render('task_form'))}")
+  $('#task_form_container').html("#{escape_javascript(render('task_form', object: @date))}")

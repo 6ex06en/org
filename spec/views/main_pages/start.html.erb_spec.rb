@@ -32,6 +32,20 @@ RSpec.describe "start page,", type: :view do
      it "should be task_form" do
       is_expected.to have_css("#task_form_container")
      end
+
+     describe "click on calendar" do
+       before { find(".calendar_day_wrapper").click }
+     
+       it "render task_form after clicking create task" do
+        find("#create_task").click
+        expect(page).to have_css("#create_task_form")
+       end
+
+       it "render tasks of day after clicking show tasks " do
+        find("#create_task").click
+        expect(page).to have_css("#day_tasks")
+       end
+     end 
   end
 
   describe "when signin," do

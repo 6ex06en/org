@@ -19,7 +19,7 @@ Calendar = () -> # январь - 1
       dateToSend = year + "-" + month + "-" + 1
       $.ajax({
         type: "GET",
-        url: "get_tasks.json", 
+        url: "/get_tasks.json", 
         data: {date: dateToSend},
         async: false,      
         success: ( (data, status)->
@@ -35,14 +35,23 @@ Calendar = () -> # январь - 1
   $.fn.highlight = ->
     this.parent().addClass("highlight")
 
-  create_task = () ->
+  prepare_date = (data) ->
+    for key of data
+      date = current_year+"-"+(current_month+1)+"-"+data[key] if key == "dayCur"
+      date = current_year+"-"+(previous_month+1)+"-"+data[key] if key == "dayPr"
+      date = current_year+"-"+(next_month+1)+"-"+data[key] if key == "dayNext"
+    date
+
+  create_task = (data) ->
     $.ajax({
       url: "/create_task",
       type: "GET",
-      success: (data, status)->
-      error: (jqxhr, textStatus, error)->
+      data: {date: data}
+      success: ((data, status)->
+        ),
+      error: ((jqxhr, textStatus, error)->
         err = textStatus + ", " + error
-        console.log( "Request Failed: " + err )     
+        console.log( "Request Failed: " + err ))     
     })
 
   show_tasks = () ->
@@ -169,7 +178,7 @@ Calendar = () -> # январь - 1
         if tasks.manager
           manager_tasks_count = tasks.manager.match(regexp).length if tasks.manager.match(regexp)
       $(this)
-      .append($("<div/>", {class: "calendar_day_container", "data-Day-Next": correct_index }))
+      .append($("<div/>", {class: "calendar_day_container", "data-day-next": correct_index }))
       .append($("<div/>", {class: "dummy"}))
       $calendar_day_container = $(this).children().first()
       $calendar_day_container.append($("<span/>", {class: "day_number", text: index+1}))
@@ -201,7 +210,9 @@ Calendar = () -> # январь - 1
       )
       $("#create_task").click( (e)->
         e.stopPropagation()
-        create_task())
+        create_task(prepare_date(clicked_day))
+        )
+        
 
       $("#show_tasks").click( (e)->
         e.stopPropagation()

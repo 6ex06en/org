@@ -13,8 +13,10 @@ class TasksController < ApplicationController
       flash[:success] = "Задача создана"
       redirect_to root_path
     else
+      @render = true
+      @date = params[:task][:date_exec]
       @object_with_errors = task 
-      render "main_pages/start"
+      render "main_pages/start", locals: {render: @render, date: @date}
     end
   end
 
@@ -28,6 +30,7 @@ class TasksController < ApplicationController
   end
 
   def create_task
+    @date = params[:date].to_date.strftime("%FT%R")
     respond_to do |format|
       format.js
     end
