@@ -205,7 +205,7 @@ Calendar = () -> # январь - 1
       $div_clone.css({"position":"absolute"}).offset((i,val) ->
         {left: $offset.left - 15, top: $offset.top - 15}).width((i,val) ->
           val + 30).addClass("clone")
-      $div_clone.children().first().html("<a><span id='create_task'>Создать задачу</span></a><a><span id='show_tasks'>Посмотреть задачи</span></a>")
+      $div_clone.children().first().html("<a><span id='create_task'>Создать задачу</span></a><a><span id='tasks_of_day'>Посмотреть задачи</span></a>")
       $div_clone.mouseleave( ()->
         $(this).remove()
       )
@@ -215,7 +215,7 @@ Calendar = () -> # январь - 1
         )
         
 
-      $("#show_tasks").click( (e)->
+      $("#tasks_of_day").click( (e)->
         e.stopPropagation()
         show_tasks(prepare_date(clicked_day))
         )

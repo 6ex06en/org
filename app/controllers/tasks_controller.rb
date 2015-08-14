@@ -1,10 +1,18 @@
 class TasksController < ApplicationController
-  before_action :signed_in_user, only: [:create, :destroy, :edit, :get_tasks, :create_task, :tasks_of_day]
+  before_action :signed_in_user, only: [:create, :destroy, :edit, :get_tasks, :create_task, :tasks_of_day, :show]
+  before_action ->(id= params[:user_id]) {correct_user(id)}, only: [:edit, :show]
 
   def new
   end
 
   def edit
+  end
+
+  def show
+    @task = Task.find_by_id(params[:id])
+    respond_to do |format|
+      format.js
+    end
   end
 
   def create
@@ -27,7 +35,7 @@ class TasksController < ApplicationController
   end
 
   def tasks_of_day
-    date = params[:date].to_date.beginning_of_day
+    date = params[:date]
     @tasks = Task.collect_tasks(date, @current_user, only_day: true)
     respond_to do |format|
       format.js
@@ -42,7 +50,7 @@ class TasksController < ApplicationController
   end
 
   def get_tasks
-    date = params[:date].to_date.beginning_of_day
+    date = params[:date]
     respond_to do |format|
       format.json { render json: JSON.parse(Task.collect_tasks(date, @current_user).to_json).merge(id: current_user.id), status: 200}
     end

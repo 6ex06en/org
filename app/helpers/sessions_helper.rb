@@ -45,4 +45,9 @@ module SessionsHelper
     	redirect_to(session[:return_to] || default)
     	session.delete(:return_to)
     end
+
+    def correct_user(id)
+    	user = User.find_by_id(id)
+    	redirect_to root_path unless current_user?(user)
+  	end
 end

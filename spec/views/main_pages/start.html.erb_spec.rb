@@ -14,7 +14,7 @@ RSpec.describe "start page,", type: :view do
   	is_expected.to have_content("Create new user")
   end
 
-  describe "wnen signin invited user", js:true do
+  describe "wnen signin invited user" do
     let(:user_with_org) { FactoryGirl.create(:user_with_org, invited: true) }
     before do
       fill_in "E-mail", with: user_with_org.email
@@ -24,25 +24,25 @@ RSpec.describe "start page,", type: :view do
 
      it {expect(page).not_to have_css("#container_create_org")}
 
-     it "should be calendar" do
+     it "should be calendar", js:true do
       is_expected.to have_css(".calendar_day_wrapper")
       is_expected.to have_css(".calendar_day_container")
      end
 
-     it "should be task_form" do
-      is_expected.to have_css("#task_form_container")
-     end
-
-     describe "click on calendar" do
-       before { find(".calendar_day_wrapper").click }
+     describe "click on calendar", js:true do
+       before do
+        within "#container_calendar" do 
+          first(".calendar_day_wrapper").click
+        end 
+       end
      
        it "render task_form after clicking create task" do
         find("#create_task").click
-        expect(page).to have_css("#create_task_form")
+        expect(page).to have_css("#create_task_form_container")
        end
 
        it "render tasks of day after clicking show tasks " do
-        find("#create_task").click
+        find("#tasks_of_day").click
         expect(page).to have_css("#day_tasks")
        end
      end 

@@ -18,8 +18,8 @@ FactoryGirl.define do
         organization
           factory :admin do
             admin true
-            email "admin_ex@ample.com"
-            email_confirmation "admin_ex@ample.com"
+            sequence(:email) {|x| "admin_ex#{x}@ample.com" }
+            sequence(:email_confirmation) {|x| "admin_ex#{x}@ample.com"}
           end
       end
   end

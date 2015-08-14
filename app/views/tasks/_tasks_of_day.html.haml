@@ -1,18 +1,23 @@
-#manager_tasks_of_day
-  -@tasks[:manager].each do |t|
-    %ul
-      %li
-        %span.task_name
-          =t.name
-        %span.task_date_exec
-          =t.date_exec
-        =link_to("Подробнее", "#")
-#executor_tasks_of_day
-  -@tasks[:executor].each do |t|
-    %ul
-      %li
-        %span.task_name
-          =t.name
-        %span.task_date_exec
-          =t.date_exec
-        =link_to("Подробнее", "#")
+#day_tasks 
+  -if @tasks[:manager].present?
+    #manager_tasks_of_day
+      %h4 Поставленные задачи:
+      -@tasks[:manager].each do |t|
+        %ul
+          %li
+            %span.task_name
+              =t.name
+            %span.task_date_exec
+              =t.date_exec.strftime("Выполнить до: %H:%M")
+            =link_to("подробнее", [@current_user, t], remote:true)
+  -if @tasks[:executor].present?
+    #executor_tasks_of_day
+      %h4 Полученные задачи:
+      -@tasks[:executor].each do |t|
+        %ul
+          %li
+            %span.task_name
+              =t.name
+            %span.task_date_exec
+              =t.date_exec.strftime("Выполнить до: %H:%M")
+            =link_to("подробнее", [@current_user, t], remote:true)

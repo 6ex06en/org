@@ -31,7 +31,7 @@ RSpec.describe OrganizationsController, type: :controller do
     end
   end
 
-  describe "POST #invite_user" do
+  describe "POST #invite_user", js: true do
     before do 
       sign_in admin
       visit edit_user_path(admin)

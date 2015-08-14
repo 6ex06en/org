@@ -13,3 +13,13 @@ def sign_in(user, options={})
     click_button "Submit"
   end
 end
+
+  def sign_out(options={})
+    if options[:no_capybara]
+      cookies.delete(:token)
+    else
+      visit root_path
+      find(".dropdown_login").click
+      click_link "Log out"
+  end
+end
