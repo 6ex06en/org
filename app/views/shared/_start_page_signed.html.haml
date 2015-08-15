@@ -39,8 +39,12 @@
     .col-sm-7.col-md-7.col-lg-7.col-xs-7
       -if @current_user.invited?
         #tasks_container
-          -if @render
+          -if @render_task_form
             =render 'tasks/task_form'
+          -if @render_edit_task
+            =render 'tasks/edit'
+          -if @render_tasks_of_day
+            =render 'tasks/tasks_of_day'
         %div
           =render "shared/errors", object: @object_with_errors
     -unless @current_user.invited?

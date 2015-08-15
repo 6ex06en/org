@@ -16,8 +16,10 @@ FactoryGirl.define do
   	password_confirmation "password"
       factory :user_with_org do
         organization
+        invited true
           factory :admin do
             admin true
+            invited true
             sequence(:email) {|x| "admin_ex#{x}@ample.com" }
             sequence(:email_confirmation) {|x| "admin_ex#{x}@ample.com"}
           end

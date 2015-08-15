@@ -7,13 +7,6 @@ RSpec.describe TasksController, type: :controller do
   let(:task) {admin.assign_task(user_with_org, "task_name")}
 
 
-  describe "GET #new" do
-    it "returns http success" do
-      get :new
-      expect(response).to have_http_status(:success)
-    end
-  end
-
   # describe "GET #get_tasks" do
   # 	it "returns http success" do
   # 		sign_in admin
@@ -43,6 +36,23 @@ RSpec.describe TasksController, type: :controller do
     before { sign_in admin}
     it "returns http success" do
       xhr :get, :show, {user_id: admin.id, id: task.id}
+      expect(response).to redirect_to(root_path)
+    end
+  end
+
+  describe "GET #update" do
+    before { sign_in admin}
+    it "returns http success" do
+      xhr :put, :update, {user_id: admin.id, id: task.id}
+      expect(response).to redirect_to(root_path)
+    end
+  end
+
+
+  describe "GET #edit" do
+    before { sign_in admin}
+    it "returns http success" do
+      xhr :get, :edit, {user_id: admin.id, id: task.id}
       expect(response).to redirect_to(root_path)
     end
   end

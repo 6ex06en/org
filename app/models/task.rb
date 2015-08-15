@@ -4,6 +4,7 @@ class Task < ActiveRecord::Base
   validates :manager_id, presence: true
   validates :executor_id, presence: true
   validates :name, presence: true, length: {minimum: 2}
+  validates :date_exec, presence: true, on: :update
 
   after_create :set_date_exec, unless: Proc.new {|t| t.date_exec }
 

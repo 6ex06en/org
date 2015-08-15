@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   mount Sidekiq::Web, at: "/sidekiq"
 
   root "main_pages#start"
-  resources :sessions, only: [:create, :destroy]
+  resources :sessions, only: [:create, :destroy, :index]
   resources :organizations do
     member do
       post "invite" => "organizations#join_to_organization", as: :join_to

@@ -50,4 +50,10 @@ module SessionsHelper
     	user = User.find_by_id(id)
     	redirect_to root_path unless current_user?(user)
   	end
+
+  	def already_signed
+  		if @current_user   		
+   			redirect_to request.url
+   		end
+  	end
 end
