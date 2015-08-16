@@ -6,7 +6,7 @@
 #signed_container      
   .row
     -if @current_user.invited?
-      .col-sm-5.col-md-5.col-lg-5.col-xs-5
+      #calendar_wrapper.col-sm-5.col-md-5.col-lg-5.col-xs-5
         #header_calendar.text-center
           .btn-group
             .btn-group
@@ -36,7 +36,7 @@
                   %span.col-md-3.text-center.list-year 2017
                   %span.col-md-3.text-center.list-year 2018 
         #container_calendar
-    .col-sm-7.col-md-7.col-lg-7.col-xs-7
+    #content_wrapper.col-sm-7.col-md-7.col-lg-7.col-xs-7
       -if @current_user.invited?
         #tasks_container
           -if @render_task_form
