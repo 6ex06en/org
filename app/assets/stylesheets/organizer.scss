@@ -221,8 +221,12 @@ background: #B9C9DA;
 }
 #buttons_container {
 	margin: 10px 5px;
+	.back_to_tasks_group:hover .back_to_tasks {
+			background: #E4A80C;
+	}
 	.back_to_tasks {
 		background: #C89205;
 		color: black !important;
+		border-left: 1px solid darkgrey;
 	}
 }
