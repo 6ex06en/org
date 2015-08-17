@@ -1,5 +1,36 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
+#wrapper_signed_container {
+	width: 100%;
+	/*margin: 2%;*/
+	background: #D0F3E1;
+	overflow: hidden;
+	a {
+		color: darkblue;
+	}
+}
+#signed_container {
+	margin: 2% 0;
+	width: 100%;
+	background: #D0F3E1;
+	float: left;
+	position: relative;
+	left: 41.66%;
+}
+#calendar_wrapper {
+
+background: #D0F3E1;
+float: left;
+position: relative;
+left: -41.66%;
+background: #D0F3E1;
+}
+#content_wrapper {
+float: left;
+position: relative;
+left: -41.66%;
+background: #D0F3E1;
+}
 
 #signed_container {
 	margin-top: 40px;
@@ -120,4 +151,49 @@
 
 .form_create_org {
 	margin-top: 20px;
+}
+#task_container {
+	border: 1px solid black;
+	border-radius: 3px;
+	font-size: 1.25vmax;
+	.task_name {
+		padding: 0 1%;
+		border-bottom: 1px solid black;
+	}
+	.task_users {
+		margin: 0;
+		padding: 0 1%;
+		border-bottom: 1px solid black;
+	}
+	.task_manager {
+		margin-left: -15px;
+		/*padding: 0 1%;*/
+	}
+	.task_executor {
+		margin-left: -15px;
+		/*padding: 0 1%;*/
+		/*border-bottom: 1px solid black;*/
+		margin-top: -25px;
+	}
+
+	.task_date_exec {
+		padding: 0 5% 0 35%;
+		/*border-bottom: 1px solid black;*/
+		.time {
+			display: block;
+			color: black;
+			font-size: 1.1em;
+			font-weight: bold;
+		}
+	}
+	.task_description_header {
+		padding: 2% 1%;
+		border-bottom: 1px solid black;
+		font-size: 0.95em;		
+	}
+	.task_description_body {
+		padding: 0 1%;
+		border-bottom: 1px solid black;
+		min-height: 200px;		
+	}
 }

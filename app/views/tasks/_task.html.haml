@@ -1,15 +1,23 @@
 #task_container
   .row
-    %h3.task_name.col-lg-12.col-md-12.col-sm-12.col-xs-12
-      =task.name
-  .row
-    .col-md-8.col-lg-8.col-sm-8.col-xs-8.task_manager 
-      Постановщик: #{task.manager.name}
-    .col-md-3.col-lg-3.col-sm-3.col-xs-3.task_executor 
-      Выполнить до: #{task.date_exec.strftime("%H:%M")}
-    .col-md-8.col-lg-8.col-sm-8.col-xs-8.task_date_exec 
-      Исполнитель: #{task.executor.name}
-  .row
-    %h4.col-lg-12.col-md-12.col-sm-12.col-xs-12.task_description_header Описание
     .col-lg-12.col-md-12.col-sm-12.col-xs-12
-      =task.description
+      %h3.task_name
+        =task.name
+    .col-md-12.col-lg-12
+      .row.task_users
+        .col-md-8.col-lg-8.col-sm-8.col-xs-8
+          .task_manager 
+            Постановщик: #{task.manager.name}
+        .col-md-4.col-lg-4.col-sm-4.col-xs-4
+          .task_date_exec 
+            Выполнить до: 
+            %span.time
+              #{task.date_exec.strftime("%H:%M")}
+        .col-md-8.col-lg-8.col-sm-8.col-xs-8
+          .task_executor 
+            Исполнитель: #{task.executor.name}
+    %h4.col-lg-12.col-md-12.col-sm-12.col-xs-12
+      .task_description_header Описание
+    .col-lg-12.col-md-12.col-sm-12.col-xs-12
+      .task_description_body
+        =task.description
