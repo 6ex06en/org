@@ -1,3 +1,5 @@
+#buttons_container
+  =link_to("&#10554;".html_safe + " К списку задач", tasks_of_day_user_path(back: true), class: "btn back_to_tasks", remote:true)
 #task_container
   .row
     .col-lg-12.col-md-12.col-sm-12.col-xs-12
@@ -16,8 +18,8 @@
         .col-md-8.col-lg-8.col-sm-8.col-xs-8
           .task_executor 
             Исполнитель: #{task.executor.name}
-    %h4.col-lg-12.col-md-12.col-sm-12.col-xs-12
-      .task_description_header Описание
+      .col-lg-12.col-md-12.col-sm-12.col-xs-12
+        %h4.task_description_header Описание
     .col-lg-12.col-md-12.col-sm-12.col-xs-12
       .task_description_body
         =task.description

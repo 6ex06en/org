@@ -1,10 +1,17 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
+.container-fluid {
+	background-color: rgb(45, 48, 44);
+	.header-logo {
+		color: white;
+	}
+}
 #wrapper_signed_container {
 	width: 100%;
 	/*margin: 2%;*/
-	background: #D0F3E1;
+	background: #B9C9DA;
 	overflow: hidden;
+	border-radius: 15px;
 	a {
 		color: darkblue;
 	}
@@ -12,24 +19,23 @@
 #signed_container {
 	margin: 2% 0;
 	width: 100%;
-	background: #D0F3E1;
+	background: #B9C9DA;
 	float: left;
 	position: relative;
 	left: 41.66%;
 }
 #calendar_wrapper {
 
-background: #D0F3E1;
+background: #B9C9DA;
 float: left;
 position: relative;
 left: -41.66%;
-background: #D0F3E1;
 }
 #content_wrapper {
 float: left;
 position: relative;
 left: -41.66%;
-background: #D0F3E1;
+background: #B9C9DA;
 }
 
 #signed_container {
@@ -38,7 +44,7 @@ background: #D0F3E1;
 
 #header_calendar {
 	border-radius: 15px 15px 0 0;
-	background: orange;
+	background: #625A4F;
 	border: 1px solid grey; 
 }
 .calendar_day_wrapper {
@@ -70,6 +76,7 @@ background: #D0F3E1;
 	background: yellow;
 	border: 1pt solid black;
 	border-radius: 7px;
+	z-index: 1;
 	a {
 		display: block;
 		margin: 5% auto;
@@ -153,31 +160,37 @@ background: #D0F3E1;
 	margin-top: 20px;
 }
 #task_container {
-	border: 1px solid black;
-	border-radius: 3px;
+	border: 2px solid;
+	border-radius: 6px 6px 0 0;
 	font-size: 1.25vmax;
+	border-color: grey;
 	.task_name {
-		padding: 0 1%;
-		border-bottom: 1px solid black;
+		background: #625A4F;
+		margin: 0;
+		padding: 1% 1%;
+		border-bottom: 1px solid grey;
+		border-radius: 3.5px 3.5px 0 0;
+		color: black;
 	}
 	.task_users {
+		background: #E8E8E8;
 		margin: 0;
 		padding: 0 1%;
-		border-bottom: 1px solid black;
+		border-bottom: 1px solid grey;
 	}
 	.task_manager {
-		margin-left: -15px;
-		/*padding: 0 1%;*/
+		margin: 0;
+		margin: 8px 0 -8px -15px;
+		padding: 0;
 	}
 	.task_executor {
-		margin-left: -15px;
-		/*padding: 0 1%;*/
-		/*border-bottom: 1px solid black;*/
-		margin-top: -25px;
+		margin: -16px 0 2px -15px;
+		padding: 0;
 	}
 
 	.task_date_exec {
 		padding: 0 5% 0 35%;
+		margin-top: 8px;
 		/*border-bottom: 1px solid black;*/
 		.time {
 			display: block;
@@ -187,13 +200,29 @@ background: #D0F3E1;
 		}
 	}
 	.task_description_header {
-		padding: 2% 1%;
-		border-bottom: 1px solid black;
-		font-size: 0.95em;		
+		margin: 0 -15px;
+		/*margin-top: -10px;*/
+		padding: 1% 1%;
+		border-bottom: 1px solid grey;
+		font-size: 0.95em;
+		background: #625A4F;
+		color: black;		
 	}
 	.task_description_body {
 		padding: 0 1%;
-		border-bottom: 1px solid black;
-		min-height: 200px;		
+		min-height: 200px;
+		background: #E8E8E8;		
+	}
+}
+#create_task_form_container {
+	input, select, textarea {
+		border: 2px solid grey;
+		} 
+}
+#buttons_container {
+	margin: 10px 5px;
+	.back_to_tasks {
+		background: #C89205;
+		color: black !important;
 	}
 }

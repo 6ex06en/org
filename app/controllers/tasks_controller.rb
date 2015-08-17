@@ -46,16 +46,19 @@ class TasksController < ApplicationController
     end
   end
 
-  def tasks_of_day
-    date = params[:date]
-    @tasks = Task.collect_tasks(date, @current_user, only_day: true)
-    respond_to do |format|
-      format.js
-    end
+  def tasks_of_day    
+      date = params[:date]
+      date = session[:saved_day] if params[:back]
+      session[:saved_day] = date
+      @tasks = Task.collect_tasks(date, @current_user, only_day: true)
+      respond_to do |format|
+        format.js
+      end
   end
 
   def create_task
     @date = params[:date].to_date.strftime("%FT%R")
+    session[:saved_day] = @date
     respond_to do |format|
       format.js
     end
