@@ -16,12 +16,15 @@ class Task < ActiveRecord::Base
 
 
   def Task.collect_tasks(date, user, obj={})
-    date = date.to_time.beginning_of_day
+    date = date.to_time.beginning_of_day if date
     c = {}
     if obj[:only_day]
-      c[:executor] =Task.where(executor_id: user.id, date_exec: date.beginning_of_day..date.end_of_day)
-      c[:manager] =Task.where(manager_id: user.id, date_exec: date.beginning_of_day..date.end_of_day)
-    else  
+      c[:executor] =Task.where(executor_id: user.id, date_exec: date.beginning_of_day..date.end_of_day).order(:date_exec)
+      c[:manager] =Task.where(manager_id: user.id, date_exec: date.beginning_of_day..date.end_of_day).order(:date_exec)
+    elsif obj[:all]
+      c[:executor] =Task.where(executor_id: user.id).order(date_exec: :desc)
+      c[:manager] =Task.where(manager_id: user.id).order(date_exec: :desc)
+    else
       c[:executor] =Task.select(:date_exec).where(executor_id: user.id, 
         date_exec: date.beginning_of_year - 7.day..date.next_year.end_of_year + 7.day).map{|x| x.date_exec.to_time}
       c[:manager] =Task.select(:date_exec).where(manager_id: user.id, 

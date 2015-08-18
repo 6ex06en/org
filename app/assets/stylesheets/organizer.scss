@@ -214,19 +214,71 @@ background: #B9C9DA;
 		background: #E8E8E8;		
 	}
 }
-#create_task_form_container {
+#create_task_form_container, #edit_task_container {
 	input, select, textarea {
 		border: 2px solid grey;
 		} 
 }
+
 #buttons_container {
-	margin: 10px 5px;
+	margin: 0px 5px 20px 5px;
 	.back_to_tasks_group:hover .back_to_tasks {
 			background: #E4A80C;
 	}
-	.back_to_tasks {
+	.back_to_tasks, .all_tasks {
 		background: #C89205;
 		color: black !important;
 		border-left: 1px solid darkgrey;
+	}
+	.all_tasks {
+		top: 0;
+	}
+}
+#day_tasks {
+	.list-group-item {
+		font-size: 1.25vmax;
+		position: relative;
+		font-weight: bolder;
+		border: 1px solid grey;
+		background: #B1FB96;
+		.task_name {
+			position: relative;
+			display: inline-block;
+			left: 0;
+		}
+		a.task_name{
+			text-decoration: none;
+			color: #263344;
+			&:hover {
+				color: black;
+			}
+		}
+		.task_date_exec {
+			display: inline-block;
+			float: right;
+			margin: auto 0;
+			position: relative;
+			right: 0;
+			vertical-align: middle;
+			/*text-align: center;*/
+			font-weight: normal;
+			font-size: 0.9em;
+		}
+	}
+	#manager_tasks_of_day {
+		.task_name {
+			width: 55%;
+		}
+		.task_date_exec {
+			width: 40%;
+		}
+	}
+	#executor_tasks_of_day {
+		.task_name {
+			width: 70%;
+		}
+		.task_date_exec {
+			width: 25%;
+		}
 	}
 }

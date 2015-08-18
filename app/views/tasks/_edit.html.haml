@@ -1,3 +1,4 @@
+=render "shared/buttons_container"
 #edit_task_container
   =form_for([@current_user, @task], html: {id: "create_task_form", class: "form-horizontal", role: "form"}, method: :put) do |t|
     .form-group

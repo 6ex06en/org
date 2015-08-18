@@ -1,10 +1,13 @@
 =render "shared/buttons_container"
+=link_to("Поставленные задачи", user_tasks_path(user_id: @current_user.id, manager: true), class: "btn btn-success back_to_tasks", remote:true)
+=link_to("Полученные задачи", user_tasks_path(user_id: @current_user.id, executor: true), class: "btn btn-success back_to_tasks", remote:true)
 #day_tasks
-  -if @tasks[:manager].present?
+  -if @manager.present?
     #manager_tasks_of_day
       %h4 Поставленные задачи:
       %ul.list-group
-        -@tasks[:manager].each do |t| 
+        =paginate @manager, remote:true
+        -@manager.each do |t| 
           %li.list-group-item
             =link_to([@current_user, t], class: "task_name", remote:true) do
               %span
@@ -12,11 +15,12 @@
             %span.task_date_exec.list-group-item-text
               =t.date_exec.strftime("Выполнить до: %H:%M")             
               =link_to("редактировать", edit_user_task_path(@current_user, t), class: "edit_task_link", remote:true)
-  -if @tasks[:executor].present?
+  -if @executor.present?
     #executor_tasks_of_day
       %h4 Полученные задачи:
       %ul.list-group
-        -@tasks[:executor].each do |t|
+        =paginate @executor, remote:true
+        -@executor.each do |t|
           %li.list-group-item
             =link_to([@current_user, t], class: "task_name", remote:true) do
               %span

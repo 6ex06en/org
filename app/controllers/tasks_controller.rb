@@ -1,8 +1,17 @@
 class TasksController < ApplicationController
-  before_action :signed_in_user, only: [:create, :destroy, :edit, :get_tasks, :create_task, :tasks_of_day, :show, :edit, :update]
+  # require 'kaminari'
+  before_action :signed_in_user, except: [:new]
   before_action ->(id= params[:user_id]) {correct_user(id)}, only: [:edit, :show]
 
   def new
+  end
+  def index
+    @alltasks = Task.collect_tasks(nil, @current_user, all:true)
+    @manager = Kaminari.paginate_array(@alltasks[:manager]).page(params[:page]).per(7) if params[:manager]
+    @executor = Kaminari.paginate_array(@alltasks[:executor]).page(params[:page]).per(7) if params[:executor]
+    respond_to do |format|
+      format.js
+    end
   end
 
   def edit
@@ -58,7 +67,6 @@ class TasksController < ApplicationController
 
   def create_task
     @date = params[:date].to_date.strftime("%FT%R")
-    session[:saved_day] = @date
     respond_to do |format|
       format.js
     end
