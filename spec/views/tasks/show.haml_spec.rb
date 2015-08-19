@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "tasks/new.html.haml", type: :view do
+RSpec.describe "tasks/show.html.haml", type: :view do
   describe "tasks", type: :view, js:true do
   	let(:admin) {FactoryGirl.create(:admin, invited: true)}
   	let(:user) {FactoryGirl.create(:user, invited: true)}
@@ -63,10 +63,20 @@ RSpec.describe "tasks/new.html.haml", type: :view do
 		it "when click show task" do
 			find("#tasks_of_day").click
 			within "#tasks_container" do 
-	          first(:link, "подробнее").click
+	          first(:link, "task_name").click
 	        end
 	     expect(page).to have_css("#task_container")
 	     expect(page).to have_content(task.name)  
+		end
+
+		it "when click destroy task" do
+			find("#tasks_of_day").click
+			within "#tasks_container" do 
+	          first(".destroy_task_link").click
+	          page.driver.browser.switch_to.alert.accept
+	        end
+	     expect(page).to have_css("#day_tasks")
+	     expect(page).not_to have_content(task.name)  
 		end
 
 		it "when create task" do

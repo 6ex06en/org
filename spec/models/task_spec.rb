@@ -1,7 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Task, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  it{ is_expected.to respond_to :status}
+  it{ is_expected.to respond_to :executor_id}
+  it{ is_expected.to respond_to :manager_id}
+  it{ is_expected.to respond_to :name}
+  it{ is_expected.to respond_to :description}
 
   describe "Task" do
   	let(:user) { FactoryGirl.create(:user)}

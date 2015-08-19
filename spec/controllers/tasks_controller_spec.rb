@@ -40,6 +40,14 @@ RSpec.describe TasksController, type: :controller do
     end
   end
 
+  describe "GET #destroy" do
+    before { sign_in admin}
+    it "returns http success" do
+      xhr :delete, :destroy, {user_id: admin.id, id: task.id}
+      expect(response).to redirect_to(root_path)
+    end
+  end
+
   describe "GET #update" do
     before { sign_in admin}
     it "returns http success" do

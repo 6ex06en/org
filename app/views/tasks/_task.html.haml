@@ -22,3 +22,18 @@
     .col-lg-12.col-md-12.col-sm-12.col-xs-12
       .task_description_body
         =task.description
+  #handle_task_form.col-lg-12.col-md-12.col-sm-12.col-xs-12
+    =form_for([@current_user, task], html: {role: "form", class: "form-horizontal", id: "task_handle_form"}) do |t|
+      .form-group
+        -if task.status == "ready"
+          .col-xs-2.col-sm-2.col-md-2.col-lg-2.handler_button_container
+            =t.hidden_field :status, value: "execution" 
+            =t.submit "Принять", class: "btn btn-lg btn-primary"
+        -if task.status == "execution"
+          .col-xs-2.col-sm-2.col-md-2.col-lg-2.handler_button_container
+            =t.hidden_field :status, value: "pause" 
+            =t.submit "Приостановить", class: "btn btn-lg btn-primary"
+        -if task.status == "pause"
+          .col-xs-2.col-sm-2.col-md-2.col-lg-2.handler_button_container
+            =t.hidden_field :status, value: "execution" 
+            =t.submit "Возобновить", class: "btn btn-lg btn-primary"

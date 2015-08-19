@@ -263,14 +263,26 @@ background: #B9C9DA;
 			/*text-align: center;*/
 			font-weight: normal;
 			font-size: 0.9em;
+			& a:last-child {
+				color: #D81919;
+			}
+
+			a {
+				float: right;
+				margin: 0 2%;
+				text-decoration: none;
+				&:hover {
+					color: black;
+				}
+			}
 		}
 	}
 	#manager_tasks_of_day {
 		.task_name {
-			width: 55%;
+			width: 65%;
 		}
 		.task_date_exec {
-			width: 40%;
+			width: 32%;
 		}
 	}
 	#executor_tasks_of_day {
@@ -280,5 +292,13 @@ background: #B9C9DA;
 		.task_date_exec {
 			width: 25%;
 		}
+	}
+}
+.pagination {
+	margin: 15px 0;
+}
+#task_handle_form {
+	.handler_button_container {
+		padding-left: 0;
 	}
 }
