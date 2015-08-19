@@ -1,28 +1,28 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 .container-fluid {
-	background-color: rgb(45, 48, 44);
-	.header-logo {
-		color: white;
-	}
+  background-color: rgb(45, 48, 44);
+  .header-logo {
+    color: white;
+  }
 }
 #wrapper_signed_container {
-	width: 100%;
-	/*margin: 2%;*/
-	background: #B9C9DA;
-	overflow: hidden;
-	border-radius: 15px;
-	a {
-		color: darkblue;
-	}
+  width: 100%;
+  /*margin: 2%;*/
+  background: #B9C9DA;
+  overflow: hidden;
+  border-radius: 15px;
+  a {
+    color: darkblue;
+  }
 }
 #signed_container {
-	margin: 2% 0;
-	width: 100%;
-	background: #B9C9DA;
-	float: left;
-	position: relative;
-	left: 41.66%;
+  margin: 2% 0;
+  width: 100%;
+  background: #B9C9DA;
+  float: left;
+  position: relative;
+  left: 41.66%;
 }
 #calendar_wrapper {
 
@@ -39,54 +39,54 @@ background: #B9C9DA;
 }
 
 #signed_container {
-	margin-top: 40px;
+  margin-top: 40px;
 }
 
 #header_calendar {
-	border-radius: 15px 15px 0 0;
-	background: #625A4F;
-	border: 1px solid grey; 
+  border-radius: 15px 15px 0 0;
+  background: #625A4F;
+  border: 1px solid grey; 
 }
 .calendar_day_wrapper {
-	padding: 0;
-	width: 14.2857%;
-	background: #E8E8E8;
-	border: 1px solid grey;
-	font-size: 1.25vmax;
-	/*font-size: 1vmin;*/
-	&.pr, &.next {
-		background: #CEFFBC;
-	}
-	&:hover {
-		background: orange;
-		cursor: pointer;
-	}
+  padding: 0;
+  width: 14.2857%;
+  background: #E8E8E8;
+  border: 1px solid grey;
+  font-size: 1.25vmax;
+  /*font-size: 1vmin;*/
+  &.pr, &.next {
+    background: #CEFFBC;
+  }
+  &:hover {
+    background: orange;
+    cursor: pointer;
+  }
 }
 .highlight {
-	background: #6E796E;
-	&.pr, &.next {
-		background: #B1FB96;
-	}
-	&:hover {
-		background: orange;
-	}
+  background: #6E796E;
+  &.pr, &.next {
+    background: #B1FB96;
+  }
+  &:hover {
+    background: orange;
+  }
 }
 
 .calendar_day_wrapper.clone {
-	background: yellow;
-	border: 1pt solid black;
-	border-radius: 7px;
-	z-index: 1;
-	a {
-		display: block;
-		margin: 5% auto;
-		width: 80%;
-		text-align: center;
-		text-decoration: none;
-		cursor: pointer;
-		font-size: 90%;
-		font-weight: bold;
-	}
+  background: yellow;
+  border: 1pt solid black;
+  border-radius: 7px;
+  z-index: 1;
+  a {
+    display: block;
+    margin: 5% auto;
+    width: 80%;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 90%;
+    font-weight: bold;
+  }
 }
 /*.calendar_day_container {
   margin-left: auto;
@@ -95,210 +95,212 @@ background: #B9C9DA;
   padding-bottom: 50%;
 }*/
 .dummy {
-	height: 0;
-	padding-bottom: 60%;
-	padding-top: 33%;
+  height: 0;
+  padding-bottom: 60%;
+  padding-top: 33%;
 }
 .calendar_day_container {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	top:0;
-	left: 0;
-	right:0;
-	bottom: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top:0;
+  left: 0;
+  right:0;
+  bottom: 0;
 }
 
 .main_link_signup {
-	line-height: 2.2;
-	font-size: 1.2em;
+  line-height: 2.2;
+  font-size: 1.2em;
 }
 .container-dropdown-month, .container-dropdown-year {
-	left: -70px;
-	border: 1px solid green;
-	background: #D3D3D3;
+  left: -70px;
+  border: 1px solid green;
+  background: #D3D3D3;
 }
 .dropdown-togle-month, .dropdown-togle-year {
-	border: 1px solid grey; 
+  border: 1px solid grey; 
 }
 .dropmenu-month, .dropmenu-year {
-	margin: -10px;
-	padding: 12px 12px;	
+  margin: -10px;
+  padding: 12px 12px; 
 }
 .list-month, .list-year {
-	padding-left: 5px;
-	padding-right: 5px;
-	font-size: 0.95em;
-	font-weight: bold; 
-	color: black;
-	cursor: pointer;
-	&:hover {
-		color: white;
-	}
+  padding-left: 5px;
+  padding-right: 5px;
+  font-size: 0.95em;
+  font-weight: bold; 
+  color: black;
+  cursor: pointer;
+  &:hover {
+    color: white;
+  }
 }
 #accept_invitation_form {
-		margin: 5% 0;	
+    margin: 5% 0; 
 }
 .day_number {
-	font-size: 0.8em;
+  font-size: 0.8em;
 }
 #man_task, #exec_task {
-	display: block;
-	width: 15%;
-	margin: 0 auto;
-	font:120% serif;
-	font-weight: 900;
+  display: block;
+  width: 15%;
+  margin: 0 auto;
+  font:120% serif;
+  font-weight: 900;
 }
 #man_task {
-	color: #F98300;
+  color: #F98300;
 }
 #exec_task {
-	color: blue;
+  color: blue;
 }
 
 .form_create_org {
-	margin-top: 20px;
+  margin-top: 20px;
 }
 #task_container {
-	border: 2px solid;
-	border-radius: 6px 6px 0 0;
-	font-size: 1.25vmax;
-	border-color: grey;
-	.task_name {
-		background: #625A4F;
-		margin: 0;
-		padding: 1% 1%;
-		border-bottom: 1px solid grey;
-		border-radius: 3.5px 3.5px 0 0;
-		color: black;
-	}
-	.task_users {
-		background: #E8E8E8;
-		margin: 0;
-		padding: 0 1%;
-		border-bottom: 1px solid grey;
-	}
-	.task_manager {
-		margin: 0;
-		margin: 8px 0 -8px -15px;
-		padding: 0;
-	}
-	.task_executor {
-		margin: -16px 0 2px -15px;
-		padding: 0;
-	}
+  border: 2px solid;
+  border-radius: 6px 6px 0 0;
+  font-size: 1.25vmax;
+  border-color: grey;
+  .task_name {
+    background: #625A4F;
+    margin: 0;
+    padding: 1% 1%;
+    border-bottom: 1px solid grey;
+    border-radius: 3.5px 3.5px 0 0;
+    color: black;
+  }
+  .task_users {
+    background: #E8E8E8;
+    margin: 0;
+    padding: 0 1%;
+    border-bottom: 1px solid grey;
+  }
+  .task_manager {
+    margin: 0;
+    margin: 8px 0 -8px -15px;
+    padding: 0;
+  }
+  .task_executor {
+    margin: -16px 0 2px -15px;
+    padding: 0;
+  }
 
-	.task_date_exec {
-		padding: 0 5% 0 35%;
-		margin-top: 8px;
-		/*border-bottom: 1px solid black;*/
-		.time {
-			display: block;
-			color: black;
-			font-size: 1.1em;
-			font-weight: bold;
-		}
-	}
-	.task_description_header {
-		margin: 0 -15px;
-		/*margin-top: -10px;*/
-		padding: 1% 1%;
-		border-bottom: 1px solid grey;
-		font-size: 0.95em;
-		background: #625A4F;
-		color: black;		
-	}
-	.task_description_body {
-		padding: 0 1%;
-		min-height: 200px;
-		background: #E8E8E8;		
-	}
+  .task_date_exec {
+    padding: 0 5% 0 35%;
+    margin-top: 8px;
+    /*border-bottom: 1px solid black;*/
+    .time {
+      display: block;
+      color: black;
+      font-size: 1.1em;
+      font-weight: bold;
+    }
+  }
+  .task_description_header {
+    margin: 0 -15px;
+    /*margin-top: -10px;*/
+    padding: 1% 1%;
+    border-bottom: 1px solid grey;
+    font-size: 0.95em;
+    background: #625A4F;
+    color: black;   
+  }
+  .task_description_body {
+    padding: 0 1%;
+    min-height: 200px;
+    background: #E8E8E8;    
+  }
 }
 #create_task_form_container, #edit_task_container {
-	input, select, textarea {
-		border: 2px solid grey;
-		} 
+  input, select, textarea {
+    border: 2px solid grey;
+    } 
 }
 
 #buttons_container {
-	margin: 0px 5px 20px 5px;
-	.back_to_tasks_group:hover .back_to_tasks {
-			background: #E4A80C;
-	}
-	.back_to_tasks, .all_tasks {
-		background: #C89205;
-		color: black !important;
-		border-left: 1px solid darkgrey;
-	}
-	.all_tasks {
-		top: 0;
-	}
+  margin: 0px 5px 20px 5px;
+  .back_to_tasks_group:hover .back_to_tasks {
+      background: #E4A80C;
+  }
+  .back_to_tasks, .all_tasks {
+    background: #C89205;
+    color: black !important;
+    border-left: 1px solid darkgrey;
+  }
+  .all_tasks {
+    top: 0;
+  }
 }
 #day_tasks {
-	.list-group-item {
-		font-size: 1.25vmax;
-		position: relative;
-		font-weight: bolder;
-		border: 1px solid grey;
-		background: #B1FB96;
-		.task_name {
-			position: relative;
-			display: inline-block;
-			left: 0;
-		}
-		a.task_name{
-			text-decoration: none;
-			color: #263344;
-			&:hover {
-				color: black;
-			}
-		}
-		.task_date_exec {
-			display: inline-block;
-			float: right;
-			margin: auto 0;
-			position: relative;
-			right: 0;
-			vertical-align: middle;
-			/*text-align: center;*/
-			font-weight: normal;
-			font-size: 0.9em;
-			& a:last-child {
-				color: #D81919;
-			}
+  .list-group-item {
+    font-size: 1.25vmax;
+    position: relative;
+    font-weight: bolder;
+    border: 1px solid grey;
+    background: #B1FB96;
+    .task_name {
+      position: relative;
+      display: inline-block;
+      left: 0;
+    }
+    a.task_name{
+      text-decoration: none;
+      color: #263344;
+      &:hover {
+        color: black;
+      }
+    }
+    .task_date_exec {
+      display: inline-block;
+      float: right;
+      margin: auto 0;
+      position: relative;
+      right: 0;
+      vertical-align: middle;
+      /*text-align: center;*/
+      font-weight: normal;
+      font-size: 0.9em;
+      & a:last-child {
+        color: #D81919;
+      }
 
-			a {
-				float: right;
-				margin: 0 2%;
-				text-decoration: none;
-				&:hover {
-					color: black;
-				}
-			}
-		}
-	}
-	#manager_tasks_of_day {
-		.task_name {
-			width: 65%;
-		}
-		.task_date_exec {
-			width: 32%;
-		}
-	}
-	#executor_tasks_of_day {
-		.task_name {
-			width: 70%;
-		}
-		.task_date_exec {
-			width: 25%;
-		}
-	}
+      a {
+        float: right;
+        margin: 0 2%;
+        text-decoration: none;
+        &:hover {
+          color: black;
+        }
+      }
+    }
+  }
+  #manager_tasks_of_day {
+    .task_name {
+      width: 65%;
+    }
+    .task_date_exec {
+      width: 32%;
+    }
+  }
+  #executor_tasks_of_day {
+    .task_name {
+      width: 70%;
+    }
+    .task_date_exec {
+      width: 25%;
+    }
+  }
 }
 .pagination {
-	margin: 15px 0;
+  margin: 15px 0;
 }
 #task_handle_form {
-	.handler_button_container {
-		padding-left: 0;
-	}
+  .handler_button_container {
+    margin: 0.5% 0;
+    padding-left: 0;
+    padding-right: 5px;
+  }
 }

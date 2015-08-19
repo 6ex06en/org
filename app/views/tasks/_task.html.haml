@@ -3,37 +3,38 @@
   .row
     .col-lg-12.col-md-12.col-sm-12.col-xs-12
       %h3.task_name
-        =task.name
+        =@task.name
     .col-md-12.col-lg-12
       .row.task_users
         .col-md-8.col-lg-8.col-sm-8.col-xs-8
           .task_manager 
-            Постановщик: #{task.manager.name}
+            Постановщик: #{@task.manager.name}
         .col-md-4.col-lg-4.col-sm-4.col-xs-4
           .task_date_exec 
             Выполнить до: 
             %span.time
-              #{task.date_exec.strftime("%H:%M")}
+              #{@task.date_exec.strftime("%H:%M")}
         .col-md-8.col-lg-8.col-sm-8.col-xs-8
           .task_executor 
-            Исполнитель: #{task.executor.name}
+            Исполнитель: #{@task.executor.name}
       .col-lg-12.col-md-12.col-sm-12.col-xs-12
         %h4.task_description_header Описание
     .col-lg-12.col-md-12.col-sm-12.col-xs-12
       .task_description_body
-        =task.description
+        =@task.description
   #handle_task_form.col-lg-12.col-md-12.col-sm-12.col-xs-12
-    =form_for([@current_user, task], html: {role: "form", class: "form-horizontal", id: "task_handle_form"}) do |t|
+    =form_for(@task, url: handle_user_task_path(@current_user, @task),html: {role: "form", class: "form-horizontal", id: "task_handle_form"}) do |t|
       .form-group
-        -if task.status == "ready"
-          .col-xs-2.col-sm-2.col-md-2.col-lg-2.handler_button_container
+        -if @task.status == "ready"
+          .col-xs-3.col-sm-3.col-md-3.col-lg-3.handler_button_container
             =t.hidden_field :status, value: "execution" 
             =t.submit "Принять", class: "btn btn-lg btn-primary"
-        -if task.status == "execution"
-          .col-xs-2.col-sm-2.col-md-2.col-lg-2.handler_button_container
+        -if @task.status == "execution"
+          .col-xs-3.col-sm-3.col-md-3.col-lg-3.handler_button_container
             =t.hidden_field :status, value: "pause" 
             =t.submit "Приостановить", class: "btn btn-lg btn-primary"
-        -if task.status == "pause"
-          .col-xs-2.col-sm-2.col-md-2.col-lg-2.handler_button_container
+        -if @task.status == "pause" or @task.status == "complete"
+          .col-xs-3.col-sm-3.col-md-3.col-lg-3.handler_button_container
             =t.hidden_field :status, value: "execution" 
             =t.submit "Возобновить", class: "btn btn-lg btn-primary"
+

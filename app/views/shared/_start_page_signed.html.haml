@@ -46,6 +46,8 @@
             =render 'tasks/tasks_of_day'
           -if @render_all_tasks
             =render 'tasks/index'
+          -if @render_task
+            =render 'tasks/task'
         %div
           =render "shared/errors", object: @object_with_errors
     -unless @current_user.invited?

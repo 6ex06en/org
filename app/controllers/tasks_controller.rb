@@ -94,11 +94,19 @@ class TasksController < ApplicationController
   end
 
   def handle_task
+    # render text: params
+    @task = Task.find_by_id(params[:id])
+    if @task.update_attributes(task_params)
+      @render_task = true
+      # redirect_to root_path
+      # render text: @task.name
+      render "main_pages/start"
+    end
   end
 
   private
 
   def task_params
-    params.require(:task).permit(:name, :description, :executor_id, :date_exec)
+    params.require(:task).permit(:name, :description, :executor_id, :date_exec, :status)
   end
 end

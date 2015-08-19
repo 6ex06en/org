@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   end
   resources :users do
     resources :tasks do
-      post 'handle_task', on: :member, as: :handle
+      patch 'handle_task', on: :member, as: :handle
     end
     member do
       get "destroy_invitation" => "users#destroy_invitation"
