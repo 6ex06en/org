@@ -1,7 +1,7 @@
 class TasksController < ApplicationController
   # require 'kaminari'
   before_action :signed_in_user, except: [:new]
-  before_action ->(id= params[:user_id]) {correct_user(id)}, only: [:edit, :show]
+  before_action ->(id= params[:user_id]) {correct_user(id)}, only: [:edit, :show, :update, :destroy, :handle_task]
 
   def new
   end

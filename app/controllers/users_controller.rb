@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :signed_in_user, only: [:edit, :show]
-  before_action ->(id = params[:id]) {correct_user(id)}, only: [:edit, :show]
+  before_action ->(id = params[:id]) {correct_user(id)}, only: [:edit, :show, :destroy, :update]
 
   def new
     @user = User.new
