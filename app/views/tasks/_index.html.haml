@@ -16,6 +16,8 @@
               =t.date_exec.strftime("%Y-%m-%d %H:%M")             
               =link_to("", edit_user_task_path(@current_user, t), class: "edit_task_link glyphicon glyphicon-pencil", remote:true)
               =link_to("", user_task_path(@current_user, t, all_tasks:true, manager:true), class: "destroy_task_link glyphicon glyphicon-remove", data: {confirm: "Удалить задачу?"}, method: :delete)
+  -if @request == "manager" and @manager.blank?
+    %h3 Нет поставленных задач
   -if @executor.present?
     #executor_tasks_of_day
       %h4 Полученные задачи:
@@ -28,3 +30,5 @@
                 =t.name
             %span.task_date_exec.list-group-item-text
               =t.date_exec.strftime("%Y-%m-%d %H:%M")
+    -if @request == "executor" and @executor.blank?
+      %h3 Нет полученных задач

@@ -6,9 +6,13 @@ class TasksController < ApplicationController
   def new
   end
   def index
-    @alltasks = Task.collect_tasks(nil, @current_user, all:true)
-    @manager = Kaminari.paginate_array(@alltasks[:manager]).page(params[:page]).per(6) if params[:manager]
-    @executor = Kaminari.paginate_array(@alltasks[:executor]).page(params[:page]).per(6) if params[:executor]
+    if params[:manager]
+      @manager = @current_user.tasks_from_me.order(date_exec: :desc).page(params[:page]).per(6)
+      @request = "manager"
+    else
+      @executor = @current_user.tasks_to_me.order(date_exec: :desc).page(params[:page]).per(6)
+      @request = "executor"
+    end
     respond_to do |format|
       format.js
     end
@@ -27,11 +31,15 @@ class TasksController < ApplicationController
 
   def create
     task = @current_user.tasks_from_me.build(task_params)
+    @refresh_page_or_repeat = true
     if task.save
       flash.now[:success] = "Задача создана"
       @tasks = Task.collect_tasks(session[:saved_day], @current_user, only_day: true)
       @render_tasks_of_day = true
       render "main_pages/start", locals: {render: @render_tasks_of_day, task: @tasks}
+      # respond_to do |format|
+      #   format.js {render layout: false}
+      # end
     else
       @render_task_form = true
       @date = params[:task][:date_exec]
@@ -45,8 +53,7 @@ class TasksController < ApplicationController
     @tasks = Task.collect_tasks(session[:saved_day], @current_user, only_day: true)
     if params[:all_tasks]
       @render_all_tasks = true
-      @manager = Kaminari.paginate_array(Task.collect_tasks(nil, @current_user, all:true)[:manager])
-                                                              .page(params[:page]).per(6)
+      @manager = @current_user.tasks_from_me.page(params[:page]).per(6)
     else
       @render_tasks_of_day = true
     end
@@ -94,19 +101,25 @@ class TasksController < ApplicationController
   end
 
   def handle_task
-    # render text: params
     @task = Task.find_by_id(params[:id])
-    if @task.update_attributes(task_params)
-      @render_task = true
-      # redirect_to root_path
-      # render text: @task.name
-      render "main_pages/start"
+    if params[:commit] == "Принять"
+      @task.update_attributes(status: "execution")
+    elsif params[:commit] == "Приостановить"
+      @task.update_attributes(status: "pause")
+    elsif params[:commit] == "Возобновить"
+      @task.update_attributes(status: "execution")
+    elsif params[:commit] == "Завершить"
+      @task.update_attributes(status: "complete")
+    elsif params[:commit] == "Закрыть"
+      @task.update_attributes(status: "archived")
     end
+    @render_task = true
+    render "main_pages/start"
   end
 
   private
 
   def task_params
-    params.require(:task).permit(:name, :description, :executor_id, :date_exec, :status)
+    params.require(:task).permit(:name, :description, :executor_id, :date_exec, :commit)
   end
 end

@@ -221,7 +221,7 @@ Calendar = () -> # январь - 1
         )
     )
 
-$(document).ready( () ->
+$(document).on('page:load ready', ->
   calendar = Calendar()
   calendar(ajax: true)
   #обработчик на заголовке
@@ -233,4 +233,3 @@ $(document).ready( () ->
     calendar(month: $(".dropdown-togle-month").attr("mn"), year: $(this).text(), ajax:true)
     )
 )
-
