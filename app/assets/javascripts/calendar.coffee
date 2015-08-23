@@ -222,7 +222,7 @@ Calendar = () -> # январь - 1
     )
 
 $(document).on('page:load ready', ->
-  calendar = Calendar()
+  window.calendar = Calendar()
   calendar(ajax: true)
   #обработчик на заголовке
   $(".list-month").click( ->

@@ -4,7 +4,7 @@
     .col-lg-12.col-md-12.col-sm-12.col-xs-12
       %h3.task_name
         =@task.name
-    .col-md-12.col-lg-12
+    .col-md-12.col-lg-12.col-sm-12.col-xs-12
       .row.task_users
         .col-md-8.col-lg-8.col-sm-8.col-xs-8
           .task_manager 
@@ -13,7 +13,7 @@
           .task_date_exec 
             Выполнить до: 
             %span.time
-              #{@task.date_exec.strftime("%H:%M")}
+              #{@task.date_exec.strftime("%Y.%m.%d %H:%M")}
         .col-md-8.col-lg-8.col-sm-8.col-xs-8
           .task_executor 
             Исполнитель: #{@task.executor.name}
@@ -43,4 +43,3 @@
           -if @task.status != "complete" and @task.status != "ready"
             .handler_button_container
               =t.submit "Завершить", class: "btn btn-lg btn-success"
-

@@ -1,3 +1,6 @@
-:plain
-  $("#tasks_container").html("#{escape_javascript(render 'tasks_of_day')}")
-calendar(month: 8, year: 2015)
+-if @render_tasks_of_day
+  :plain
+    $("#tasks_container").html("#{escape_javascript(render 'tasks_of_day')}")
+-if @render_all_tasks
+  :plain
+    $("#tasks_container").html("#{escape_javascript(render 'index')}")

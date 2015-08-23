@@ -15,7 +15,7 @@
             %span.task_date_exec.list-group-item-text
               =t.date_exec.strftime("%Y-%m-%d %H:%M")             
               =link_to("", edit_user_task_path(@current_user, t), class: "edit_task_link glyphicon glyphicon-pencil", remote:true)
-              =link_to("", user_task_path(@current_user, t, all_tasks:true, manager:true), class: "destroy_task_link glyphicon glyphicon-remove", data: {confirm: "Удалить задачу?"}, method: :delete)
+              =link_to("", user_task_path(@current_user, t, all_tasks:true, manager:true), class: "destroy_task_link glyphicon glyphicon-remove", data: {confirm: "Удалить задачу?"}, method: :delete, remote:true)
   -if @request == "manager" and @manager.blank?
     %h3 Нет поставленных задач
   -if @executor.present?
@@ -32,3 +32,6 @@
               =t.date_exec.strftime("%Y-%m-%d %H:%M")
     -if @request == "executor" and @executor.blank?
       %h3 Нет полученных задач
+-if @build_calendar
+  :coffee
+    calendar(ajax:true, month: $(".dropdown-togle-month").attr("mn"), year: $(".dropdown-togle-year").text())

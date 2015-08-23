@@ -31,15 +31,16 @@ class TasksController < ApplicationController
 
   def create
     task = @current_user.tasks_from_me.build(task_params)
-    @refresh_page_or_repeat = true
+    # @refresh_page_or_repeat = true
     if task.save
       flash.now[:success] = "Задача создана"
       @tasks = Task.collect_tasks(session[:saved_day], @current_user, only_day: true)
       @render_tasks_of_day = true
-      render "main_pages/start", locals: {render: @render_tasks_of_day, task: @tasks}
-      # respond_to do |format|
-      #   format.js {render layout: false}
-      # end
+      @build_calendar = true 
+      # render "main_pages/start", locals: {render: @render_tasks_of_day, task: @tasks}
+      respond_to do |format|
+        format.js {}
+      end
     else
       @render_task_form = true
       @date = params[:task][:date_exec]
@@ -51,6 +52,7 @@ class TasksController < ApplicationController
   def destroy
     task = Task.find_by_id(params[:id]).destroy
     @tasks = Task.collect_tasks(session[:saved_day], @current_user, only_day: true)
+    @build_calendar = true 
     if params[:all_tasks]
       @render_all_tasks = true
       @manager = @current_user.tasks_from_me.page(params[:page]).per(6)
@@ -58,7 +60,10 @@ class TasksController < ApplicationController
       @render_tasks_of_day = true
     end
     flash.now[:success] = "Задача удалена"
-    render "main_pages/start"
+    # render "main_pages/start"
+    respond_to do |format|
+      format.js {}
+    end
   end
 
   def update
@@ -88,6 +93,7 @@ class TasksController < ApplicationController
   def create_task
     @date = params[:date].to_date.strftime("%FT%R")
     session[:saved_day] = @date
+    @build_calendar = true
     respond_to do |format|
       format.js
     end

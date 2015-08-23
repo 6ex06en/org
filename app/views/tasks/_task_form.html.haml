@@ -4,7 +4,7 @@
     %h3 Необходимо пригласить пользователей в организацию. На данный момент некому давать задачи. 
   -else
     %div
-      =form_for([@current_user, @current_user.tasks_from_me.build], html: {id: "create_task_form", class: "form-horizontal", role: "form"}) do |t|
+      =form_for([@current_user, @current_user.tasks_from_me.build], html: {id: "create_task_form", class: "form-horizontal", role: "form", remote:true}) do |t|
         .form-group
           =t.label "Имя задачи", for: "input_task_name", class: "label-control col-xs-2 col-md-2 col-sm-2 col-lg-2"
           .col-xs-6.col-sm-6.col-md-6.col-lg-6
