@@ -9,11 +9,7 @@
 <body>
 <div class="container-fluid">
 <div class="flash">
-  <% flash.each do |key, value| %>
-    <div class="col-sm-offset-4 col-sm-4 text-center alert alert-<%=key%>" >
-    	<%= value %>
-    </div>
-  <% end %>
+  	<%= render "layouts/flash", :locals => {:flash => flash} %>
 </div>
 <div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
 <%= render "layouts/header" %>

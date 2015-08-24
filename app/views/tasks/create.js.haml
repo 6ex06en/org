@@ -1,2 +1,4 @@
 :plain
   $("#tasks_container").html("#{escape_javascript(render('tasks_of_day'))}")
+  $(".flash").html("#{j(render :partial => 'layouts/flash', :locals => {:flash => flash}).html_safe}")
+fadeFlash()

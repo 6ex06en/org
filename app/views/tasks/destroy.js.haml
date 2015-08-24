@@ -4,3 +4,6 @@
 -if @render_all_tasks
   :plain
     $("#tasks_container").html("#{escape_javascript(render 'index')}")
+:plain
+  $(".flash").html("#{j(render :partial => 'layouts/flash', :locals => {:flash => flash}).html_safe}")
+fadeFlash()

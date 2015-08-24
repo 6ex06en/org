@@ -1,5 +1,4 @@
 class TasksController < ApplicationController
-  # require 'kaminari'
   before_action :signed_in_user, except: [:new]
   before_action ->(id= params[:user_id]) {correct_user(id)}, only: [:edit, :show, :update, :destroy, :handle_task]
 
@@ -31,13 +30,11 @@ class TasksController < ApplicationController
 
   def create
     task = @current_user.tasks_from_me.build(task_params)
-    # @refresh_page_or_repeat = true
     if task.save
       flash.now[:success] = "Задача создана"
       @tasks = Task.collect_tasks(session[:saved_day], @current_user, only_day: true)
       @render_tasks_of_day = true
       @build_calendar = true 
-      # render "main_pages/start", locals: {render: @render_tasks_of_day, task: @tasks}
       respond_to do |format|
         format.js {}
       end
@@ -60,7 +57,6 @@ class TasksController < ApplicationController
       @render_tasks_of_day = true
     end
     flash.now[:success] = "Задача удалена"
-    # render "main_pages/start"
     respond_to do |format|
       format.js {}
     end
@@ -91,8 +87,13 @@ class TasksController < ApplicationController
   end
 
   def create_task
-    @date = params[:date].to_date.strftime("%FT%R")
-    session[:saved_day] = @date
+    if params[:date] == "saved"
+      @date = session[:saved_day].to_date.strftime("%FT%R")
+    else
+      @date = params[:date].to_date.strftime("%FT%R")
+      session[:saved_day] = @date
+    end
+    # render text: @date + "session" + session[:saved_day].to_date.strftime("%FT%R")    
     @build_calendar = true
     respond_to do |format|
       format.js
@@ -108,7 +109,7 @@ class TasksController < ApplicationController
 
   def handle_task
     @task = Task.find_by_id(params[:id])
-    if params[:commit] == "Принять"
+    if params[:commit] == "Начать"
       @task.update_attributes(status: "execution")
     elsif params[:commit] == "Приостановить"
       @task.update_attributes(status: "pause")
@@ -116,11 +117,15 @@ class TasksController < ApplicationController
       @task.update_attributes(status: "execution")
     elsif params[:commit] == "Завершить"
       @task.update_attributes(status: "complete")
-    elsif params[:commit] == "Закрыть"
+    elsif params[:commit] == "Принять работу"
+      @task.update_attributes(status: "finished")
+    elsif params[:commit] == "В архив"
       @task.update_attributes(status: "archived")
     end
     @render_task = true
-    render "main_pages/start"
+    respond_to do |format|
+      format.js {}
+    end
   end
 
   private

@@ -23,23 +23,26 @@
       .task_description_body
         =@task.description
   #handle_task_form.col-lg-12.col-md-12.col-sm-12.col-xs-12
-    =form_for(@task, url: handle_user_task_path(@current_user, @task),html: {role: "form", class: "form-horizontal", id: "task_handle_form"}) do |t|
+    =form_for(@task, url: handle_user_task_path(@current_user, @task),html: {role: "form", class: "form-horizontal", id: "task_handle_form"}, remote:true) do |t|
       .form-group
         .col-xs-12.col-sm-12.col-md-12.col-lg-12
           -if @task.manager == @current_user
-            -if @task.status == "ready"
+            -if @task.status == "complete"
               .handler_button_container
-                =t.submit "Закрыть", class: "btn btn-lg btn-success"
+                =t.submit "Принять работу", class: "btn btn-lg btn-success"
+            -if @task.status == "finished"
+              .handler_button_container
+                =t.submit "В архив", class: "btn btn-lg btn-success"
           -if @task.executor == @current_user
             -if @task.status == "ready"
               .handler_button_container
-                =t.submit "Принять", class: "btn btn-lg btn-primary"
+                =t.submit "Начать", class: "btn btn-lg btn-primary"
             -if @task.status == "execution"
               .handler_button_container
                 =t.submit "Приостановить", class: "btn btn-lg btn-primary"
             -if @task.status == "pause" or @task.status == "complete"
               .handler_button_container
                 =t.submit "Возобновить", class: "btn btn-lg btn-primary"
-          -if @task.status != "complete" and @task.status != "ready"
-            .handler_button_container
-              =t.submit "Завершить", class: "btn btn-lg btn-success"
+            -if @task.status != "complete" and @task.status != "ready"
+              .handler_button_container
+                =t.submit "Завершить", class: "btn btn-lg btn-success"

@@ -65,6 +65,14 @@ RSpec.describe TasksController, type: :controller do
     end
   end
 
+  describe "GET #edit" do
+    before { sign_in admin}
+    it "returns http success" do
+      xhr :post, :handle_task, {user_id: admin.id, id: task.id}
+      expect(response).to redirect_to(root_path)
+    end
+  end
+
   describe "POST #create" do
   	before { sign_in admin}	
   	it "returns http success" do
@@ -72,7 +80,6 @@ RSpec.describe TasksController, type: :controller do
       expect(response).to have_http_status(:redirect)
       expect(response).to redirect_to(root_path)
     end
-
   end
 
 end
