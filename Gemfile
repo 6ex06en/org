@@ -47,7 +47,7 @@ group :development, :test do
   gem "intellij-coffee-script-debugger", :git => "git://github.com/JetBrains/intellij-coffee-script-debugger.git"
   gem 'byebug'
   gem 'rspec-rails'
-  gem 'capybara'
+  gem 'capybara', :git => 'git://github.com/jnicklas/capybara.git'
   # gem 'capybara-webkit'
   gem 'factory_girl_rails'
   gem 'guard'
@@ -56,6 +56,9 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'selenium-webdriver'
   gem 'database_cleaner'
+  gem 'pry'
+  gem 'launchy'
+  gem 'meta_request'
 
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'

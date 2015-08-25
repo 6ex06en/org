@@ -32,7 +32,7 @@ RSpec.describe "tasks/show.html.haml", type: :view do
 		it{is_expected.to have_content("Необходимо пригласить пользователей в организацию")}
 	end
 
-	describe "when no one user in organization", js:true do
+	describe "when login manager", js:true do
 
 		let(:user_with_org) {FactoryGirl.create(:user_with_org, invited: true, organization_id: admin.organization_id)}	
   		let!(:task) {admin.assign_task(user_with_org, "task_name", date_exec: "2016-08-10")}
@@ -71,7 +71,6 @@ RSpec.describe "tasks/show.html.haml", type: :view do
 		end
 
 		it "when create task" do
-			@date = "2016-08-10".to_date.strftime("%FT%R")
 			find("#create_task").click
 			fill_in "Имя задачи", with: "test"
 			select(user_with_org.name, from: "task_executor_id")
@@ -92,10 +91,42 @@ RSpec.describe "tasks/show.html.haml", type: :view do
 		     it {expect(page).to have_content(task.name)}
 
 		     it "should not be button accept task" do
-		     	expect(page).not_to have_button("Начать")
+		     	is_expected.not_to have_selector('input[type="submit"][value="Начать"]')
 		     end		     
 		end
 
+	end
+
+	describe "when login executor", js:true do
+
+		let(:user_with_org) {FactoryGirl.create(:user_with_org, invited: true, organization_id: admin.organization_id)}	
+  		let!(:task) {admin.assign_task(user_with_org, "task_name", date_exec: "2016-08-10")}
+  		let!(:tasks) {Task.collect_tasks("2016-08-10", admin, only_day: true)}
+  		
+		before do 
+			view_daytime_tasks user_with_org
+		end
+
+		it {is_expected.to_not have_css("#day_tasks .destroy_task_link")}
+
+		describe "click show task", js:true do
+			before do
+				within "#day_tasks" do 
+		          first(:link, "task_name").click
+		        end
+	    	end
+
+		     it "should not be button accept task" do
+		     	expect(page).to have_selector('input[type="submit"][value="Начать"]')
+		     end
+
+		     it "should not be button accept task" do
+		     	within "#handle_task_form" do
+		     		first(".handler_button_container input").click
+		     	end
+		     	expect(page).to have_selector('input[type="submit"][value="Приостановить"]')
+		     end		     
+		end
 	end
 
   end

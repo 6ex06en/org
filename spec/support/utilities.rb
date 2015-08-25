@@ -1,5 +1,11 @@
 include ApplicationHelper
 
+RSpec::Matchers.define :have_submit_button do |value|
+  match do |page|
+    Capybara.string(page.body).has_selector?(:css, 'input[type="submit"][value="#{value}"]')
+  end
+end
+
 def sign_in(user, options={})
   if options[:no_capybara]
     # Sign in when not using Capybara.
