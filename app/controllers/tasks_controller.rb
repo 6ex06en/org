@@ -8,9 +8,11 @@ class TasksController < ApplicationController
     if params[:manager]
       @manager = @current_user.tasks_from_me.order(date_exec: :desc).page(params[:page]).per(6)
       @request = "manager"
-    else
+    elsif params[:executor]
       @executor = @current_user.tasks_to_me.order(date_exec: :desc).page(params[:page]).per(6)
       @request = "executor"
+    elsif params[:filter_tasks]
+      @render_filter = true
     end
     respond_to do |format|
       format.js

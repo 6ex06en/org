@@ -215,7 +215,7 @@ background: #B9C9DA;
     background: #E8E8E8;    
   }
 }
-#create_task_form_container, #edit_task_container {
+#create_task_form_container, #edit_task_container, #filter_task_form {
   input, select, textarea {
     border: 2px solid grey;
     } 
@@ -313,4 +313,13 @@ background: #B9C9DA;
   top: 10px;
   left: -30%;
   z-index: 1;
+}
+#filter_task_form {
+  margin-top: 15px;
+}
+.visible {
+  display: block;
+}
+.hidden {
+  display: none;
 }

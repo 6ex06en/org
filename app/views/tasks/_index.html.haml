@@ -1,6 +1,7 @@
 =render "shared/buttons_container"
 =link_to("Поставленные задачи", user_tasks_path(user_id: @current_user.id, manager: true), class: "btn btn-success back_to_tasks", remote:true)
 =link_to("Полученные задачи", user_tasks_path(user_id: @current_user.id, executor: true), class: "btn btn-success back_to_tasks", remote:true)
+=link_to("Отфильтровать", user_tasks_path(user_id: @current_user.id, filter_tasks: true), class: "btn btn-success back_to_tasks", remote:true)
 #day_tasks
   -if @manager.present?
     #manager_tasks_of_day
@@ -32,6 +33,42 @@
               =t.date_exec.strftime("%Y-%m-%d %H:%M")
     -if @request == "executor" and @executor.blank?
       %h3 Нет полученных задач
+  -if @render_filter
+    #filter_task_form_container
+      =form_for(:task, url: user_tasks_path(filter_tasks: true),html: {class: "form-horizontal", role: "form", id: "filter_task_form"}, method: :get) do |t|
+        .form-group
+          =t.label "Название задачи", for: "filter_task_name", class: "label-control col-xs-3 col-sm-3 col-md-3 col-lg-3"
+          .col-xs-7.col-sm-7.col-md-7.col-lg-7
+            =t.text_field :name, placeholder: "Введите название задачи", id: "filter_task_name", class: "form-control"
+        .form-group
+          =t.label "Вы:", for: "filter_task_status", class: "label-control col-xs-3 col-sm-3 col-md-3 col-lg-3"
+          .col-xs-7.col-sm-7.col-md-7.col-lg-7
+            =t.select :your_status, "<option>Менеджер</option><option>Исполнитель</option>".html_safe, id: "task_your_status", prompt: "Выберите"
+        .form-group.executor_group
+          =t.label "Ответственный", for: "filter_task_select_executor", class: "label-control col-xs-3 col-sm-3 col-md-3 col-lg-3"
+          .col-xs-7.col-sm-7.col-md-7.col-lg-7
+            =t.collection_select(:executor_id, @current_user.organization.users.reject{|x| x == @current_user}, :id, :name, {prompt: "Выберите исполнителя"}, {id: "filter_task_select_executor", class: "form-control"})
+        .form-group.manager_group
+          =t.label "Менеджер", for: "filter_task_select_manager", class: "label-control col-xs-3 col-sm-3 col-md-3 col-lg-3"
+          .col-xs-7.col-sm-7.col-md-7.col-lg-7
+            =t.collection_select(:executor_id, @current_user.organization.users.reject{|x| x == @current_user}, :id, :name, {prompt: "Выберите менеджера"}, {id: "filter_task_select_manager", class: "form-control"})
+        .form-group
+          =t.label "Начиная с:", for: "tasks_filter_start_date", class: "label-control col-xs-3 col-sm-3 col-md-3 col-lg-3"
+          .col-xs-7.col-sm-7.col-md-7.col-lg-7
+            =t.datetime_select :date_exec_start, prompt: { day: 'Day', month: 'Month', year: 'Year', hour: "xx", minute: "xx" }, html: {id: "tasks_filter_start_date", class: "form-control"}
+        .form-group
+          =t.label "Заканчивая до:", for: "tasks_filter_end_date", class: "label-control col-xs-3 col-sm-3 col-md-3 col-lg-3"
+          .col-xs-7.col-sm-7.col-md-7.col-lg-7
+            =t.datetime_select :date_exec_start, prompt: { day: 'Day', month: 'Month', year: 'Year', hour: "xx", minute: "xx" }, html: {id: "tasks_filter_end_date", class: "form-control"}
+    :coffee
+      $(document).ready( ->
+        $("#task_your_status").change( ->
+          $(".executor_group, .manager_group").addClass("hidden").removeClass("visible")
+          $(".executor_group").toggleClass("visible hidden") if $("#task_your_status option:selected").text() == "Менеджер"
+          $(".manager_group").toggleClass("visible hidden") if $("#task_your_status option:selected").text() == "Исполнитель"
+        )
+        $(".executor_group, .manager_group").addClass("hidden")
+      )
 -if @build_calendar
   :coffee
     calendar(ajax:true, month: $(".dropdown-togle-month").attr("mn"), year: $(".dropdown-togle-year").text())

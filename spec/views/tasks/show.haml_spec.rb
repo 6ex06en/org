@@ -34,8 +34,10 @@ RSpec.describe "tasks/show.html.haml", type: :view do
 
 	describe "when login manager", js:true do
 
-		let(:user_with_org) {FactoryGirl.create(:user_with_org, invited: true, organization_id: admin.organization_id)}	
+		let(:user_with_org) {FactoryGirl.create(:user_with_org, invited: true, organization_id: admin.organization_id)}
+		let(:user_with_org2) {FactoryGirl.create(:user_with_org, invited: true, organization_id: admin.organization_id)}		
   		let!(:task) {admin.assign_task(user_with_org, "task_name", date_exec: "2016-08-10")}
+  		let!(:task2) {admin.assign_task(user_with_org2, "task_name2", date_exec: "2016-08-10")}
   		let!(:tasks) {Task.collect_tasks("2016-08-10", admin, only_day: true)}
   		
 		before do 
@@ -78,6 +80,29 @@ RSpec.describe "tasks/show.html.haml", type: :view do
 
 			expect(page).to have_content("test")
 		end
+		describe "click all tasks" do
+			before do
+				find("#tasks_of_day").click
+				within "#day_tasks" do 
+		          first(:link, "task_name").click
+		    	end
+		    	within "#buttons_container" do 
+		          first(:link, "all_tasks").click
+		    	end
+		    end
+
+		    it "and filter by executor" do
+		    	pending "should be tasks only one user"
+		    end
+
+		    it "and filter by date" do
+		    	pending "should be tasks only within chosen date"
+		    end
+
+		    it "and filter by task name" do
+		    	pending "should be tasks only with chosen name"
+		    end
+		end
 
 		describe "when click show task", js:true do
 			before do
@@ -92,7 +117,7 @@ RSpec.describe "tasks/show.html.haml", type: :view do
 
 		     it "should not be button accept task" do
 		     	is_expected.not_to have_selector('input[type="submit"][value="Начать"]')
-		     end		     
+		     end
 		end
 
 	end
@@ -125,7 +150,12 @@ RSpec.describe "tasks/show.html.haml", type: :view do
 		     		first(".handler_button_container input").click
 		     	end
 		     	expect(page).to have_selector('input[type="submit"][value="Приостановить"]')
-		     end		     
+
+		     	within "#handle_task_form" do
+		     		first(".handler_button_container input").click
+		     	end
+		     	expect(page).to have_selector('input[type="submit"][value="Возобновить"]')
+		     end
 		end
 	end
 
