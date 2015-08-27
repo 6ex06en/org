@@ -30,4 +30,39 @@ class Task < ActiveRecord::Base
     c
   end
 
+  def Task.filter_tasks(user, obj={})
+    sql_query = "SELECT 'tasks'.* FROM 'tasks' WHERE"
+    if obj["your_status"].present?
+      sql_query << " 'tasks'.manager_id = '#{user.id}'" if obj["your_status"] == "Менеджер"
+      sql_query << " 'tasks'.executor_id = '#{user.id}'" if obj["your_status"] == "Исполнитель"
+    end
+    first_ar = last_ar = []
+    first_ar = [obj["date_exec_start(1i)"],obj["date_exec_start(2i)"],obj["date_exec_start(3i)"],obj["date_exec_start(4i)"],obj["date_exec_start(5i)"]]
+    .select{|v| v.present?}
+    last_ar = [obj["date_exec_end(1i)"],obj["date_exec_end(2i)"],obj["date_exec_end(3i)"],obj["date_exec_end(4i)"],obj["date_exec_end(5i)"]]
+    .select{|v| v.present?}
+    first_date = Time.new(*first_ar)
+    last_date = Time.new(*last_ar)
+    if obj["date_exec_start(1i)"].present? and obj["date_exec_end(1i)"].present?
+      sql_query << " AND ('tasks'.'date_exec' BETWEEN '#{first_date}' AND '#{last_date}')"
+    elsif obj["date_exec_start(1i)"].present?
+      sql_query << " AND ('tasks'.'date_exec' BETWEEN '#{first_date}' AND '#{Time.now}')"
+    elsif obj["date_exec_end(1i)"].present?
+      sql_query << " AND ('tasks'.'date_exec' BETWEEN '#{user.created_at}' AND '#{last_date}')"
+    end
+    sql_query << " AND 'tasks'.name = '#{obj["name"]}'" if obj["name"].present?
+    if obj["status"].present?
+      sql_query << " AND 'tasks'.status = 'execution'" if obj["status"] == "В работе"
+      sql_query << " AND 'tasks'.status = 'pause'" if obj["status"] == "Приостановлен"
+      sql_query << " AND 'tasks'.status = 'completed'" if obj["status"] == "Завершен"
+      sql_query << " AND 'tasks'.status = 'archived'" if obj["status"] == "Архивный"
+    end  
+    # puts first_ar.to_s + " -first_ar"
+    # puts first_date.to_s
+    # puts last_ar.to_s + " -last_ar"
+    # puts last_date.to_s
+    # puts sql_query
+    Task.find_by_sql(sql_query)
+  end
+
 end

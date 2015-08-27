@@ -4,7 +4,7 @@
 =link_to("Отфильтровать", user_tasks_path(user_id: @current_user.id, filter_tasks: true), class: "btn btn-success back_to_tasks", remote:true)
 #day_tasks
   -if @manager.present?
-    #manager_tasks_of_day
+    #manager_tasks
       %h4 Поставленные задачи:
       %ul.list-group
         =paginate @manager, remote:true
@@ -20,7 +20,7 @@
   -if @request == "manager" and @manager.blank?
     %h3 Нет поставленных задач
   -if @executor.present?
-    #executor_tasks_of_day
+    #executor_tasks
       %h4 Полученные задачи:
       %ul.list-group
         =paginate @executor, remote:true
@@ -35,23 +35,27 @@
       %h3 Нет полученных задач
   -if @render_filter
     #filter_task_form_container
-      =form_for(:task, url: user_tasks_path(filter_tasks: true),html: {class: "form-horizontal", role: "form", id: "filter_task_form"}, method: :get) do |t|
+      =form_for(:tasks, url: user_tasks_path(filter_tasks: true),html: {class: "form-horizontal", role: "form", id: "filter_task_form"}, method: :get) do |t|
         .form-group
-          =t.label "Название задачи", for: "filter_task_name", class: "label-control col-xs-3 col-sm-3 col-md-3 col-lg-3"
+          =t.label "Название задачи:", for: "filter_task_name", class: "label-control col-xs-3 col-sm-3 col-md-3 col-lg-3"
           .col-xs-7.col-sm-7.col-md-7.col-lg-7
             =t.text_field :name, placeholder: "Введите название задачи", id: "filter_task_name", class: "form-control"
         .form-group
-          =t.label "Вы:", for: "filter_task_status", class: "label-control col-xs-3 col-sm-3 col-md-3 col-lg-3"
+          =t.label "Вы:", for: "task_your_status", class: "label-control col-xs-3 col-sm-3 col-md-3 col-lg-3"
           .col-xs-7.col-sm-7.col-md-7.col-lg-7
-            =t.select :your_status, "<option>Менеджер</option><option>Исполнитель</option>".html_safe, id: "task_your_status", prompt: "Выберите"
+            =t.select(:your_status, "<option>Менеджер</option><option>Исполнитель</option>".html_safe, {prompt: "Выберите"}, {id: "task_your_status", class: "form-control"})
         .form-group.executor_group
-          =t.label "Ответственный", for: "filter_task_select_executor", class: "label-control col-xs-3 col-sm-3 col-md-3 col-lg-3"
+          =t.label "Ответственный:", for: "filter_task_select_executor", class: "label-control col-xs-3 col-sm-3 col-md-3 col-lg-3"
           .col-xs-7.col-sm-7.col-md-7.col-lg-7
             =t.collection_select(:executor_id, @current_user.organization.users.reject{|x| x == @current_user}, :id, :name, {prompt: "Выберите исполнителя"}, {id: "filter_task_select_executor", class: "form-control"})
         .form-group.manager_group
-          =t.label "Менеджер", for: "filter_task_select_manager", class: "label-control col-xs-3 col-sm-3 col-md-3 col-lg-3"
+          =t.label "Менеджер:", for: "filter_task_select_manager", class: "label-control col-xs-3 col-sm-3 col-md-3 col-lg-3"
           .col-xs-7.col-sm-7.col-md-7.col-lg-7
-            =t.collection_select(:executor_id, @current_user.organization.users.reject{|x| x == @current_user}, :id, :name, {prompt: "Выберите менеджера"}, {id: "filter_task_select_manager", class: "form-control"})
+            =t.collection_select(:manager_id, @current_user.organization.users.reject{|x| x == @current_user}, :id, :name, {prompt: "Выберите менеджера"}, {id: "filter_task_select_manager", class: "form-control"})
+        .form-group
+          =t.label "Статус:", for: "filter_task_status", class: "label-control col-xs-3 col-md-3 col-sm-3 col-lg-3"
+          .col-xs-7.col-sm-7.col-md-7.col-lg-7
+            =t.select(:status, "<option>В работе</option><option>Приостановлен</option><option>Завершен</option><option>Архивный</option>".html_safe, {prompt: "Выберите"},{id: "filter_task_status", class: "form-control"})
         .form-group
           =t.label "Начиная с:", for: "tasks_filter_start_date", class: "label-control col-xs-3 col-sm-3 col-md-3 col-lg-3"
           .col-xs-7.col-sm-7.col-md-7.col-lg-7
@@ -59,7 +63,24 @@
         .form-group
           =t.label "Заканчивая до:", for: "tasks_filter_end_date", class: "label-control col-xs-3 col-sm-3 col-md-3 col-lg-3"
           .col-xs-7.col-sm-7.col-md-7.col-lg-7
-            =t.datetime_select :date_exec_start, prompt: { day: 'Day', month: 'Month', year: 'Year', hour: "xx", minute: "xx" }, html: {id: "tasks_filter_end_date", class: "form-control"}
+            =t.datetime_select :date_exec_end, prompt: { day: 'Day', month: 'Month', year: 'Year', hour: "xx", minute: "xx" }, html: {id: "tasks_filter_end_date", class: "form-control"}
+        .form-group
+          .col-xs-2.col-sm-2.col-md-2.col-lg-2.col-xs-offset-3.col-sm-offset-3.col-md-offset-3.col-lg-offset-3
+            =t.submit "Отправить", class: "btn btn-primary form-control"
+    -#
+      #filter_tasks
+        %h4 Отфильтрованные задачи:
+        %ul.list-group
+          =paginate @filter_tasks, remote:true
+          -@filter_tasks.each do |t| 
+            %li.list-group-item
+              =link_to([@current_user, t], class: "task_name", remote:true) do
+                %span
+                  =t.name
+              %span.task_date_exec.list-group-item-text
+                =t.date_exec.strftime("%Y-%m-%d %H:%M")             
+                =link_to_if(t.manager == @current_user && t.status != "archived", "", edit_user_task_path(@current_user, t), class: "edit_task_link glyphicon glyphicon-pencil", remote:true)
+                =link_to_if(t.manager == @current_user && t.status != "archived", "", user_task_path(@current_user, t, all_tasks:true, manager:true), class: "destroy_task_link glyphicon glyphicon-remove", data: {confirm: "Удалить задачу?"}, method: :delete, remote:true)
     :coffee
       $(document).ready( ->
         $("#task_your_status").change( ->

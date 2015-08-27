@@ -27,7 +27,7 @@
       .form-group
         .col-xs-12.col-sm-12.col-md-12.col-lg-12
           -if @task.manager == @current_user
-            -if @task.status == "complete"
+            -if @task.status == "completed"
               .handler_button_container
                 =t.submit "Принять работу", class: "btn btn-lg btn-success"
             -if @task.status == "finished"
@@ -40,9 +40,9 @@
             -if @task.status == "execution"
               .handler_button_container
                 =t.submit "Приостановить", class: "btn btn-lg btn-primary"
-            -if @task.status == "pause" or @task.status == "complete"
+            -if @task.status == "pause" or @task.status == "completed"
               .handler_button_container
                 =t.submit "Возобновить", class: "btn btn-lg btn-primary"
-            -if @task.status != "complete" and @task.status != "ready"
+            -if @task.status != "completed" and @task.status != "ready"
               .handler_button_container
                 =t.submit "Завершить", class: "btn btn-lg btn-success"

@@ -13,6 +13,8 @@ class TasksController < ApplicationController
       @request = "executor"
     elsif params[:filter_tasks]
       @render_filter = true
+    elsif params[:tasks]
+      # @filter = Task.filter_tasks(params[:tasks])
     end
     respond_to do |format|
       format.js
@@ -118,7 +120,7 @@ class TasksController < ApplicationController
     elsif params[:commit] == "Возобновить"
       @task.update_attributes(status: "execution")
     elsif params[:commit] == "Завершить"
-      @task.update_attributes(status: "complete")
+      @task.update_attributes(status: "completed")
     elsif params[:commit] == "Принять работу"
       @task.update_attributes(status: "finished")
     elsif params[:commit] == "В архив"
