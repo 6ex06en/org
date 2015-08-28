@@ -14,10 +14,11 @@ class TasksController < ApplicationController
     elsif params[:filter_tasks]
       @render_filter = true
     elsif params[:tasks]
-      # @filter = Task.filter_tasks(params[:tasks])
+      @filter = Task.filter_tasks(@current_user, params[:tasks])
     end
     respond_to do |format|
-      format.js
+      format.js {}
+      format.html { render text: params[:tasks]["your_status"]}
     end
   end
 
@@ -39,14 +40,14 @@ class TasksController < ApplicationController
       @tasks = Task.collect_tasks(session[:saved_day], @current_user, only_day: true)
       @render_tasks_of_day = true
       @build_calendar = true 
-      respond_to do |format|
-        format.js {}
-      end
     else
       @render_task_form = true
       @date = params[:task][:date_exec]
       @object_with_errors = task 
-      render "main_pages/start"
+      # render "main_pages/start"
+    end
+    respond_to do |format|
+      format.js {}
     end
   end
 
@@ -72,11 +73,15 @@ class TasksController < ApplicationController
       flash.now[:success] = "Задача обновлена"
       @tasks = Task.collect_tasks(@task.date_exec, @current_user, only_day: true)
       @render_tasks_of_day = true
-      render "main_pages/start", locals: {render: @render_tasks_of_day, task: @tasks}
+      @build_calendar = true
+      # render "main_pages/start", locals: {render: @render_tasks_of_day, task: @tasks}
     else
       @render_edit_task = true
       @object_with_errors = @task 
-      render "main_pages/start", locals: {render: @render_edit_task, task: @task}
+      # render "main_pages/start", locals: {render: @render_edit_task, task: @task}
+    end
+    respond_to do |format|
+      format.js {}
     end
   end
 

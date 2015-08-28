@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "users/id/tasks/id/edit", type: :view do
+RSpec.describe "edit_task", type: :view do
 	let(:admin) {FactoryGirl.create(:admin)}
 	let(:user_with_org) {FactoryGirl.create(:user_with_org, invited: true, organization_id: admin.organization_id)}	
   	let!(:task_from_admin) {admin.assign_task(user_with_org, "task_name", date_exec: "2016-08-10")}
@@ -21,8 +21,9 @@ RSpec.describe "users/id/tasks/id/edit", type: :view do
 
 		it "when update task" do
 			find("#manager_tasks_of_day .edit_task_link").click
-			fill_in "Имя задачи", with: "new_task_name"
-			expect{click_button "Создать"}.to change{admin.tasks_from_me.first.name}.from("task_name").to("new_task_name")
+			fill_in "Имя задачи", with: "new_task"
+			click_button "Создать"
+			expect(page).to have_content("new_task")
 		end
 	end
 end

@@ -278,7 +278,7 @@ background: #B9C9DA;
       }
     }
   }
-  #manager_tasks {
+  #manager_tasks, #manager_tasks_of_day {
     .task_name {
       width: 65%;
     }
@@ -286,7 +286,7 @@ background: #B9C9DA;
       width: 32%;
     }
   }
-  #executor_tasks {
+  #executor_tasks, #executor_tasks_of_day {
     .task_name {
       width: 70%;
     }
@@ -308,7 +308,7 @@ background: #B9C9DA;
     padding-right: 5px;
   }
 }
-.alert {
+.flash-list {
   position: absolute;
   top: 10px;
   left: -30%;

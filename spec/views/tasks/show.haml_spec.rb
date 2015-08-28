@@ -80,29 +80,6 @@ RSpec.describe "tasks/show.html.haml", type: :view do
 
 			expect(page).to have_content("test")
 		end
-		describe "click all tasks" do
-			before do
-				find("#tasks_of_day").click
-				within "#day_tasks" do 
-		          first(:link, "task_name").click
-		    	end
-		    	within "#buttons_container" do 
-		          first(:link, "all_tasks").click
-		    	end
-		    end
-
-		    it "and filter by executor" do
-		    	pending "should be tasks only one user"
-		    end
-
-		    it "and filter by date" do
-		    	pending "should be tasks only within chosen date"
-		    end
-
-		    it "and filter by task name" do
-		    	pending "should be tasks only with chosen name"
-		    end
-		end
 
 		describe "when click show task", js:true do
 			before do

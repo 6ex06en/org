@@ -1,9 +1,9 @@
 -if @tasks
   :plain
-    $("#tasks_container").html("#{escape_javascript(render('tasks_of_day'))}")
+    $("#tasks_container").html("#{j(render('tasks_of_day'))}")
     $(".flash").html("#{j(render :partial => 'layouts/flash', :locals => {:flash => flash}).html_safe}")
   fadeFlash()
 -else
   :plain
-    $('#tasks_container').html("#{escape_javascript(render('task_form'))}")
+    $("#tasks_container").html("#{escape_javascript(render 'edit', object: @task)}")
     $("#tasks_container .errors_container").html("#{escape_javascript(render 'shared/errors', object: @object_with_errors)}")

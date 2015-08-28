@@ -1,7 +1,7 @@
 =render "shared/buttons_container"
-=link_to("Поставленные задачи", user_tasks_path(user_id: @current_user.id, manager: true), class: "btn btn-success back_to_tasks", remote:true)
-=link_to("Полученные задачи", user_tasks_path(user_id: @current_user.id, executor: true), class: "btn btn-success back_to_tasks", remote:true)
-=link_to("Отфильтровать", user_tasks_path(user_id: @current_user.id, filter_tasks: true), class: "btn btn-success back_to_tasks", remote:true)
+=link_to("Поставленные задачи", user_tasks_path(user_id: @current_user.id, manager: true), class: "btn btn-success submited_tasks_link", remote:true)
+=link_to("Полученные задачи", user_tasks_path(user_id: @current_user.id, executor: true), class: "btn btn-success recived_tasks_link", remote:true)
+=link_to("Отфильтровать", user_tasks_path(user_id: @current_user.id, filter_tasks: true), class: "btn btn-success filter_tasks_link", remote:true)
 #day_tasks
   -if @manager.present?
     #manager_tasks
@@ -55,7 +55,7 @@
         .form-group
           =t.label "Статус:", for: "filter_task_status", class: "label-control col-xs-3 col-md-3 col-sm-3 col-lg-3"
           .col-xs-7.col-sm-7.col-md-7.col-lg-7
-            =t.select(:status, "<option>В работе</option><option>Приостановлен</option><option>Завершен</option><option>Архивный</option>".html_safe, {prompt: "Выберите"},{id: "filter_task_status", class: "form-control"})
+            =t.select(:status, "<option>Не выполняется</option><option>В работе</option><option>Приостановлен</option><option>Завершен</option><option>Архивный</option>".html_safe, {prompt: "Выберите"},{id: "filter_task_status", class: "form-control"})
         .form-group
           =t.label "Начиная с:", for: "tasks_filter_start_date", class: "label-control col-xs-3 col-sm-3 col-md-3 col-lg-3"
           .col-xs-7.col-sm-7.col-md-7.col-lg-7
@@ -67,7 +67,7 @@
         .form-group
           .col-xs-2.col-sm-2.col-md-2.col-lg-2.col-xs-offset-3.col-sm-offset-3.col-md-offset-3.col-lg-offset-3
             =t.submit "Отправить", class: "btn btn-primary form-control"
-    -#
+    -if @filter
       #filter_tasks
         %h4 Отфильтрованные задачи:
         %ul.list-group
