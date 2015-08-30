@@ -30,42 +30,47 @@ class Task < ActiveRecord::Base
     c
   end
 
-  def Task.filter_tasks(user, obj={})
+  def Task.filter_tasks(user, obj)
     sql_query = {}
+    sql_user = ""
     if obj["your_status"].present?
-      sql_query[:manager_id] = user.id if obj["your_status"] == "Manager"
-      sql_query[:executor_id] = user.id if obj["your_status"] == "Исполнитель"
+      sql_user = "manager_id = '#{user.id}'" if obj["your_status"] == "Manager"
+      sql_user = "executor_id = '#{user.id}'" if obj["your_status"] == "Исполнитель"
     else
-      sql_query[:manager_id] = sql_query[:executor_id] = user.id
+      sql_user = "manager_id = '#{user.id}' OR executor_id = '#{user.id}'"
     end
     first_ar = last_ar = []
     first_ar = [obj["date_exec_start(1i)"],obj["date_exec_start(2i)"],obj["date_exec_start(3i)"],obj["date_exec_start(4i)"],obj["date_exec_start(5i)"]]
     .select{|v| v.present?}
     last_ar = [obj["date_exec_end(1i)"],obj["date_exec_end(2i)"],obj["date_exec_end(3i)"],obj["date_exec_end(4i)"],obj["date_exec_end(5i)"]]
     .select{|v| v.present?}
-    first_date = Time.new(*first_ar)
-    last_date = Time.new(*last_ar)
+    offset = Time.new.gmtoff
+    first_date = Time.new(*first_ar).utc + offset
+    last_date = Time.new(*last_ar).utc + offset
     if obj["date_exec_start(1i)"].present? and obj["date_exec_end(1i)"].present?
       sql_query[:date_exec] = first_date..last_date
     elsif obj["date_exec_start(1i)"].present?
       sql_query[:date_exec] = first_date..Time.now
     elsif obj["date_exec_end(1i)"].present?
       sql_query[:date_exec] = user.created_at..last_date
+    else
+      sql_query[:date_exec] = user.created_at..Time.now
     end
     sql_query[:name] = obj["name"] if obj["name"].present?
     if obj["status"].present?
       sql_query[:status] = 'ready' if obj["status"] == "Не выполняется"
       sql_query[:status] = 'execution' if obj["status"] == "В работе"
-      sql_query[:status] = 'pause' if obj["status"] == "Приостановлен"
-      sql_query[:status] = 'completed' if obj["status"] == "Завершен"
-      sql_query[:status] = 'archived' if obj["status"] == "Архивный"
+      sql_query[:status] = 'pause' if obj["status"] == "Приостановлена"
+      sql_query[:status] = 'completed' if obj["status"] == "Завершена"
+      sql_query[:status] = 'finished' if obj["status"] == "Закрыта"
+      sql_query[:status] = 'archived' if obj["status"] == "В архиве"
     end  
     # puts first_ar.to_s + " -first_ar"
     # puts first_date.to_s
     # puts last_ar.to_s + " -last_ar"
     # puts last_date.to_s
     # puts sql_query
-    Task.where(sql_query)
+    Task.where(sql_query).where(sql_user)
   end
 
 end

@@ -236,6 +236,19 @@ background: #B9C9DA;
   }
 }
 #day_tasks {
+  .check_box_archived_tasks {
+    display: inline-block;
+    margin-left: 10px;
+    /*width: 25%;*/
+    /*height: 25px;*/
+    padding: 2px 5px;
+    border-left: 1px solid grey;
+    border-right: 1px solid grey;
+    border-top: 1px solid grey;
+    border-radius: 3px 3px 0 0; 
+    background: #B1FB96;
+    font-size: 1.25vmax;
+  }
   .list-group-item {
     font-size: 1.25vmax;
     position: relative;
@@ -278,7 +291,7 @@ background: #B9C9DA;
       }
     }
   }
-  #manager_tasks, #manager_tasks_of_day {
+  #manager_tasks, #manager_tasks_of_day, #filter_tasks {
     .task_name {
       width: 65%;
     }

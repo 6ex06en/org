@@ -14,11 +14,12 @@ class TasksController < ApplicationController
     elsif params[:filter_tasks]
       @render_filter = true
     elsif params[:tasks]
-      @filter = Task.filter_tasks(@current_user, params[:tasks])
+      # @render_filter = true
+      @filter_tasks = Task.filter_tasks(@current_user, params[:tasks]).order(date_exec: :desc).page(params[:page]).per(6)
     end
     respond_to do |format|
       format.js {}
-      format.html { render text: params[:tasks]["your_status"]}
+      format.html { render text: @filter_tasks}
     end
   end
 
@@ -128,7 +129,9 @@ class TasksController < ApplicationController
       @task.update_attributes(status: "completed")
     elsif params[:commit] == "Принять работу"
       @task.update_attributes(status: "finished")
-    elsif params[:commit] == "В архив"
+    elsif params[:commit] == "Доделать"
+      @task.update_attributes(status: "execution")
+    elsif params[:commit] == "Закрыть"
       @task.update_attributes(status: "archived")
     end
     @render_task = true

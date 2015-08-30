@@ -6,36 +6,52 @@
   -if @manager.present?
     #manager_tasks
       %h4 Поставленные задачи:
+      .check_box_archived_tasks
+        %span
+          %input(type="checkbox")
+          %span Включая закрытые
       %ul.list-group
         =paginate @manager, remote:true
         -@manager.each do |t| 
-          %li.list-group-item
+          %li.list-group-item{class: (t.status == "archived") ? "hidden" : ''}
             =link_to([@current_user, t], class: "task_name", remote:true) do
               %span
                 =t.name
             %span.task_date_exec.list-group-item-text
               =t.date_exec.strftime("%Y-%m-%d %H:%M")             
-              =link_to("", edit_user_task_path(@current_user, t), class: "edit_task_link glyphicon glyphicon-pencil", remote:true)
+              =link_to_if(t.status != "archived", "", edit_user_task_path(@current_user, t), class: "edit_task_link glyphicon glyphicon-pencil", remote:true)
               =link_to("", user_task_path(@current_user, t, all_tasks:true, manager:true), class: "destroy_task_link glyphicon glyphicon-remove", data: {confirm: "Удалить задачу?"}, method: :delete, remote:true)
-  -if @request == "manager" and @manager.blank?
-    %h3 Нет поставленных задач
+      :coffee
+        $(".check_box_archived_tasks").click( ->
+          showElements(".list-group-item", this)
+        )
+    -if @request == "manager" and @manager.blank?
+      %h3 Нет поставленных задач
   -if @executor.present?
     #executor_tasks
       %h4 Полученные задачи:
+      .check_box_archived_tasks
+        %span
+          %input(type="checkbox")
+          %span Включая закрытые
       %ul.list-group
         =paginate @executor, remote:true
         -@executor.each do |t|
-          %li.list-group-item
+          %li.list-group-item{class: (t.status == "archived") ? "hidden" : ''}
             =link_to([@current_user, t], class: "task_name", remote:true) do
               %span
                 =t.name
             %span.task_date_exec.list-group-item-text
               =t.date_exec.strftime("%Y-%m-%d %H:%M")
+      :coffee
+        $(".check_box_archived_tasks").click( ->
+          showElements(".list-group-item" ,this)
+        )
     -if @request == "executor" and @executor.blank?
       %h3 Нет полученных задач
   -if @render_filter
     #filter_task_form_container
-      =form_for(:tasks, url: user_tasks_path(filter_tasks: true),html: {class: "form-horizontal", role: "form", id: "filter_task_form"}, method: :get) do |t|
+      =form_for(:tasks, url: user_tasks_path(),html: {class: "form-horizontal", role: "form", id: "filter_task_form"}, method: :get, remote:true) do |t|
         .form-group
           =t.label "Название задачи:", for: "filter_task_name", class: "label-control col-xs-3 col-sm-3 col-md-3 col-lg-3"
           .col-xs-7.col-sm-7.col-md-7.col-lg-7
@@ -55,7 +71,7 @@
         .form-group
           =t.label "Статус:", for: "filter_task_status", class: "label-control col-xs-3 col-md-3 col-sm-3 col-lg-3"
           .col-xs-7.col-sm-7.col-md-7.col-lg-7
-            =t.select(:status, "<option>Не выполняется</option><option>В работе</option><option>Приостановлен</option><option>Завершен</option><option>Архивный</option>".html_safe, {prompt: "Выберите"},{id: "filter_task_status", class: "form-control"})
+            =t.select(:status, "<option>Не выполняется</option><option>В работе</option><option>Приостановлена</option><option>Завершена</option><option>Закрыта</option><option>В архиве</option>".html_safe, {prompt: "Выберите"},{id: "filter_task_status", class: "form-control"})
         .form-group
           =t.label "Начиная с:", for: "tasks_filter_start_date", class: "label-control col-xs-3 col-sm-3 col-md-3 col-lg-3"
           .col-xs-7.col-sm-7.col-md-7.col-lg-7
@@ -67,20 +83,6 @@
         .form-group
           .col-xs-2.col-sm-2.col-md-2.col-lg-2.col-xs-offset-3.col-sm-offset-3.col-md-offset-3.col-lg-offset-3
             =t.submit "Отправить", class: "btn btn-primary form-control"
-    -if @filter
-      #filter_tasks
-        %h4 Отфильтрованные задачи:
-        %ul.list-group
-          =paginate @filter_tasks, remote:true
-          -@filter_tasks.each do |t| 
-            %li.list-group-item
-              =link_to([@current_user, t], class: "task_name", remote:true) do
-                %span
-                  =t.name
-              %span.task_date_exec.list-group-item-text
-                =t.date_exec.strftime("%Y-%m-%d %H:%M")             
-                =link_to_if(t.manager == @current_user && t.status != "archived", "", edit_user_task_path(@current_user, t), class: "edit_task_link glyphicon glyphicon-pencil", remote:true)
-                =link_to_if(t.manager == @current_user && t.status != "archived", "", user_task_path(@current_user, t, all_tasks:true, manager:true), class: "destroy_task_link glyphicon glyphicon-remove", data: {confirm: "Удалить задачу?"}, method: :delete, remote:true)
     :coffee
       $(document).ready( ->
         $("#task_your_status").change( ->
@@ -90,6 +92,20 @@
         )
         $(".executor_group, .manager_group").addClass("hidden")
       )
+  -if @filter_tasks.present?
+    #filter_tasks
+      %h4 Отфильтрованные задачи:
+      %ul.list-group
+        =paginate @filter_tasks, remote:true
+        -@filter_tasks.each do |t| 
+          %li.list-group-item
+            =link_to([@current_user, t], class: "task_name", remote:true) do
+              %span
+                =t.name
+            %span.task_date_exec.list-group-item-text
+              =t.date_exec.strftime("%Y-%m-%d %H:%M")           
+              =link_to_if(t.manager == @current_user && t.status != "archived", "", edit_user_task_path(@current_user, t), class: "edit_task_link glyphicon glyphicon-pencil", remote:true)
+              =link_to_if(t.manager == @current_user, "", user_task_path(@current_user, t, all_tasks:true, manager:true), class: "destroy_task_link glyphicon glyphicon-remove", data: {confirm: "Удалить задачу?"}, method: :delete, remote:true)
 -if @build_calendar
   :coffee
     calendar(ajax:true, month: $(".dropdown-togle-month").attr("mn"), year: $(".dropdown-togle-year").text())

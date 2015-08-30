@@ -30,9 +30,12 @@
             -if @task.status == "completed"
               .handler_button_container
                 =t.submit "Принять работу", class: "btn btn-lg btn-success"
-            -if @task.status == "finished"
+            -if @task.status == "completed"
               .handler_button_container
-                =t.submit "В архив", class: "btn btn-lg btn-success"
+                =t.submit "Доделать", class: "btn btn-lg btn-success"
+            -if @task.status == "completed"
+              .handler_button_container
+                =t.submit "Закрыть", class: "btn btn-lg btn-success"
           -if @task.executor == @current_user
             -if @task.status == "ready"
               .handler_button_container
