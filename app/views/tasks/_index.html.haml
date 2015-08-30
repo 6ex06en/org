@@ -14,7 +14,7 @@
         =paginate @manager, remote:true
         -@manager.each do |t| 
           %li.list-group-item{class: (t.status == "archived") ? "hidden" : ''}
-            =link_to([@current_user, t], class: "task_name", remote:true) do
+            =link_to([@current_user, t], class: "task_name",title: "Исполнитель: #{t.executor.name}", remote:true) do
               %span
                 =t.name
             %span.task_date_exec.list-group-item-text
@@ -38,7 +38,7 @@
         =paginate @executor, remote:true
         -@executor.each do |t|
           %li.list-group-item{class: (t.status == "archived") ? "hidden" : ''}
-            =link_to([@current_user, t], class: "task_name", remote:true) do
+            =link_to([@current_user, t], class: "task_name",title: "Постановщик: #{t.manager.name}", remote:true) do
               %span
                 =t.name
             %span.task_date_exec.list-group-item-text
