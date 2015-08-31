@@ -58,17 +58,17 @@ background: #B9C9DA;
     background: #CEFFBC;
   }
   &:hover {
-    background: orange;
+    background: #8AF32C;
     cursor: pointer;
   }
 }
 .highlight {
-  background: #6E796E;
+  background: #CCC;
   &.pr, &.next {
     background: #B1FB96;
   }
   &:hover {
-    background: orange;
+    background: #8AF32C;
   }
 }
 
@@ -88,12 +88,7 @@ background: #B9C9DA;
     font-weight: bold;
   }
 }
-/*.calendar_day_container {
-  margin-left: auto;
-  margin-right: auto;
-  padding-top: 50%;
-  padding-bottom: 50%;
-}*/
+
 .dummy {
   height: 0;
   padding-bottom: 60%;
@@ -139,7 +134,14 @@ background: #B9C9DA;
 #accept_invitation_form {
     margin: 5% 0; 
 }
+
+.calendar_day_container span:nth-child(2) {
+    margin-top: 12px !important;
+}
 .day_number {
+  position: absolute;
+  top: 1px;
+  left: 1px;
   font-size: 0.8em;
 }
 #man_task, #exec_task {
@@ -150,7 +152,7 @@ background: #B9C9DA;
   font-weight: 900;
 }
 #man_task {
-  color: #F98300;
+  color: #F10D0D;
 }
 #exec_task {
   color: blue;
@@ -212,7 +214,8 @@ background: #B9C9DA;
   .task_description_body {
     padding: 0 1%;
     min-height: 200px;
-    background: #E8E8E8;    
+    background: #E8E8E8;
+    white-space: pre-line;   
   }
 }
 #create_task_form_container, #edit_task_container, #filter_task_form {
@@ -246,15 +249,27 @@ background: #B9C9DA;
     border-right: 1px solid grey;
     border-top: 1px solid grey;
     border-radius: 3px 3px 0 0; 
-    background: #B1FB96;
+    /*background: #C89205;*/
+    color: black !important;
     font-size: 1.25vmax;
+  }
+  .manager_tasks_list {
+    background: #E0E0E0;
+    &:hover {
+      background: #BFBFBF;
+    }
+  }
+  .executor_tasks_list {
+    background: #B1FB96;
+    &:hover {
+      background: #98F377;
+    }
   }
   .list-group-item {
     font-size: 1.25vmax;
     position: relative;
     font-weight: bolder;
     border: 1px solid grey;
-    background: #B1FB96;
     .task_name {
       position: relative;
       display: inline-block;
@@ -309,7 +324,7 @@ background: #B9C9DA;
   }
 }
 .pagination {
-  margin: 15px 0;
+  margin: 10px 0;
 }
 #task_handle_form {
   .handler_button_container {

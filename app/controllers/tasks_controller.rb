@@ -19,7 +19,7 @@ class TasksController < ApplicationController
     end
     respond_to do |format|
       format.js {}
-      format.html { render text: @filter_tasks}
+      format.html { render text: params[:tasks]}
     end
   end
 

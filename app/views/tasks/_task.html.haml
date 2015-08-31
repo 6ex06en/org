@@ -20,7 +20,7 @@
       .col-lg-12.col-md-12.col-sm-12.col-xs-12
         %h4.task_description_header Описание
     .col-lg-12.col-md-12.col-sm-12.col-xs-12
-      .task_description_body
+      .task_description_body<
         =@task.description
   #handle_task_form.col-lg-12.col-md-12.col-sm-12.col-xs-12
     =form_for(@task, url: handle_user_task_path(@current_user, @task),html: {role: "form", class: "form-horizontal", id: "task_handle_form"}, remote:true) do |t|
@@ -33,9 +33,9 @@
             -if @task.status == "completed"
               .handler_button_container
                 =t.submit "Доделать", class: "btn btn-lg btn-success"
-            -if @task.status == "completed"
+            -if @task.status == "finished"
               .handler_button_container
-                =t.submit "Закрыть", class: "btn btn-lg btn-success"
+                =t.submit "Закрыть", :onclick => "reload_calendar()", class: "btn btn-lg btn-success"
           -if @task.executor == @current_user
             -if @task.status == "ready"
               .handler_button_container

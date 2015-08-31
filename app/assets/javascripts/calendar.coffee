@@ -111,6 +111,8 @@ Calendar = () -> # январь - 1
       needAddDays: needAddDays,
       html: allDaysHTML
     }
+  reload = ->
+    buildCalendar(ajax:true, month: $(".dropdown-togle-month").attr("mn"), year: $(".dropdown-togle-year").text())
   buildCalendar = (obj) ->
     initialize(obj)
     $calendar = container || $("#container_calendar")
@@ -223,6 +225,11 @@ Calendar = () -> # январь - 1
 
 $(document).on('page:load ready', ->
   window.calendar = Calendar()
+  window.reload_calendar = ->
+    timeout = setTimeout( ->
+      calendar(ajax:true, month: $(".dropdown-togle-month").attr("mn"), year: $(".dropdown-togle-year").text())
+    ,3000)
+    
   calendar(ajax: true)
   #обработчик на заголовке
   $(".list-month").click( ->

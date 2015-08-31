@@ -6,20 +6,21 @@
   -if @manager.present?
     #manager_tasks
       %h4 Поставленные задачи:
-      .check_box_archived_tasks
-        %span
-          %input(type="checkbox")
-          %span Включая закрытые
+      =paginate @manager, remote:true
+      .check_box_wrapper
+        .check_box_archived_tasks.manager_tasks_list
+          %span
+            %input(type="checkbox"){checked: (with_archived) ? true : false }
+            %span Включая закрытые
       %ul.list-group
-        =paginate @manager, remote:true
         -@manager.each do |t| 
-          %li.list-group-item{class: (t.status == "archived") ? "hidden" : ''}
+          %li.list-group-item.manager_tasks_list{class: (t.status == "archived") ? "hidden" : ''}
             =link_to([@current_user, t], class: "task_name",title: "Исполнитель: #{t.executor.name}", remote:true) do
               %span
                 =t.name
             %span.task_date_exec.list-group-item-text
               =t.date_exec.strftime("%Y-%m-%d %H:%M")             
-              =link_to_if(t.status != "archived", "", edit_user_task_path(@current_user, t), class: "edit_task_link glyphicon glyphicon-pencil", remote:true)
+              =link_to_if(t.status != "archived", "", edit_user_task_path(@current_user, t, with_archived: (t.status == "archived") ? true : false), class: "edit_task_link glyphicon glyphicon-pencil", remote:true)
               =link_to("", user_task_path(@current_user, t, all_tasks:true, manager:true), class: "destroy_task_link glyphicon glyphicon-remove", data: {confirm: "Удалить задачу?"}, method: :delete, remote:true)
       :coffee
         $(".check_box_archived_tasks").click( ->
@@ -30,14 +31,15 @@
   -if @executor.present?
     #executor_tasks
       %h4 Полученные задачи:
-      .check_box_archived_tasks
-        %span
-          %input(type="checkbox")
-          %span Включая закрытые
+      =paginate @executor, remote:true
+      .check_box_wrapper
+        .check_box_archived_tasks.executor_tasks_list
+          %span
+            %input(type="checkbox")
+            %span Включая закрытые
       %ul.list-group
-        =paginate @executor, remote:true
         -@executor.each do |t|
-          %li.list-group-item{class: (t.status == "archived") ? "hidden" : ''}
+          %li.list-group-item.executor_tasks_list{class: (t.status == "archived") ? "hidden" : ''}
             =link_to([@current_user, t], class: "task_name",title: "Постановщик: #{t.manager.name}", remote:true) do
               %span
                 =t.name
@@ -71,15 +73,25 @@
         .form-group
           =t.label "Статус:", for: "filter_task_status", class: "label-control col-xs-3 col-md-3 col-sm-3 col-lg-3"
           .col-xs-7.col-sm-7.col-md-7.col-lg-7
-            =t.select(:status, "<option>Не выполняется</option><option>В работе</option><option>Приостановлена</option><option>Завершена</option><option>Закрыта</option><option>В архиве</option>".html_safe, {prompt: "Выберите"},{id: "filter_task_status", class: "form-control"})
+            =t.select(:status, "<option>Не выполняется</option><option>В работе</option><option>Приостановлена</option><option>Выполнена</option><option>Принята</option><option>В архиве</option>".html_safe, {prompt: "Выберите"},{id: "filter_task_status", class: "form-control"})
         .form-group
-          =t.label "Начиная с:", for: "tasks_filter_start_date", class: "label-control col-xs-3 col-sm-3 col-md-3 col-lg-3"
+          =t.label "Начиная с:", for: "tasks_filter_start", class: "label-control col-xs-3 col-sm-3 col-md-3 col-lg-3"
           .col-xs-7.col-sm-7.col-md-7.col-lg-7
-            =t.datetime_select :date_exec_start, prompt: { day: 'Day', month: 'Month', year: 'Year', hour: "xx", minute: "xx" }, html: {id: "tasks_filter_start_date", class: "form-control"}
+            =t.datetime_local_field :date_exec_start, id: "tasks_filter_start", class: "form-control"
         .form-group
-          =t.label "Заканчивая до:", for: "tasks_filter_end_date", class: "label-control col-xs-3 col-sm-3 col-md-3 col-lg-3"
+          =t.label "Заканчивая до:", for: "tasks_filter_end", class: "label-control col-xs-3 col-sm-3 col-md-3 col-lg-3"
           .col-xs-7.col-sm-7.col-md-7.col-lg-7
-            =t.datetime_select :date_exec_end, prompt: { day: 'Day', month: 'Month', year: 'Year', hour: "xx", minute: "xx" }, html: {id: "tasks_filter_end_date", class: "form-control"}
+            =t.datetime_local_field :date_exec_end, id: "tasks_filter_end", class: "form-control"
+        /   
+          .form-group
+            =t.label "Начиная с:", for: "tasks_filter_start_date", class: "label-control col-xs-3 col-sm-3 col-md-3 col-lg-3"
+            .col-xs-7.col-sm-7.col-md-7.col-lg-7
+              =t.datetime_select :date_exec_start, prompt: { day: 'Day', month: 'Month', year: 'Year', hour: "xx", minute: "xx" }, html: {id: "tasks_filter_start_date", class: "form-control"}
+        /    
+          .form-group
+            =t.label "Заканчивая до:", for: "tasks_filter_end_date", class: "label-control col-xs-3 col-sm-3 col-md-3 col-lg-3"
+            .col-xs-7.col-sm-7.col-md-7.col-lg-7
+              =t.datetime_select :date_exec_end, prompt: { day: 'Day', month: 'Month', year: 'Year', hour: "xx", minute: "xx" }, html: {id: "tasks_filter_end_date", class: "form-control"}
         .form-group
           .col-xs-2.col-sm-2.col-md-2.col-lg-2.col-xs-offset-3.col-sm-offset-3.col-md-offset-3.col-lg-offset-3
             =t.submit "Отправить", class: "btn btn-primary form-control"
@@ -98,8 +110,8 @@
       %ul.list-group
         =paginate @filter_tasks, remote:true
         -@filter_tasks.each do |t| 
-          %li.list-group-item
-            =link_to([@current_user, t], class: "task_name", remote:true) do
+          %li.list-group-item{class: (t.manager == @current_user) ? "manager_tasks_list" : "executor_tasks_list"}
+            =link_to([@current_user, t], class: "task_name", title: (@current_user == t.manager) ? "Исполнитель: #{t.executor.name}" : "Менеджер: #{t.manager.name}", remote:true) do
               %span
                 =t.name
             %span.task_date_exec.list-group-item-text
