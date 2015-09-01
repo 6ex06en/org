@@ -228,7 +228,7 @@ $(document).on('page:load ready', ->
   window.reload_calendar = ->
     timeout = setTimeout( ->
       calendar(ajax:true, month: $(".dropdown-togle-month").attr("mn"), year: $(".dropdown-togle-year").text())
-    ,3000)
+    ,2500)
     
   calendar(ajax: true)
   #обработчик на заголовке

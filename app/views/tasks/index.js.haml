@@ -1,2 +1,2 @@
 :plain
-  $("#tasks_container").html("#{escape_javascript(render(partial: "tasks/index", :locals => {with_archived: (params[:with_archived].present?) ? true : false}))}")
+  $("#tasks_container").html("#{escape_javascript(render(partial: "tasks/index", :locals => {:with_archived => (params[:with_archived].present?) ? true : false}))}")

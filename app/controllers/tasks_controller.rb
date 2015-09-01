@@ -125,7 +125,7 @@ class TasksController < ApplicationController
       @task.update_attributes(status: "pause")
     elsif params[:commit] == "Возобновить"
       @task.update_attributes(status: "execution")
-    elsif params[:commit] == "Завершить"
+    elsif params[:commit] == "Выполнена"
       @task.update_attributes(status: "completed")
     elsif params[:commit] == "Принять работу"
       @task.update_attributes(status: "finished")

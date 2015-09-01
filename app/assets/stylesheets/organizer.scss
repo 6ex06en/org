@@ -239,6 +239,22 @@ background: #B9C9DA;
   }
 }
 #day_tasks {
+  .no_task_container {
+    height: 20%;
+    padding: 10px;
+    border: 1px solid grey;
+    border-radius: 3px;
+    h3 {
+      margin: 0;
+    }
+  }
+  #manager_tasks .no_task_container  {
+    background: #E0E0E0;
+  }
+  #executor_tasks .no_task_container {
+    background: #B1FB96;
+  }
+
   .check_box_archived_tasks {
     display: inline-block;
     margin-left: 10px;
@@ -252,6 +268,9 @@ background: #B9C9DA;
     /*background: #C89205;*/
     color: black !important;
     font-size: 1.25vmax;
+  }
+  ul.list-group {
+    min-height: 200px;
   }
   .manager_tasks_list {
     background: #E0E0E0;

@@ -25,7 +25,8 @@
             %span.task_date_exec.list-group-item-text
               =t.date_exec.strftime("Выполнить до: %H:%M")
   -if @tasks[:executor].blank? and @tasks[:manager].blank?
-    %h3 Задач нет
+    .no_task_container
+      %h3 Задач нет
 -if @build_calendar
   :coffee
     calendar(ajax:true, month: $(".dropdown-togle-month").attr("mn"), year: $(".dropdown-togle-year").text())

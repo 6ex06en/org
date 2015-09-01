@@ -6,12 +6,15 @@
   -if @manager.present?
     #manager_tasks
       %h4 Поставленные задачи:
-      =paginate @manager, remote:true
+      =paginate @manager, remote:true, params: {with_archived: (all_archived?(@manager)) ? true : false}
       .check_box_wrapper
         .check_box_archived_tasks.manager_tasks_list
           %span
             %input(type="checkbox"){checked: (with_archived) ? true : false }
             %span Включая закрытые
+      -if all_archived?(@manager)
+        .no_task_container
+          %h3 Поставленных задач нет
       %ul.list-group
         -@manager.each do |t| 
           %li.list-group-item.manager_tasks_list{class: (t.status == "archived") ? "hidden" : ''}
@@ -20,8 +23,8 @@
                 =t.name
             %span.task_date_exec.list-group-item-text
               =t.date_exec.strftime("%Y-%m-%d %H:%M")             
-              =link_to_if(t.status != "archived", "", edit_user_task_path(@current_user, t, with_archived: (t.status == "archived") ? true : false), class: "edit_task_link glyphicon glyphicon-pencil", remote:true)
-              =link_to("", user_task_path(@current_user, t, all_tasks:true, manager:true), class: "destroy_task_link glyphicon glyphicon-remove", data: {confirm: "Удалить задачу?"}, method: :delete, remote:true)
+              =link_to_if(t.status != "archived", "", edit_user_task_path(@current_user, t), class: "edit_task_link glyphicon glyphicon-pencil", remote:true)
+              =link_to("", user_task_path(@current_user, t, all_tasks:true, manager:true, with_archived: (t.status == "archived") ? true : false), class: "destroy_task_link glyphicon glyphicon-remove", data: {confirm: "Удалить задачу?"}, method: :delete, remote:true)
       :coffee
         $(".check_box_archived_tasks").click( ->
           showElements(".list-group-item", this)
@@ -35,8 +38,11 @@
       .check_box_wrapper
         .check_box_archived_tasks.executor_tasks_list
           %span
-            %input(type="checkbox")
+            %input(type="checkbox"){checked: (with_archived) ? true : false }
             %span Включая закрытые
+      -if all_archived?(@executor)
+        .no_task_container
+          %h3 Полученных задач нет
       %ul.list-group
         -@executor.each do |t|
           %li.list-group-item.executor_tasks_list{class: (t.status == "archived") ? "hidden" : ''}
