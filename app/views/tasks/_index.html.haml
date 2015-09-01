@@ -6,18 +6,22 @@
   -if @manager.present?
     #manager_tasks
       %h4 Поставленные задачи:
-      =paginate @manager, remote:true, params: {with_archived: (all_archived?(@manager)) ? true : false}
+      -unless all_archived?(@manager)
+        .pagination_wrapper{class: (with_archived) ? "hidden" : "visible" }
+          =paginate @manager, remote:true, params: {with_archived: (all_archived?(@manager)) ? false : true}
+      .pagination_wrapper_checked{class: (with_archived) ? "visible" : "hidden" }
+        =paginate @manager, remote:true, params: {with_archived: (all_archived?(@manager)) ? true : false}
       .check_box_wrapper
         .check_box_archived_tasks.manager_tasks_list
           %span
             %input(type="checkbox"){checked: (with_archived) ? true : false }
             %span Включая закрытые
       -if all_archived?(@manager)
-        .no_task_container
+        .no_task_container{class: (with_archived) ? "hidden" : "visible"}
           %h3 Поставленных задач нет
       %ul.list-group
         -@manager.each do |t| 
-          %li.list-group-item.manager_tasks_list{class: (t.status == "archived") ? "hidden" : ''}
+          %li.list-group-item.manager_tasks_list{class: (t.status == "archived" and !with_archived) ? "hidden" : 'visible'}
             =link_to([@current_user, t], class: "task_name",title: "Исполнитель: #{t.executor.name}", remote:true) do
               %span
                 =t.name
