@@ -3,7 +3,7 @@
     $("#tasks_container").html("#{escape_javascript(render 'tasks_of_day')}")
 -if @render_all_tasks
   :plain
-    $("#tasks_container").html("#{escape_javascript(render(partial: "tasks/index", :locals => {:with_archived => (params[:with_archived].present?) ? true : false}))}")
+    $("#tasks_container").html("#{escape_javascript(render(partial: "tasks/index", :locals => {:with_archived => (params[:with_archived] == 'true') ? true : false}))}")
 :plain
   $(".flash").html("#{j(render :partial => 'layouts/flash', :locals => {:flash => flash}).html_safe}")
 fadeFlash()

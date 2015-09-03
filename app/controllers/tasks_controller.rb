@@ -11,19 +11,16 @@ class TasksController < ApplicationController
       else
         @manager = @current_user.tasks_from_me.order(date_exec: :desc).where("status IS NOT 'archived'").page(params[:page]).per(6)
       end
-      @request = "manager"
     elsif params[:executor]
       if params[:with_archived] == 'true'
         @executor = @current_user.tasks_to_me.order(date_exec: :desc).page(params[:page]).per(6)
       else
         @executor = @current_user.tasks_to_me.order(date_exec: :desc).where("status IS NOT 'archived'").page(params[:page]).per(6)
       end
-      @request = "executor"
     elsif params[:filter_tasks]
       @render_filter = true
     elsif params[:tasks]
       @filter_tasks = Task.filter_tasks(@current_user, params[:tasks]).order(date_exec: :desc).page(params[:page]).per(6)
-      @request = "filter"
     end
     respond_to do |format|
       format.js {}
@@ -65,7 +62,11 @@ class TasksController < ApplicationController
     @build_calendar = true 
     if params[:all_tasks]
       @render_all_tasks = true
-      @manager = @current_user.tasks_from_me.page(params[:page]).per(6)
+      if params[:with_archived] == 'true'
+        @manager = @current_user.tasks_from_me.page(params[:page]).per(6)
+      else
+        @manager = @current_user.tasks_from_me.order(date_exec: :desc).where("status IS NOT 'archived'").page(params[:page]).per(6)
+      end
     else
       @render_tasks_of_day = true
     end

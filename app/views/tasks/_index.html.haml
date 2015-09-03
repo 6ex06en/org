@@ -3,7 +3,7 @@
 =link_to("Полученные задачи", user_tasks_path(user_id: @current_user.id, executor: true), class: "btn btn-success recived_tasks_link", remote:true)
 =link_to("Отфильтровать", user_tasks_path(user_id: @current_user.id, filter_tasks: true), class: "btn btn-success filter_tasks_link", remote:true)
 #day_tasks
-  -if @manager.present?
+  -if @manager
     #manager_tasks
       %h4 Поставленные задачи:
       =paginate @manager, remote:true
@@ -11,13 +11,14 @@
         .check_box_archived_tasks.manager_tasks_list
           %span
             =link_to(user_tasks_path(user_id: @current_user.id, manager: true, with_archived: (with_archived) ? false : true), remote:true) do
-              %input(type="checkbox"){checked: (with_archived) ? true : false }
+              %input(type="checkbox"){checked: (with_archived == true) ? true : false }
           %span Включая закрытые
-      =render partial: "tasks/all_tasks", :locals => {:tasks => @manager}
-  -if @manager and @request = "manager"
-    .no_task_container
-      %h3 Поставленных задач нет
-  -if @executor.present?
+      -if @manager.empty?
+        .no_task_container
+          %h3 Поставленных задач нет
+      -else
+        =render partial: "tasks/all_tasks", :locals => {:tasks => @manager}
+  -if @executor
     #executor_tasks
       %h4 Полученные задачи:
       =paginate @executor, remote:true
@@ -27,10 +28,11 @@
             =link_to(user_tasks_path(user_id: @current_user.id, executor: true, with_archived: (with_archived) ? false : true), remote:true) do
               %input(type="checkbox"){checked: (with_archived) ? true : false }
             %span Включая закрытые
-      =render partial: "tasks/all_tasks", :locals => {:tasks => @executor}
-  -if @executor.empty? and @request == "executor"
-    .no_task_container
-      %h3 Полученных задач нет
+      -if @executor.empty?
+        .no_task_container
+          %h3 Полученных задач нет
+      -else
+        =render partial: "tasks/all_tasks", :locals => {:tasks => @executor}
   -if @render_filter
     #filter_task_form_container
       =form_for(:tasks, url: user_tasks_path(),html: {class: "form-horizontal", role: "form", id: "filter_task_form"}, method: :get, remote:true) do |t|
@@ -74,14 +76,15 @@
         )
         $(".executor_group, .manager_group").addClass("hidden")
       )
-  -if @filter_tasks.present?
+  -if @filter_tasks
     #filter_tasks
       %h4 Отфильтрованные задачи:
       =paginate @filter_tasks, remote:true
-      =render partial: "tasks/all_tasks", :locals => {:tasks => @filter_tasks} 
-  -if @filter_tasks.empty? and @request = "filter" 
-    .no_task_container
-      %h3 Задачи не найдены             
+      -if @filter_tasks.empty?
+        .no_task_container
+          %h3 Задачи не найдены
+      -else
+        =render partial: "tasks/all_tasks", :locals => {:tasks => @filter_tasks}             
 -if @build_calendar
   :coffee
     calendar(ajax:true, month: $(".dropdown-togle-month").attr("mn"), year: $(".dropdown-togle-year").text())

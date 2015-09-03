@@ -240,7 +240,7 @@ background: #B9C9DA;
 }
 #day_tasks {
   .no_task_container {
-    height: 20%;
+    /*margin-top: 2%;*/
     padding: 10px;
     border: 1px solid grey;
     border-radius: 3px;
@@ -248,10 +248,10 @@ background: #B9C9DA;
       margin: 0;
     }
   }
-  /*.no_task_container  {
+  #manager_tasks .no_task_container  {
     background: #E0E0E0;
-  }*/
-  .no_task_container {
+  }
+  #executor_tasks .no_task_container, .no_task_container {
     background: #B1FB96;
   }
 
