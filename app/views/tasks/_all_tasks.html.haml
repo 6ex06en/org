@@ -1,0 +1,11 @@
+%ul.list-group
+  -tasks.each do |t| 
+    %li.list-group-item{class: (t.manager == @current_user) ? "manager_tasks_list" : "executor_tasks_list"}
+      =link_to([@current_user, t], class: "task_name",title: (t.manager == @current_user) ? "Исполнитель: #{t.executor.name}" : "Постановщик: #{t.manager.name}", remote:true) do
+        %span
+          =t.name
+      %span.task_date_exec.list-group-item-text
+        =t.date_exec.strftime("%Y-%m-%d %H:%M")
+        -if t.manager == @current_user             
+          =link_to_if(t.manager == @current_user && t.status != "archived", "", edit_user_task_path(@current_user, t), class: "edit_task_link glyphicon glyphicon-pencil", remote:true)
+          =link_to_if(t.manager == @current_user, "", user_task_path(@current_user, t, all_tasks:true, manager:true, with_archived: (t.status == "archived") ? true : false), class: "destroy_task_link glyphicon glyphicon-remove", data: {confirm: "Удалить задачу?"}, method: :delete, remote:true)

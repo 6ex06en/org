@@ -6,69 +6,31 @@
   -if @manager.present?
     #manager_tasks
       %h4 Поставленные задачи:
-      =with_archived
-      =all_archived?(@manager)
-      -unless all_archived?(@manager)
-        .pagination_wrapper{class: (with_archived) ? "hidden" : "visible" }
-          =paginate @manager, remote:true, params: {with_archived: false}
-        .pagination_wrapper_checked{class: (with_archived) ? "visible" : "hidden" }
-          =paginate @manager, remote:true, params: {with_archived: true}
+      =paginate @manager, remote:true
       .check_box_wrapper
         .check_box_archived_tasks.manager_tasks_list
           %span
-            %input(type="checkbox"){checked: (with_archived) ? true : false }
-            %span Включая закрытые
-      -if all_archived?(@manager)
-        .no_task_container{class: (with_archived) ? "hidden" : "visible"}
-          %h3 Поставленных задач нет
-      %ul.list-group
-        -@manager.each do |t| 
-          %li.list-group-item.manager_tasks_list{class: (t.status == "archived") ? (with_archived) ? "visible" : "hidden" : ''}
-            =link_to([@current_user, t], class: "task_name",title: "Исполнитель: #{t.executor.name}", remote:true) do
-              %span
-                =t.name
-            %span.task_date_exec.list-group-item-text
-              =t.date_exec.strftime("%Y-%m-%d %H:%M")             
-              =link_to_if(t.status != "archived", "", edit_user_task_path(@current_user, t), class: "edit_task_link glyphicon glyphicon-pencil", remote:true)
-              =link_to("", user_task_path(@current_user, t, all_tasks:true, manager:true, with_archived: (t.status == "archived") ? true : false), class: "destroy_task_link glyphicon glyphicon-remove", data: {confirm: "Удалить задачу?"}, method: :delete, remote:true)
-      :coffee
-        $(".check_box_archived_tasks").click( ->
-          showElements(".list-group-item", this)
-        )
-    -if @request == "manager" and @manager.blank?
-      %h3 Нет поставленных задач
+            =link_to(user_tasks_path(user_id: @current_user.id, manager: true, with_archived: (with_archived) ? false : true), remote:true) do
+              %input(type="checkbox"){checked: (with_archived) ? true : false }
+          %span Включая закрытые
+      =render partial: "tasks/all_tasks", :locals => {:tasks => @manager}
+  -if @manager and @request = "manager"
+    .no_task_container
+      %h3 Поставленных задач нет
   -if @executor.present?
     #executor_tasks
       %h4 Полученные задачи:
-      =with_archived
-      =all_archived?(@executor)
-      -unless all_archived?(@executor)
-        .pagination_wrapper{class: (with_archived) ? "hidden" : "visible" }
-          =paginate @executor, remote:true, params: {with_archived: false}
-      .pagination_wrapper_checked{class: (with_archived) ? "visible" : "hidden" }
-        =paginate @executor, remote:true, params: {with_archived: true}
+      =paginate @executor, remote:true
       .check_box_wrapper
         .check_box_archived_tasks.executor_tasks_list
           %span
-            %input(type="checkbox"){checked: (with_archived) ? true : false }
+            =link_to(user_tasks_path(user_id: @current_user.id, executor: true, with_archived: (with_archived) ? false : true), remote:true) do
+              %input(type="checkbox"){checked: (with_archived) ? true : false }
             %span Включая закрытые
-      -if all_archived?(@executor)
-        .no_task_container{class: (with_archived) ? "hidden" : "visible"}
-          %h3 Полученных задач нет
-      %ul.list-group
-        -@executor.each do |t|
-          %li.list-group-item.executor_tasks_list{class: (t.status == "archived") ? (with_archived) ? "visible" : "hidden" : ''}
-            =link_to([@current_user, t], class: "task_name",title: "Постановщик: #{t.manager.name}", remote:true) do
-              %span
-                =t.name
-            %span.task_date_exec.list-group-item-text
-              =t.date_exec.strftime("%Y-%m-%d %H:%M")
-      :coffee
-        $(".check_box_archived_tasks").click( ->
-          showElements(".list-group-item" ,this)
-        )
-    -if @request == "executor" and @executor.blank?
-      %h3 Нет полученных задач
+      =render partial: "tasks/all_tasks", :locals => {:tasks => @executor}
+  -if @executor.empty? and @request == "executor"
+    .no_task_container
+      %h3 Полученных задач нет
   -if @render_filter
     #filter_task_form_container
       =form_for(:tasks, url: user_tasks_path(),html: {class: "form-horizontal", role: "form", id: "filter_task_form"}, method: :get, remote:true) do |t|
@@ -100,16 +62,6 @@
           =t.label "Заканчивая до:", for: "tasks_filter_end", class: "label-control col-xs-3 col-sm-3 col-md-3 col-lg-3"
           .col-xs-7.col-sm-7.col-md-7.col-lg-7
             =t.datetime_local_field :date_exec_end, id: "tasks_filter_end", class: "form-control"
-        /   
-          .form-group
-            =t.label "Начиная с:", for: "tasks_filter_start_date", class: "label-control col-xs-3 col-sm-3 col-md-3 col-lg-3"
-            .col-xs-7.col-sm-7.col-md-7.col-lg-7
-              =t.datetime_select :date_exec_start, prompt: { day: 'Day', month: 'Month', year: 'Year', hour: "xx", minute: "xx" }, html: {id: "tasks_filter_start_date", class: "form-control"}
-        /    
-          .form-group
-            =t.label "Заканчивая до:", for: "tasks_filter_end_date", class: "label-control col-xs-3 col-sm-3 col-md-3 col-lg-3"
-            .col-xs-7.col-sm-7.col-md-7.col-lg-7
-              =t.datetime_select :date_exec_end, prompt: { day: 'Day', month: 'Month', year: 'Year', hour: "xx", minute: "xx" }, html: {id: "tasks_filter_end_date", class: "form-control"}
         .form-group
           .col-xs-2.col-sm-2.col-md-2.col-lg-2.col-xs-offset-3.col-sm-offset-3.col-md-offset-3.col-lg-offset-3
             =t.submit "Отправить", class: "btn btn-primary form-control"
@@ -125,17 +77,11 @@
   -if @filter_tasks.present?
     #filter_tasks
       %h4 Отфильтрованные задачи:
-      %ul.list-group
-        =paginate @filter_tasks, remote:true
-        -@filter_tasks.each do |t| 
-          %li.list-group-item{class: (t.manager == @current_user) ? "manager_tasks_list" : "executor_tasks_list"}
-            =link_to([@current_user, t], class: "task_name", title: (@current_user == t.manager) ? "Исполнитель: #{t.executor.name}" : "Менеджер: #{t.manager.name}", remote:true) do
-              %span
-                =t.name
-            %span.task_date_exec.list-group-item-text
-              =t.date_exec.strftime("%Y-%m-%d %H:%M")           
-              =link_to_if(t.manager == @current_user && t.status != "archived", "", edit_user_task_path(@current_user, t), class: "edit_task_link glyphicon glyphicon-pencil", remote:true)
-              =link_to_if(t.manager == @current_user, "", user_task_path(@current_user, t, all_tasks:true, manager:true), class: "destroy_task_link glyphicon glyphicon-remove", data: {confirm: "Удалить задачу?"}, method: :delete, remote:true)
+      =paginate @filter_tasks, remote:true
+      =render partial: "tasks/all_tasks", :locals => {:tasks => @filter_tasks} 
+  -if @filter_tasks.empty? and @request = "filter" 
+    .no_task_container
+      %h3 Задачи не найдены             
 -if @build_calendar
   :coffee
     calendar(ajax:true, month: $(".dropdown-togle-month").attr("mn"), year: $(".dropdown-togle-year").text())

@@ -248,10 +248,10 @@ background: #B9C9DA;
       margin: 0;
     }
   }
-  #manager_tasks .no_task_container  {
+  /*.no_task_container  {
     background: #E0E0E0;
-  }
-  #executor_tasks .no_task_container {
+  }*/
+  .no_task_container {
     background: #B1FB96;
   }
 
@@ -268,9 +268,12 @@ background: #B9C9DA;
     /*background: #C89205;*/
     color: black !important;
     font-size: 1.25vmax;
+    a {
+      text-decoration: none;
+    }
   }
   ul.list-group {
-    min-height: 200px;
+    /*min-height: 200px;*/
   }
   .manager_tasks_list {
     background: #E0E0E0;

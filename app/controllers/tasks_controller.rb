@@ -6,16 +6,24 @@ class TasksController < ApplicationController
   end
   def index
     if params[:manager]
-      @manager = @current_user.tasks_from_me.order(date_exec: :desc).page(params[:page]).per(6)
+      if params[:with_archived] == 'true'
+        @manager = @current_user.tasks_from_me.order(date_exec: :desc).page(params[:page]).per(6)
+      else
+        @manager = @current_user.tasks_from_me.order(date_exec: :desc).where("status IS NOT 'archived'").page(params[:page]).per(6)
+      end
       @request = "manager"
     elsif params[:executor]
-      @executor = @current_user.tasks_to_me.order(date_exec: :desc).page(params[:page]).per(6)
+      if params[:with_archived] == 'true'
+        @executor = @current_user.tasks_to_me.order(date_exec: :desc).page(params[:page]).per(6)
+      else
+        @executor = @current_user.tasks_to_me.order(date_exec: :desc).where("status IS NOT 'archived'").page(params[:page]).per(6)
+      end
       @request = "executor"
     elsif params[:filter_tasks]
       @render_filter = true
     elsif params[:tasks]
-      # @render_filter = true
       @filter_tasks = Task.filter_tasks(@current_user, params[:tasks]).order(date_exec: :desc).page(params[:page]).per(6)
+      @request = "filter"
     end
     respond_to do |format|
       format.js {}
@@ -45,7 +53,6 @@ class TasksController < ApplicationController
       @render_task_form = true
       @date = params[:task][:date_exec]
       @object_with_errors = task 
-      # render "main_pages/start"
     end
     respond_to do |format|
       format.js {}
