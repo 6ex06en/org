@@ -24,7 +24,8 @@ def invited?
 end
 
 def assign_task(user, task_name, obj= {})
-	tasks_from_me.create(executor_id: user.id, name: task_name, date_exec: obj[:date_exec], description: obj[:description])
+	tasks_from_me.create(executor_id: user.id, name: task_name, date_exec: obj[:date_exec], description: obj[:description], 
+		status: (obj[:status]) ? obj[:status] : "ready") 
 end
 
 def User.create_invitation(user, inviter)
