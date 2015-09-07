@@ -11,7 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150819142213) do
+ActiveRecord::Schema.define(version: 20150907160859) do
+
+  create_table "news", force: :cascade do |t|
+    t.string   "body"
+    t.boolean  "readed",     default: false
+    t.integer  "user_id"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "news", ["readed"], name: "index_news_on_readed"
+  add_index "news", ["user_id"], name: "index_news_on_user_id"
 
   create_table "organizations", force: :cascade do |t|
     t.string   "name"
