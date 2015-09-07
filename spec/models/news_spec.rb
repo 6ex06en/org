@@ -21,4 +21,8 @@ RSpec.describe News, type: :model do
    	expect(invalid_news).not_to be_valid
    end
 
+   it "when #read" do
+   	expect{user_news.read}.to change{user_news.readed}.from(false).to(true) 
+   end
+
 end
