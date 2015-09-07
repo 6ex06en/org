@@ -1,6 +1,7 @@
 class Task < ActiveRecord::Base
   belongs_to :manager, class_name: "User"
   belongs_to :executor, class_name: "User"
+  has_many :news_due_task, as: :object, dependent: :destroy
   validates :manager_id, presence: true
   validates :executor_id, presence: true
   validates :name, presence: true, length: {minimum: 2}
