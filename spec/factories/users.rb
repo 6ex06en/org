@@ -5,7 +5,8 @@ FactoryGirl.define do
   end
 
   factory :task do
-    name "first"  
+    sequence(:name) {|n| "task_name#{n}"}
+    date_exec "2016-10-10"  
   end
 
   factory :user do
@@ -19,7 +20,6 @@ FactoryGirl.define do
         invited true
           factory :admin do
             admin true
-            invited true
             sequence(:email) {|x| "admin_ex#{x}@ample.com" }
             sequence(:email_confirmation) {|x| "admin_ex#{x}@ample.com"}
           end
