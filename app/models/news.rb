@@ -11,6 +11,11 @@ class News < ActiveRecord::Base
   def self.create_news(news_object, reason)
   	if reason == :new_task
   		news_object.news_due_task.create(reason: reason, user_id: news_object.manager.id)
+  	elsif reason == :new_user
+  		users = news_object.organization.users
+  		users.each do |u| 
+  			u.news_due_user.create(reason: reason, user_id: u.id) unless u == news_object
+  		end
   	end
   end
 
