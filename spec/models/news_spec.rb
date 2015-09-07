@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe News, type: :model do
 
    it{is_expected.to respond_to(:readed)}
-   it{is_expected.to respond_to(:user)}
-   it{is_expected.to respond_to(:body)}
+   it{is_expected.to respond_to(:object)}
+   it{is_expected.to respond_to(:reason)}
    let(:user) { FactoryGirl.create(:user) }
    let(:user_news) { user.news.create(body: "It's first news")}
 

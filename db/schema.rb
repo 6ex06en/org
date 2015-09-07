@@ -11,19 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150907184042) do
+ActiveRecord::Schema.define(version: 20150907194544) do
 
   create_table "news", force: :cascade do |t|
     t.boolean  "readed",      default: false
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
-    t.integer  "object_id"
-    t.string   "object_type"
+    t.integer  "target_id"
+    t.string   "target_type"
     t.string   "reason"
+    t.integer  "user_id"
   end
 
-  add_index "news", ["object_type", "object_id"], name: "index_news_on_object_type_and_object_id"
   add_index "news", ["readed"], name: "index_news_on_readed"
+  add_index "news", ["target_type", "target_id"], name: "index_news_on_target_type_and_target_id"
+  add_index "news", ["user_id"], name: "index_news_on_user_id"
 
   create_table "organizations", force: :cascade do |t|
     t.string   "name"
