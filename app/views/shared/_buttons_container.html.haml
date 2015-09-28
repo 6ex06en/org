@@ -6,5 +6,8 @@
     =link_to("", user_tasks_path(user_id: @current_user.id, manager: true), class: "btn all_tasks glyphicon glyphicon-th-list", remote: true)
     =link_to("Все задачи", user_tasks_path(user_id: @current_user.id, manager: true), class: "btn all_tasks", remote:true)
   .btn-group.back_to_tasks_group
-    =link_to("", create_task_path(date: "saved"), class: "btn all_tasks glyphicon glyphicon glyphicon-tasks", remote: true)
+    =link_to("", create_task_path(date: "saved"), class: "btn all_tasks glyphicon glyphicon-tasks", remote: true)
     =link_to("Создать задачу", create_task_path(date: "saved"), class: "btn all_tasks", remote: true)
+  .btn-group.news_page_button
+    =link_to("", news_index_path, class: "btn all_tasks glyphicon glyphicon-home to_home", remote: true)
+    =link_to("На главную", news_index_path, class: "btn to_home", remote: true)

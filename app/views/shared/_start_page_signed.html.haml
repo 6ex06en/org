@@ -48,6 +48,9 @@
             =render 'tasks/index'
           -if @render_task
             =render 'tasks/task'
+          -if @news
+            #news_container
+              =render 'news/index'
         %div.errors_container
           =render "shared/errors", object: @object_with_errors
     -unless @current_user.invited?

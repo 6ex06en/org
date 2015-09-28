@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
 
+  get 'news/index'
+
+  get 'news/show'
+
+  get 'news/destroy'
+
   require 'sidekiq/web'
   Sidekiq::Web.use Rack::Auth::Basic do |username, password|
   username == "1qa2ws3ed" && password == "1qa2ws3ed"

@@ -1,5 +1,12 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
+
+@mixin main_list-group {
+  font-size: 1.25vmax;
+  position: relative;
+  font-weight: bolder;
+  border: 1px solid grey;
+}
 .container-fluid {
   background-color: rgb(45, 48, 44);
   .header-logo {
@@ -229,7 +236,7 @@ background: #B9C9DA;
   .back_to_tasks_group:hover .back_to_tasks {
       background: #E4A80C;
   }
-  .back_to_tasks, .all_tasks {
+  .back_to_tasks, .all_tasks, .to_home {
     background: #C89205;
     color: black !important;
     border-left: 1px solid darkgrey;
@@ -240,7 +247,6 @@ background: #B9C9DA;
 }
 #day_tasks {
   .no_task_container {
-    /*margin-top: 2%;*/
     padding: 10px;
     border: 1px solid grey;
     border-radius: 3px;
@@ -258,23 +264,18 @@ background: #B9C9DA;
   .check_box_archived_tasks {
     display: inline-block;
     margin-left: 10px;
-    /*width: 25%;*/
-    /*height: 25px;*/
     padding: 2px 5px;
     border-left: 1px solid grey;
     border-right: 1px solid grey;
     border-top: 1px solid grey;
     border-radius: 3px 3px 0 0; 
-    /*background: #C89205;*/
     color: black !important;
     font-size: 1.25vmax;
     a {
       text-decoration: none;
     }
   }
-  ul.list-group {
-    /*min-height: 200px;*/
-  }
+
   .manager_tasks_list {
     background: #E0E0E0;
     &:hover {
@@ -372,4 +373,9 @@ background: #B9C9DA;
 }
 .hidden {
   display: none;
+}
+#all_news_container {
+  li {
+    @include main_list-group
+  }
 }

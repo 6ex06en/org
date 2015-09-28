@@ -47,6 +47,8 @@ RSpec.describe News, type: :model do
    end
 
    xit "news due user has left organization" do
+      News.create_news(news_due_task, :leave_user)
+      expect(new_task_date_exec).to be_valid
    end
 
 end
