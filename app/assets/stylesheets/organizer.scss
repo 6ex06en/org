@@ -378,4 +378,13 @@ background: #B9C9DA;
   li {
     @include main_list-group
   }
+  .no_news_container {
+    padding: 10px;
+    border: 1px solid grey;
+    border-radius: 3px;
+    background: #E0E0E0;
+    h3 {
+      margin: 0;
+    }
+  }
 }

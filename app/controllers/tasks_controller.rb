@@ -42,8 +42,9 @@ class TasksController < ApplicationController
   def create
     task = @current_user.tasks_from_me.build(task_params)
     if task.save
-      flash.now[:success] = "Задача создана"
       @tasks = Task.collect_tasks(session[:saved_day], @current_user, only_day: true)
+      News.create_news(task, :new_task)
+      flash.now[:success] = "Задача создана"
       @render_tasks_of_day = true
       @build_calendar = true 
     else

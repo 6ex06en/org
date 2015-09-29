@@ -6,12 +6,16 @@
     =link_to("", create_task_path(date: "saved"), class: "btn all_tasks glyphicon glyphicon glyphicon-tasks", remote: true)
     =link_to("Создать задачу", create_task_path(date: "saved"), class: "btn all_tasks", remote: true)
 #all_news_container
-  -@news.each do |n|
-    %ul.list-group
-      %li.list-group-item<
-        -if n.reason == "new_task"
-          Вам назначили новую
-          =link_to("задачу", user_task_path(@current_user, n.target_id), remote:true)
-        -elsif n.reason == "new_user"
-          К #{@current_user.organization.name} присоеденился новый пользователь - 
-          =link_to(n.target.name, user_path(n.target_id))
+  -if @news.present?
+    -@news.each do |n|
+      %ul.list-group
+        %li.list-group-item<
+          -if n.reason == "new_task"
+            Вам назначили новую
+            =link_to("задачу", user_task_path(@current_user, n.target_id), remote:true)
+          -elsif n.reason == "new_user"
+            К #{@current_user.organization.name} присоеденился новый пользователь - 
+            =link_to(n.target.name, user_path(n.target_id))
+  -else
+    .no_news_container
+      %h3 Новостей нет

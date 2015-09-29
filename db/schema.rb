@@ -11,16 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150907194544) do
+ActiveRecord::Schema.define(version: 20150929140326) do
 
   create_table "news", force: :cascade do |t|
     t.boolean  "readed",      default: false
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
+    t.integer  "user_id"
     t.integer  "target_id"
     t.string   "target_type"
     t.string   "reason"
-    t.integer  "user_id"
   end
 
   add_index "news", ["readed"], name: "index_news_on_readed"
@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(version: 20150907194544) do
     t.string   "privilages"
     t.boolean  "invited",         default: false
     t.integer  "join_to"
+    t.string   "password"
   end
 
   add_index "users", ["email"], name: "index_users_on_email"

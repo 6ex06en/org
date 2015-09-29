@@ -40,15 +40,15 @@
         #tasks_container
           -if @render_task_form
             =render 'tasks/task_form'
-          -if @render_edit_task
+          -elsif @render_edit_task
             =render 'tasks/edit'
-          -if @render_tasks_of_day
+          -elsif @render_tasks_of_day
             =render 'tasks/tasks_of_day'
-          -if @render_all_tasks
+          -elsif @render_all_tasks
             =render 'tasks/index'
-          -if @render_task
+          -elsif @render_task
             =render 'tasks/task'
-          -if @news
+          -elsif @news
             #news_container
               =render 'news/index'
         %div.errors_container
