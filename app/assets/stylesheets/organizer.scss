@@ -1,19 +1,33 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+body {
+}
+
 @mixin main_list-group {
   font-size: 1.25vmax;
   position: relative;
   font-weight: bolder;
   border: 1px solid grey;
 }
-.container-fluid {
-  background-color: rgb(45, 48, 44);
-  .header-logo {
-    color: white;
+@mixin main_input_area_border {
+  input, select, textarea {
+    border: 2px solid grey;
   }
 }
-#wrapper_signed_container {
+
+.container-fluid {
+  background-color: rgb(45, 48, 44);
+  #header {
+    .header-logo {
+      color: white;
+    }
+  }
+}
+.form_main_signin, .form_signup {
+    color: white;
+}
+#wrapper_signed_container, #edit_user_container {
   width: 100%;
   /*margin: 2%;*/
   background: #B9C9DA;
@@ -53,6 +67,9 @@ background: #B9C9DA;
   border-radius: 15px 15px 0 0;
   background: #625A4F;
   border: 1px solid grey; 
+}
+#edit_user_container {
+  @include main_input_area_border
 }
 .calendar_day_wrapper {
   padding: 0;
@@ -226,9 +243,7 @@ background: #B9C9DA;
   }
 }
 #create_task_form_container, #edit_task_container, #filter_task_form {
-  input, select, textarea {
-    border: 2px solid grey;
-    } 
+      @include main_input_area_border 
 }
 
 #buttons_container {
