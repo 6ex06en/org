@@ -222,7 +222,7 @@ Calendar = () -> # январь - 1
         show_tasks(prepare_date(clicked_day))
         )
     )
-
+###
 $(document).on('page:load ready', ->
   window.calendar = Calendar()
   window.reload_calendar = ->
@@ -240,3 +240,19 @@ $(document).on('page:load ready', ->
     calendar(month: $(".dropdown-togle-month").attr("mn"), year: $(this).text(), ajax:true)
     )
 )
+###
+window.calendar = Calendar()
+window.create_calendar = ->
+    calendar(ajax: true)
+  #обработчик на заголовке
+    $(".list-month").click( ->
+        calendar(month: $(this).index()+1, year: $(".dropdown-togle-year").text())
+        )
+
+    $(".list-year").click( ->
+      calendar(month: $(".dropdown-togle-month").attr("mn"), year: $(this).text(), ajax:true)
+      )
+window.reload_calendar = ->
+    timeout = setTimeout( ->
+      calendar(ajax:true, month: $(".dropdown-togle-month").attr("mn"), year: $(".dropdown-togle-year").text())
+    ,2500)
