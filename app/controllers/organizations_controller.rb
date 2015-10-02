@@ -1,6 +1,7 @@
 class OrganizationsController < ApplicationController
   before_action :signed_in_user, only: [:destroy, :create, :invite_user, :join_to_organization]
   before_action :admin?, only: [:invite_user]
+  after_action  ->(user = @current_user) {user.clean_tasks}, only: [:destroy]
 
   def create
     @current_user = current_user
@@ -54,6 +55,7 @@ class OrganizationsController < ApplicationController
     else
       organization = Organization.find(params[:id])
       current_user.update_attributes(join_to: nil, invited: true, organization_id: organization.id)
+      News.create_news(current_user, :new_user)
       flash[:success] = "Добро пожаловать в #{organization.name}!"
       redirect_to edit_user_path(@current_user)
     end

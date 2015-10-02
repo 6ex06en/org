@@ -3,7 +3,6 @@ class User < ActiveRecord::Base
 	has_many :tasks_from_me, class_name: "Task", foreign_key: "manager_id", dependent: :destroy
 	has_many :tasks_to_me, class_name: "Task", foreign_key: "executor_id"
 	has_many :assigned_tasks, through: :tasks_from_me, source: :executor
-	has_many :tasks, through: :tasks_to_me, source: :manager
 	has_many :news, dependent: :destroy
 	has_many :news_due_user, as: :target, class_name: "News", dependent: :destroy
 	validates :name, length: { minimum: 3, maximum: 20 }
@@ -11,7 +10,7 @@ class User < ActiveRecord::Base
 	validates :password, length: {minimum: 8}, on: :create
 	validates :email_confirmation, :password_confirmation, presence: true, on: :create
 	has_secure_password
-	before_create :create_auth_token 
+	before_create :create_auth_token
 
 def User.new_token
 	SecureRandom.urlsafe_base64
@@ -33,6 +32,19 @@ end
 def User.create_invitation(user, inviter)
 	user.update_attribute(:join_to, inviter.organization.id)
 end
+
+def tasks
+	Task.where("executor_id = ? OR manager_id = ?", self.id, self.id)
+end
+
+ def clean_tasks
+  tasks = Task.includes(:manager, :executor).where("manager_id = :id OR executor_id = :id", id: self.id)
+  	.references(:user).preload(:news_due_task)
+  tasks.each do |task|
+  	task.destroy if task.manager.organization_id == self.organization_id || task.executor.organization_id == self.organization_id
+  end
+  self
+ end
 
 private
 
