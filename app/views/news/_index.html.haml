@@ -16,6 +16,8 @@
           -elsif n.reason == "new_user"
             К #{@current_user.organization.name} присоеденился новый пользователь - 
             =link_to(n.target.name, user_path(n.target_id))
+          -elsif n.reason == "leave_organization"
+            #{n.target.name} покинул организацию #{@current_user.organization.name} 
   -else
     .no_news_container
       %h3 Новостей нет
