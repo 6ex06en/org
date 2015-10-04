@@ -46,9 +46,22 @@ RSpec.describe News, type: :model do
       expect(new_task_date_exec).to be_valid
    end
 
-   xit "news due user has left organization" do
-      News.create_news(news_due_task, :leave_user)
-      expect(new_task_date_exec).to be_valid
+   describe "create news when user has left organization." do
+      before {News.create_news(user_with_org, :leave_organization)}
+
+      it "users of the same organization should recieve news" do
+         expect(admin.news.last.target_type).to eq("User")
+         expect(admin.news.last.reason).to eq("leave_organization")
+         expect(admin.news.last.target_id).to eq(user_with_org.id)
+      end
+
+      it "leaving the user does not have to get the news" do
+         expect(user_with_org.news.where("reason = 'leave_organization' AND target_id = #{user_with_org.id}").count).to be_zero 
+      end
+
+      it "users from another organization does not have to get the news" do
+         expect(user_from_another_org.news.where("reason = 'leave_organization' AND target_id = #{user_with_org.id}").count).to be_zero 
+      end
    end
 
 end

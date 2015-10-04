@@ -24,6 +24,7 @@ class OrganizationsController < ApplicationController
 
   def destroy
     user = current_user
+    News.create_news(user, :leave_organization)
     user.assign_attributes(organization_id: nil, admin:false, invited:false)
     user.save(validate: false)
     redirect_to root_path

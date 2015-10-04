@@ -8,6 +8,17 @@ RSpec.describe "main_pages news" do
 
 	subject {page}
 
-	before { sign_in user_with_org}
+  describe "when new task" do
+
+    before do 
+      News.create_news(task, :new_task)
+      sign_in user_with_org
+    end
+
+    it "render new_task news" do 
+      expect(page).to have_content("Вам назначили новую задачу")
+    end
+
+  end
 
 end

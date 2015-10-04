@@ -9,7 +9,7 @@
   -if @news.present?
     -@news.each do |n|
       %ul.list-group
-        %li.list-group-item<
+        %li.list-group-item{onclick: "read_task(this, #{n.id})"}<
           -if n.reason == "new_task"
             Вам назначили новую
             =link_to("задачу", user_task_path(@current_user, n.target_id), remote:true)
