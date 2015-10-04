@@ -36,7 +36,7 @@ RSpec.describe "tasks/show.html.haml", type: :view do
 
 		let(:user_with_org) {FactoryGirl.create(:user_with_org, invited: true, organization_id: admin.organization_id)}
 		let(:user_with_org2) {FactoryGirl.create(:user_with_org, invited: true, organization_id: admin.organization_id)}		
-  		let!(:task) {admin.assign_task(user_with_org, "task_name", date_exec: "2016-08-10")}
+  		let!(:task) {admin.assign_task(user_with_org, "task_name1", date_exec: "2016-08-10")}
   		let!(:task2) {admin.assign_task(user_with_org2, "task_name2", date_exec: "2016-08-10")}
   		let!(:tasks) {Task.collect_tasks("2016-08-10", admin, only_day: true)}
   		
@@ -75,7 +75,7 @@ RSpec.describe "tasks/show.html.haml", type: :view do
 		it "when create task" do
 			find("#create_task").click
 			fill_in "Имя задачи", with: "test"
-			select(user_with_org.name, from: "task_executor_id")
+			select(user_with_org.name, from: "input_task_executor")
 			find(".create_task_button").click
 
 			expect(page).to have_content("test")

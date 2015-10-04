@@ -43,11 +43,6 @@ RSpec.describe User, type: :model do
         expect(admin.assigned_tasks).to include(user)
       end
 
-      it "user should have #tasks" do
-        admin.assign_task(user, "test")
-        expect(user.tasks).to include(admin)
-      end
-
     end
 
   end
