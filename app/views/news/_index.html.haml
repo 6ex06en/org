@@ -9,7 +9,7 @@
   -if @news.present?
     -@news.each do |n|
       %ul.list-group
-        %li.list-group-item{onclick: "read_task(this, #{n.id})"}<
+        %li.list-group-item.news_item{id: n.id}<
           -if n.reason == "new_task"
             Вам назначили новую
             =link_to("задачу", user_task_path(@current_user, n.target_id), remote:true)
@@ -17,7 +17,20 @@
             К #{@current_user.organization.name} присоеденился новый пользователь - 
             =link_to(n.target.name, user_path(n.target_id))
           -elsif n.reason == "leave_organization"
-            #{n.target.name} покинул организацию #{@current_user.organization.name} 
+            #{n.target.name} покинул организацию #{@current_user.organization.name}
+    :coffee
+      $(document).ready ->
+        $(".news_item").click (e)->
+          if e.target == this
+            id = $(e.target).attr("id")
+            $(e.target).animate({opacity: 0}, 1000)
+            .hide(0, -> 
+              $.ajax({
+                url: "/read_news/" + id,
+                type: "UPDATE",
+                })
+              )
+            return false 
   -else
     .no_news_container
       %h3 Новостей нет

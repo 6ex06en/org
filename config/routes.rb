@@ -1,11 +1,5 @@
 Rails.application.routes.draw do
 
-  get 'news/index'
-
-  get 'news/show'
-
-  get 'news/destroy'
-
   require 'sidekiq/web'
   Sidekiq::Web.use Rack::Auth::Basic do |username, password|
   username == "1qa2ws3ed" && password == "1qa2ws3ed"
@@ -19,6 +13,7 @@ Rails.application.routes.draw do
       post "invite" => "organizations#join_to_organization", as: :join_to
     end
   end
+  resources :news, only: [:index]
   resources :users do
     resources :tasks do
       patch 'handle_task', on: :member, as: :handle
@@ -32,6 +27,7 @@ Rails.application.routes.draw do
   get 'main_pages/start'
   get 'get_tasks' => "tasks#get_tasks", as: :get_tasks
   get 'create_task' => "tasks#create_task", as: :create_task
+  delete 'read_news/:id' => "news#read_news", as: :read_news
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

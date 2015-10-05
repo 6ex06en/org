@@ -403,3 +403,9 @@ background: #B9C9DA;
     }
   }
 }
+.news_item {
+  cursor: pointer;
+}
+.news_item:hover {
+  border-color: red !important;
+}
