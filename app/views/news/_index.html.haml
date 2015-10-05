@@ -21,7 +21,7 @@
           -elsif n.reason == "task_complete"
             #{n.target.executor.name} выполнил
             =link_to("задачу", user_task_path(@current_user, n.target_id), remote:true)
-          %span.task_date_exec.list-group-item-text
+          %span.news_date.list-group-item-text
             =n.created_at.localtime.strftime("%Y-%m-%d %H:%M")
     :coffee
       $(document).ready ->

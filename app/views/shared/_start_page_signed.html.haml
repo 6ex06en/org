@@ -4,8 +4,8 @@
     -title = title + " | #{current_user.organization.name}"
   -title
 #wrapper_signed_container
-  #signed_container      
-    -if @current_user.invited?
+  -if @current_user.invited?
+    #signed_container      
       #calendar_wrapper.col-sm-5.col-md-5.col-lg-5.col-xs-5
         #header_calendar.text-center
           .btn-group
@@ -55,10 +55,11 @@
           =render "shared/errors", object: @object_with_errors
         :coffee
           create_calendar()
-    -unless @current_user.invited?
-      .col-sm-12.col-md-12.col-lg-12.col-xs-12
-        %div(id="сontainer_create_org" class="col-md-12 col-lg-12 text-center")
-          %h3
-            =link_to "Создать организацию", new_organization_path, remote:true
-          %div
-            =render "shared/errors", object: @object_with_errors
+  -unless @current_user.invited?
+    .col-sm-12.col-md-12.col-lg-12.col-xs-12
+      %div(id="сontainer_create_org" class="col-md-12 col-lg-12 text-center")
+        %p Для начала Вам необходимо создать организацию либо присоединитесь к существующей.Приглание на вступление можно найти в настройках Вашего профиля.
+        %h3
+          =link_to "Создать организацию", new_organization_path, remote:true
+        %div
+          =render "shared/errors", object: @object_with_errors

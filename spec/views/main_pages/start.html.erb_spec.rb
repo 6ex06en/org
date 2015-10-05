@@ -92,7 +92,7 @@ RSpec.describe "start page,", type: :view do
     describe "when click on user's option link" do
       before do
           find(".dropdown_login").click
-          click_link "Настройки"
+          click_link "Профиль"
       end
 
       it "renders edit_user_path" do

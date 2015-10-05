@@ -36,9 +36,9 @@ RSpec.describe "tasks/show.html.haml", type: :view do
 
 		let(:user_with_org) {FactoryGirl.create(:user_with_org, invited: true, organization_id: admin.organization_id)}
 		let(:user_with_org2) {FactoryGirl.create(:user_with_org, invited: true, organization_id: admin.organization_id)}		
-  		let!(:task) {admin.assign_task(user_with_org, "task_name1", date_exec: "2016-08-10")}
-  		let!(:task2) {admin.assign_task(user_with_org2, "task_name2", date_exec: "2016-08-10")}
-  		let!(:tasks) {Task.collect_tasks("2016-08-10", admin, only_day: true)}
+  	let!(:task) {admin.assign_task(user_with_org, "task_name1", date_exec: "2016-08-10")}
+  	let!(:task2) {admin.assign_task(user_with_org2, "task_name2", date_exec: "2016-08-10")}
+  	let!(:tasks) {Task.collect_tasks("2016-08-10", admin, only_day: true)}
   		
 		before do 
 			sign_in admin
@@ -53,8 +53,9 @@ RSpec.describe "tasks/show.html.haml", type: :view do
 			all(".list-year")[1].click
 
 			within "#container_calendar" do 
-	          find(".calendar_day_wrapper:nth-child(10)").click
-	        end
+	      find(".calendar_day_wrapper:nth-child(10)").click
+	    end
+
 		end
 
 		it "show tasks of day" do
@@ -99,17 +100,20 @@ RSpec.describe "tasks/show.html.haml", type: :view do
 
 	end
 
-	describe "when login executor", js:true do
-
+	describe "when login executor" do
+		
+		let(:admin) {FactoryGirl.create(:admin, invited: true)}
 		let(:user_with_org) {FactoryGirl.create(:user_with_org, invited: true, organization_id: admin.organization_id)}	
-  		let!(:task) {admin.assign_task(user_with_org, "task_name", date_exec: "2016-08-10")}
-  		let!(:tasks) {Task.collect_tasks("2016-08-10", admin, only_day: true)}
+  	let!(:task) {admin.assign_task(user_with_org, "task_name", date_exec: "2016-08-10")}
+  	let!(:tasks) {Task.collect_tasks("2016-08-10", admin, only_day: true)}
   		
 		before do 
 			view_daytime_tasks user_with_org
 		end
-
-		it {is_expected.to_not have_css("#day_tasks .destroy_task_link")}
+		
+		it "executor should not see destroy link", js:true do
+			expect(page).not_to have_css("a.destroy_task_link")
+		end
 
 		describe "click show task", js:true do
 			before do
