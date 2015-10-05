@@ -27,7 +27,7 @@ Rails.application.routes.draw do
   get 'main_pages/start'
   get 'get_tasks' => "tasks#get_tasks", as: :get_tasks
   get 'create_task' => "tasks#create_task", as: :create_task
-  delete 'read_news/:id' => "news#read_news", as: :read_news
+  put 'read_news/:id' => "news#read_news", as: :read_news
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

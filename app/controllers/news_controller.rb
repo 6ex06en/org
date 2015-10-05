@@ -1,7 +1,7 @@
 class NewsController < ApplicationController
   before_action :signed_in_user
   def index
-    @news = current_user.news
+    @news = current_user.news.preload(:target).where(readed: false).order(created_at: :desc)
     respond_to do |format|
       format.js {}
     end

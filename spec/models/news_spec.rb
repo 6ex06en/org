@@ -60,7 +60,17 @@ RSpec.describe News, type: :model do
       end
 
       it "users from another organization does not have to get the news" do
-         expect(user_from_another_org.news.where("reason = 'leave_organization' AND target_id = #{user_with_org.id}").count).to be_zero 
+         expect(user_from_another_org.news.where("reason = 'leave_organization' AND target_id = #{user_from_another_org.id}").count).to be_zero 
+      end
+   end
+
+   describe "create news when user completed task." do
+      before {News.create_news(task, :task_complete)}
+
+      it "only task manager should get news" do
+         expect(admin.news.last.reason).to eq("task_complete")
+         expect(user_with_org.news.where("reason = 'task_complete' AND target_id = #{user_with_org.id}").count).to be_zero
+         expect(user_from_another_org.news.where("reason = 'task_complete' AND target_id = #{user_from_another_org.id}").count).to be_zero
       end
    end
 

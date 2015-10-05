@@ -15,9 +15,14 @@
             =link_to("задачу", user_task_path(@current_user, n.target_id), remote:true)
           -elsif n.reason == "new_user"
             К #{@current_user.organization.name} присоеденился новый пользователь - 
-            =link_to(n.target.name, user_path(n.target_id))
+            =link_to(n.target.name, user_path(n.target_id), remote:true)
           -elsif n.reason == "leave_organization"
             #{n.target.name} покинул организацию #{@current_user.organization.name}
+          -elsif n.reason == "task_complete"
+            #{n.target.executor.name} выполнил
+            =link_to("задачу", user_task_path(@current_user, n.target_id), remote:true)
+          %span.task_date_exec.list-group-item-text
+            =n.created_at.localtime.strftime("%Y-%m-%d %H:%M")
     :coffee
       $(document).ready ->
         $(".news_item").click (e)->
@@ -27,7 +32,7 @@
             .hide(0, -> 
               $.ajax({
                 url: "/read_news/" + id,
-                type: "UPDATE",
+                type: "PUT",
                 })
               )
             return false 

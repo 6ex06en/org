@@ -136,10 +136,12 @@ class TasksController < ApplicationController
       @task.update_attributes(status: "execution")
     elsif params[:commit] == "Выполнена"
       @task.update_attributes(status: "completed")
+      News.create_news(@task, :task_complete)
     elsif params[:commit] == "Принять работу"
       @task.update_attributes(status: "finished")
     elsif params[:commit] == "Доделать"
       @task.update_attributes(status: "execution")
+      News.create_news(@task, :new_task)
     elsif params[:commit] == "Закрыть"
       @task.update_attributes(status: "archived")
     end
