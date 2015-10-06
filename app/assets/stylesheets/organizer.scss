@@ -21,6 +21,7 @@ body {
   #header {
     .header-logo {
       color: white;
+      text-shadow: 3px 3px 5px #597BAD;
     }
   }
 }
@@ -29,6 +30,8 @@ body {
 }
 #wrapper_signed_container, #edit_user_container {
   width: 100%;
+  margin-top: 2.2%;
+  margin-bottom: 20px;
   background: #B9C9DA;
   overflow: hidden;
   border-radius: 15px;
@@ -75,9 +78,7 @@ background: #B9C9DA;
   background: #625A4F;
   border: 1px solid grey; 
 }
-#edit_user_container {
-  @include main_input_area_border
-}
+
 .calendar_day_wrapper {
   padding: 0;
   width: 14.2857%;
@@ -162,8 +163,48 @@ background: #B9C9DA;
     color: white;
   }
 }
-#accept_invitation_form {
-    margin: 5% 0; 
+#edit_user_container {
+  @include main_input_area_border;
+}
+#edit_user_invitation_container {
+  min-height: 350px;
+  padding: 0;
+  border-left:  1px solid grey;
+}
+.accept_invitation_form, .invite_user_form {
+    padding: 0;
+    /*margin: 5% 0; */   
+    font-size: 1.2vmax;
+    h4 {
+      margin-top: 0;
+      padding: 3.1% 0 3% 12.4%;
+/*      padding-left: 12.4%;*/
+      font-size: 1.7vmax;
+      background: #FFFF77;
+      border-bottom: 1px solid grey;
+    }
+    p {
+      font-size: 1.5vmax;
+    }
+}
+#profile_container {
+  position: relative;
+  left: 1px;
+  min-height: 350px;
+  padding: 0;
+  border-right:  1px solid grey;
+  h1, .personal_info_container {
+    padding: 0 4.5%;
+  }
+  h1 {
+    margin: 0;
+    padding: 2% 5%;
+    background: #FFFF77;
+    border-bottom: 1px solid grey;
+  }
+  .personal_info_container {
+    margin-top: 2%;
+  }
 }
 
 .calendar_day_container span:nth-child(2) {

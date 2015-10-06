@@ -10,7 +10,7 @@ RSpec.describe "users/new.html.erb", type: :view do
 
   it "when click 'SignIn' link" do
   	click_link "SignIn"
-  	is_expected.to have_content("History")
+  	is_expected.to have_content("SmartDESK")
   end
 
   it "error messages after create invalid user" do
@@ -29,7 +29,7 @@ RSpec.describe "users/new.html.erb", type: :view do
   	end
 
   	it "redirect to root_path" do
-  		expect(page).to have_content("History")
+  		expect(page).to have_content("SmartDESK")
   	end
 
   	it "flash[:success]" do

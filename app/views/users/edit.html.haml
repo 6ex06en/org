@@ -1,28 +1,33 @@
 #edit_user_container
-  %h1 Hello, #{@user.name}
   .row
-    .col-md-5.col-lg-5.col-sm-5
-      #personal_info_container
+    #profile_container.col-md-6.col-lg-6.col-sm-6.col-xs-6
+      %h1 Настройки профиля #{@user.name}
+      .personal_info_container
         .avatar Тут будет аватар
-        #task_info_container
+        .task_info_container
           %span Полученные задания
           %span Назначенные задания
-    .col-md-7.col-sm-7.col-lg-7
+    #edit_user_invitation_container.col-md-6.col-sm-6.col-lg-6.col-xs-6.text-center
       -if @user.admin
-        #invite_user_form
+        .invite_user_form
+          %h4.text-left Пригласить пользователя в свою организацию
           =form_for(:invite_user, url: invite_user_path, html: {role: "form", class: "form-horizontal"}) do |u|
             .form-group
-              =u.label "Email", for: "invite_email_input", class: "label-control col-sm-offset-1 col-md-offset-1 col-lg-offset-1 col-xs-offset-1 col-md-2 col-sm-2 col-lg-2"
+              =u.label "Email", for: "invite_email_input", class: "control-label col-md-2 col-sm-2 col-lg-2"
               .col-sm-4.col-md-4.col-lg-4.col-xs-4
                 =u.email_field :email, id: "invite_email_input", class: "form-control"
             .form-group
-              .col-sm-offset-3.col-md-offset-3.col-lg-offset-3.col-xs-offset-3.col-md-2.col-sm-2.col-lg-2
+              .col-sm-offset-2.col-md-offset-2.col-lg-offset-2.col-xs-offset-2.col-md-2.col-sm-2.col-lg-2
                 =u.submit "Пригласить", class: "btn btn-primary", id: "invite_user"
-      -if @user.join_to
-        #accept_invitation_form
-          =form_for(:invited_user, url: join_to_organization_path(@user.join_to), html: {role: "form", class: "form-horizontal"}) do |u|
-            .form-group
-              =u.label @organization.name, for: "accept_invitation", class: "label-control col-sm-offset-1 col-md-offset-1 col-lg-offset-1 col-xs-offset-1 col-md-2 col-sm-2 col-lg-2"
-              .col-md-2.col-sm-2.col-lg-2.col-xs-2
-                =u.submit "Принять", class: "btn btn-primary form-control", id: "accept_invitation"
-              =link_to "Удалить приглашение", destroy_invitation_user_path(@user.id), class: "col-md-2 col-sm-2 col-lg-2", remote: true
+      -else
+        .accept_invitation_form
+          %h4.text-left Приглашения присоедениться к организации
+          -if @user.join_to
+            =form_for(:invited_user, url: join_to_organization_path(@user.join_to), html: {role: "form", class: "form-horizontal"}) do |u|
+              .form-group
+                =u.label @organization.name, for: "accept_invitation", class: "control-label col-md-2 col-sm-2 col-lg-2"
+                .col-md-2.col-sm-2.col-lg-2.col-xs-2
+                  =u.submit "Принять", class: "btn btn-primary form-control", id: "accept_invitation"
+                =link_to "Удалить приглашение", destroy_invitation_user_path(@user.id), class: "col-md-2 col-sm-2 col-lg-2", remote: true
+          -else
+            %p Приглашений нет
