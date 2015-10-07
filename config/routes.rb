@@ -13,6 +13,9 @@ Rails.application.routes.draw do
       post "invite" => "organizations#join_to_organization", as: :join_to
     end
   end
+  resources :tasks, only: [] do
+    resources :comments
+  end
   resources :news, only: [:index]
   resources :users do
     resources :tasks do
@@ -23,6 +26,7 @@ Rails.application.routes.draw do
       get 'tasks_of_day' => "tasks#tasks_of_day"
     end
   end
+  
   post "invite_user" => "organizations#invite_user", as: :invite_user
   get 'main_pages/start'
   get 'get_tasks' => "tasks#get_tasks", as: :get_tasks
