@@ -11,7 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150929140326) do
+ActiveRecord::Schema.define(version: 20151007100118) do
+
+  create_table "comments", force: :cascade do |t|
+    t.integer  "task_id"
+    t.string   "commenter"
+    t.string   "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "comments", ["task_id"], name: "index_comments_on_task_id"
 
   create_table "news", force: :cascade do |t|
     t.boolean  "readed",      default: false
@@ -61,7 +71,6 @@ ActiveRecord::Schema.define(version: 20150929140326) do
     t.string   "privilages"
     t.boolean  "invited",         default: false
     t.integer  "join_to"
-    t.string   "password"
   end
 
   add_index "users", ["email"], name: "index_users_on_email"
