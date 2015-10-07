@@ -1,5 +1,6 @@
 .row
-  %h1.col-sm-offset-4.col-sm-4.text-center.header-logo SmartDESK
+  %h1.col-sm-offset-4.col-sm-4.text-center.header-logo 
+    =link_to("SmartDESK", root_path)
   -if signed_in?
     .btn-group.col-sm-offset-1.col-sm-2
       %button.btn.btn-success.dropdown-toggle.dropdown_login(data-toggle="dropdown")<

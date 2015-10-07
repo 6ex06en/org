@@ -19,8 +19,14 @@ body {
 .container-fluid {
   background-color: rgb(45, 48, 44);
   #header {
-    .header-logo {
+    .header-logo a{
       color: white;
+      text-decoration: none;
+      text-shadow: 3px 3px 5px #597BAD;
+    }
+    .header-logo a:hover{
+      color: #FF0707;
+      text-decoration: none;
       text-shadow: 3px 3px 5px #597BAD;
     }
   }
