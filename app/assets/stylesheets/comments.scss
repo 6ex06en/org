@@ -1,3 +1,50 @@
-// Place all the styles related to the Comments controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.comments_wrapper {
+  position: relative;
+  .hide_comments {
+    height: 0;
+    overflow: hidden;
+  }
+  .show_comments {
+    height: auto;
+    overflow: hidden;
+  }
+  .comments_toggle {
+    background: #625A4F;
+    .glyphicon-plus {
+      float: left;
+    }
+    span {
+      cursor: pointer;
+      font-size: 3.5vmin;
+      line-height: 1.6;
+      color: black;
+    }
+    span:hover {
+      color: white;
+    }
+  }
+}
+.comment_container {
+  position: absolute;
+  top: 15%;
+  white-space: normal;
+  .menu {
+    display: inline-block;
+    background-color: #BAC7D2;
+    padding: 3% 0;
+    margin: 25% 0;
+    border: 1px solid black;
+    opacity: 0.6;
+    border-radius: 10px 0 0 10px;
+
+  }
+  .menu:hover {
+    opacity: 1;
+  }
+  .comment_field {
+    display: inline-block;
+    height: 100%;
+    vertical-align: top;
+    border: 1px solid black;
+  }
+}

@@ -241,9 +241,10 @@ background: #B9C9DA;
 }
 #task_container {
   border: 2px solid;
-  border-radius: 6px 6px 0 0;
+  border-radius: 6px;
   font-size: 1.25vmax;
   border-color: grey;
+  overflow: hidden;
   .task_name {
     background: #625A4F;
     margin: 0;

@@ -22,30 +22,46 @@
     .col-lg-12.col-md-12.col-sm-12.col-xs-12
       .task_description_body<
         =@task.description
-  #handle_task_form.col-lg-12.col-md-12.col-sm-12.col-xs-12
-    =form_for(@task, url: handle_user_task_path(@current_user, @task),html: {role: "form", class: "form-horizontal", id: "task_handle_form"}, remote:true) do |t|
-      .form-group
-        .col-xs-12.col-sm-12.col-md-12.col-lg-12
-          -if @task.manager == @current_user
-            -if @task.status == "completed"
-              .handler_button_container
-                =t.submit "Принять работу", class: "btn btn-lg btn-success"
-            -if @task.status == "completed"
-              .handler_button_container
-                =t.submit "Доделать", class: "btn btn-lg btn-success"
-            -if @task.status == "finished"
-              .handler_button_container
-                =t.submit "Закрыть", :onclick => "reload_calendar()", class: "btn btn-lg btn-success"
-          -if @task.executor == @current_user
-            -if @task.status == "ready"
-              .handler_button_container
-                =t.submit "Начать", class: "btn btn-lg btn-primary"
-            -if @task.status == "execution"
-              .handler_button_container
-                =t.submit "Приостановить", class: "btn btn-lg btn-primary"
-            -if @task.status == "pause" or @task.status == "completed"
-              .handler_button_container
-                =t.submit "Возобновить", class: "btn btn-lg btn-primary"
-            -if @task.status != "completed" and @task.status != "ready"
-              .handler_button_container
-                =t.submit "Выполнена", class: "btn btn-lg btn-success"
+        .comment_container
+          .menu<
+            %span.glyphicon.glyphicon-menu-left
+          .comment_field
+            %div
+              %h5 Создать комментарий
+    .comments_wrapper.col-md-12.col-lg-12.col-sm-12.col-xs-12
+      .comments_container.hide_comments
+        %ul
+          %li Первый комментарий
+          %li Второй комментарий
+      .comments_toggle.text-center{title: "Комментарии"}
+        %span.glyphicon.glyphicon-chevron-down
+#handle_task_form.col-lg-12.col-md-12.col-sm-12.col-xs-12
+  =form_for(@task, url: handle_user_task_path(@current_user, @task),html: {role: "form", class: "form-horizontal", id: "task_handle_form"}, remote:true) do |t|
+    .form-group
+      .col-xs-12.col-sm-12.col-md-12.col-lg-12
+        -if @task.manager == @current_user
+          -if @task.status == "completed"
+            .handler_button_container
+              =t.submit "Принять работу", class: "btn btn-lg btn-success"
+          -if @task.status == "completed"
+            .handler_button_container
+              =t.submit "Доделать", class: "btn btn-lg btn-success"
+          -if @task.status == "finished"
+            .handler_button_container
+              =t.submit "Закрыть", :onclick => "reload_calendar()", class: "btn btn-lg btn-success"
+        -if @task.executor == @current_user
+          -if @task.status == "ready"
+            .handler_button_container
+              =t.submit "Начать", class: "btn btn-lg btn-primary"
+          -if @task.status == "execution"
+            .handler_button_container
+              =t.submit "Приостановить", class: "btn btn-lg btn-primary"
+          -if @task.status == "pause" or @task.status == "completed"
+            .handler_button_container
+              =t.submit "Возобновить", class: "btn btn-lg btn-primary"
+          -if @task.status != "completed" and @task.status != "ready"
+            .handler_button_container
+              =t.submit "Выполнена", class: "btn btn-lg btn-success"
+:coffee
+  $(".comments_toggle span").click( -> toggle_comments())
+
