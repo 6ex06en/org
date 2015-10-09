@@ -22,12 +22,16 @@
     .col-lg-12.col-md-12.col-sm-12.col-xs-12
       .task_description_body<
         =@task.description
-        .comment_container
-          .menu<
-            %span.glyphicon.glyphicon-menu-left
-          .comment_field
-            %div
-              %h5 Создать комментарий
+        .menu<
+          %span.glyphicon.glyphicon-plus 
+          %span Добавить комментарий
+        .comment_field.hidden
+          %h5<
+            Создать комментарий
+            %span.glyphicon.glyphicon-remove
+          =form_for([@task, @comment], html: {class: "text-center"}) do |c|
+            =c.text_area :comment
+            =c.submit "Создать", class: "btn btn-primary"
     .comments_wrapper.col-md-12.col-lg-12.col-sm-12.col-xs-12
       .comments_container.hide_comments
         %ul
@@ -64,4 +68,5 @@
               =t.submit "Выполнена", class: "btn btn-lg btn-success"
 :coffee
   $(".comments_toggle span").click( -> toggle_comments())
+  $(".menu").click( -> comment_field())
 

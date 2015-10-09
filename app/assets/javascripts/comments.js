@@ -18,4 +18,21 @@ window.toggle_comments = function() {
   }
 };
 
-window.toggle_comment_field = function() {};
+window.comment_field = function() {
+  var block, cont, height, width;
+  if ($(".comment_field").hasClass("hidden")) {
+    cont = $(".task_description_body");
+    width = cont.width();
+    height = cont.height();
+    block = $(".comment_field");
+    block.css({
+      "min-width": width - 40 + 'px',
+      "border-radius": "10px"
+    }).toggleClass("visible hidden");
+    return $(".comment_field span").click(function() {
+      block.find("textarea").empty();
+      block.toggleClass("visible hidden");
+      return $(this).off();
+    });
+  }
+};

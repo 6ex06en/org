@@ -33,6 +33,7 @@ class TasksController < ApplicationController
   end
 
   def show
+    @comment = Comment.new
     @task = Task.find_by_id(params[:id])
     respond_to do |format|
       format.js

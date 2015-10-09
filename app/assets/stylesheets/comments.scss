@@ -1,3 +1,5 @@
+$main_color: #625A4F;
+
 .comments_wrapper {
   position: relative;
   .hide_comments {
@@ -8,8 +10,29 @@
     height: auto;
     overflow: hidden;
   }
+  .comments_container {
+    border-top: 3px solid $main_color;
+    background-color: $main_color;
+    ul {
+      margin: 0;
+      padding-left: 0;
+      border: 1px solid;
+      border-radius: 10px;
+      background: #E8E8E8;
+      font-size: 90%;
+      li {
+        padding: 1.5% 2%;
+      }
+      li:first-child {
+        border-radius: 4px 4px 0 0;
+      }
+      li:not(:last-child) {
+        border-bottom: 1px solid grey;
+      }
+    }
+  }
   .comments_toggle {
-    background: #625A4F;
+    background: $main_color;
     .glyphicon-plus {
       float: left;
     }
@@ -24,27 +47,64 @@
     }
   }
 }
-.comment_container {
-  position: absolute;
-  top: 15%;
-  white-space: normal;
-  .menu {
-    display: inline-block;
-    background-color: #BAC7D2;
-    padding: 3% 0;
-    margin: 25% 0;
-    border: 1px solid black;
-    opacity: 0.6;
-    border-radius: 10px 0 0 10px;
 
+.menu {
+  position: absolute;
+  bottom: 0;
+  white-space: normal;
+  span {
+    cursor: pointer;
   }
-  .menu:hover {
-    opacity: 1;
+  span:first-child {
+    color: #449d44;
   }
-  .comment_field {
-    display: inline-block;
-    height: 100%;
-    vertical-align: top;
-    border: 1px solid black;
+  span:first-child:hover {
+    color: green;
   }
+  span:last-child:hover {
+    color:black;
+  }
+}
+.comment_field {
+  display: inline-block;
+  position: absolute; 
+  top: 20px;
+  left: 40px;
+  opacity: 0.9;
+  border-radius: 10px;
+  background: #625A4F;
+  white-space: normal;
+  h5 {
+    padding: 10px 0;
+    margin: 0;
+    text-align: center;
+    font-size: 2.5vmin;
+    font-weight: 800;
+    border-radius: 10px; /* conflict */
+    background: $main_color;
+    color: black;
+    span {
+      float: right;
+      position: relative;
+      cursor: pointer;
+      right: 8px;
+    }
+  }
+  form {
+    margin-bottom: 10px;
+    textarea {
+      padding: 10px;
+      width: 100%;
+      height: 100%;
+    }
+    input[type="submit"] {
+      border: 1px solid grey;
+    }
+  }
+}
+.hidden {
+  display: none;
+}
+.visible {
+  display: '';
 }
