@@ -7,31 +7,6 @@ RSpec.describe TasksController, type: :controller do
   let(:task) {admin.assign_task(user_with_org, "task_name")}
 
 
-  # describe "GET #get_tasks" do
-  # 	it "returns http success" do
-  # 		sign_in admin
-  # 		request.accept = "application/json"
-  # 		# {'HTTP_ACCEPT' => "application/json"}
-  #     xhr :get, :get_tasks, date: "2015-10-10", format: :json      
-  #     expect(response.status).to eql(200)
-  #   end
-  # end
-  # describe "GET #create_task" do
-  #   before { sign_in admin}
-  #   it "returns http success" do
-  #     get :create_task
-  #     expect(response).to have_http_status(200) 
-  #   end
-  # end
-
-  # describe "GET #index" do
-  #   before { sign_in admin}
-  #   it "returns http success" do
-  #     get :index
-  #     expect(response).to have_http_status(200) 
-  #   end
-  # end
-
   describe "GET #show" do
     before { sign_in admin}
     it "returns http success" do

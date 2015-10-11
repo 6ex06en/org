@@ -26,7 +26,7 @@ window.comment_field = function() {
     height = cont.height();
     block = $(".comment_field");
     block.css({
-      "min-width": width - 40 + 'px',
+      "min-width": width + 'px',
       "border-radius": "10px"
     }).toggleClass("visible hidden");
     return $(".comment_field span").click(function() {

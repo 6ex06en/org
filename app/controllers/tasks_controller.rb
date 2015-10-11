@@ -34,10 +34,13 @@ class TasksController < ApplicationController
 
   def show
     @comment = Comment.new
-    @task = Task.find_by_id(params[:id])
+    @task = Task.includes(:comments).where(tasks: {id: params[:id]}).first
+    @new_comment = true if params[:new_comment].present?
+    @comments = @task.comments
     respond_to do |format|
       format.js
     end
+
   end
 
   def create

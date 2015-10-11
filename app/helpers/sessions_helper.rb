@@ -26,34 +26,35 @@ module SessionsHelper
 		!current_user.nil?
 	end
 
-	 def store_location
-   		session[:return_to] = request.url if request.get?
-  	end
+  def store_location
+   	session[:return_to] = request.url if request.get?
+  end
 
-  	def signed_in_user
-      unless signed_in?
-        store_location
-        redirect_to root_url, notice: "Please sign in."
-      end
-  	end
-
-  	def current_user?(user)
-	    current_user == user
-  	end
-
-  	def redirect_back_or(default)
-    	redirect_to(session[:return_to] || default)
-    	session.delete(:return_to)
+	def signed_in_user
+    unless signed_in?
+      store_location
+      redirect_to root_url, notice: "Please sign in."
     end
+	end
 
-    def correct_user(id)
-    	user = User.find_by_id(id)
-    	redirect_to root_path unless current_user?(user)
-  	end
+	def current_user?(user)
+    current_user == user
+	end
 
-  	def already_signed
-  		if @current_user   		
-   			redirect_to request.url
-   		end
-  	end
+	def redirect_back_or(default)
+  	redirect_to(session[:return_to] || default)
+  	session.delete(:return_to)
+  end
+
+  def correct_user(id)
+  	user = User.find_by_id(id)
+  	redirect_to root_path unless current_user?(user)
+	end
+
+	def already_signed
+		if @current_user   		
+ 			redirect_to request.url
+ 		end
+	end
+  
 end
