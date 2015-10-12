@@ -26,8 +26,11 @@ $main_color: #625A4F;
           display: inline-block;
           width: 70%;
           word-break: break-all;
+          span {
+            font-weight: bold;
+          }
         }
-        span {
+        & > span {
           display: inline-block;
           width: 27%;
           float: right;

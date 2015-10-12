@@ -117,13 +117,16 @@ background: #B9C9DA;
   z-index: 1;
   a {
     display: block;
-    margin: 5% auto;
+    margin: 1% auto;
     width: 80%;
     text-align: center;
     text-decoration: none;
     cursor: pointer;
-    font-size: 90%;
+    font-size: 85%;
     font-weight: bold;
+  }
+  a:hover {
+    color: #F10D0D !important;
   }
 }
 
@@ -140,6 +143,7 @@ background: #B9C9DA;
   left: 0;
   right:0;
   bottom: 0;
+  padding: 5px;
 }
 
 .main_link_signup {

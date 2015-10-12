@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe "edit_task", type: :view do
 	let(:admin) {FactoryGirl.create(:admin)}
 	let(:user_with_org) {FactoryGirl.create(:user_with_org, invited: true, organization_id: admin.organization_id)}	
-  	let!(:task_from_admin) {admin.assign_task(user_with_org, "task_name", date_exec: "2016-08-10")}
-  	let!(:task_from_user) {user_with_org.assign_task(admin, "task_name", date_exec: "2016-08-10")}
+  let!(:task_from_admin) {admin.assign_task(user_with_org, "task_name", date_exec: "2016-08-10")}
+  let!(:task_from_user) {user_with_org.assign_task(admin, "task_name", date_exec: "2016-08-10")}
 
 	describe "day's tasks", js:true do
 
