@@ -4,6 +4,7 @@ class TasksController < ApplicationController
 
   def new
   end
+  
   def index
     if params[:manager]
       if params[:with_archived] == 'true'
@@ -40,7 +41,6 @@ class TasksController < ApplicationController
     respond_to do |format|
       format.js
     end
-
   end
 
   def create
@@ -88,11 +88,9 @@ class TasksController < ApplicationController
       @tasks = Task.collect_tasks(@task.date_exec, @current_user, only_day: true)
       @render_tasks_of_day = true
       @build_calendar = true
-      # render "main_pages/start", locals: {render: @render_tasks_of_day, task: @tasks}
     else
       @render_edit_task = true
       @object_with_errors = @task 
-      # render "main_pages/start", locals: {render: @render_edit_task, task: @task}
     end
     respond_to do |format|
       format.js {}
@@ -115,8 +113,7 @@ class TasksController < ApplicationController
     else
       @date = params[:date].to_date.strftime("%FT%R")
       session[:saved_day] = @date
-    end
-    # render text: @date + "session" + session[:saved_day].to_date.strftime("%FT%R")    
+    end  
     @build_calendar = true
     respond_to do |format|
       format.js

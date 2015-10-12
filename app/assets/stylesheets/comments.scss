@@ -22,9 +22,23 @@ $main_color: #625A4F;
       font-size: 90%;
       li {
         padding: 1.5% 2%;
+        p {
+          display: inline-block;
+          width: 70%;
+          word-break: break-all;
+        }
         span {
-          float:right;
-          padding: 0 2%;
+          display: inline-block;
+          width: 27%;
+          float: right;
+          a {
+            padding: 0 2%;
+            float: right;
+            text-decoration: none;
+            &.glyphicon-remove {
+              color: red !important;
+            }
+          }
         }
       }
       li:first-child {

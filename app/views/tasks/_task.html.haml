@@ -1,4 +1,6 @@
 =render "shared/buttons_container"
+%div.errors_container
+  =render "shared/errors", object: @object_with_errors
 #task_container
   .row
     .col-lg-12.col-md-12.col-sm-12.col-xs-12
@@ -29,14 +31,11 @@
           %h5<
             Создать комментарий
             %span.glyphicon.glyphicon-remove
-          =form_for(@comment, url: task_comments_path(@task, @comment), html: {class: "text-center"}, remote:true) do |c|
-            =c.hidden_field :commenter, value: @current_user.name
-            =c.text_area :comment, :autofocus => true
-            =c.submit "Создать", class: "btn btn-primary"
+          =render "comments/comment_form"
     .comments_wrapper.col-md-12.col-lg-12.col-sm-12.col-xs-12
       .comments_container.hide_comments
         %ul
-          =render @comments
+          =render @comments if @comments
       .comments_toggle.text-center{title: "Комментарии"}
         %span.glyphicon.glyphicon-chevron-down
 #handle_task_form.col-lg-12.col-md-12.col-sm-12.col-xs-12

@@ -1,4 +1,6 @@
 %li
-  =comment.comment
-  %span
+  %p<=comment.comment
+  %span<
     =comment.updated_at.localtime.strftime("%Y-%m-%d %H:%M")
+    =link_to_if(comment.commenter == @current_user.name && @comments.last == comment, "", task_comment_path(@task, comment), class: "destroy_comment_link glyphicon glyphicon-remove", data: {confirm: "Удалить комментарий?"}, method: :delete, remote: true)
+    =link_to_if(comment.commenter == @current_user.name && @comments.last == comment, "", edit_task_comment_path(@task, comment), class: "edit_comment_link glyphicon glyphicon-pencil", remote:true)

@@ -294,7 +294,8 @@ background: #B9C9DA;
     padding: 0 1% 4.5% 1%;
     min-height: 200px;
     background: #E8E8E8;
-    white-space: pre-line;   
+    white-space: pre-line;
+    word-break: break-all;   
   }
 }
 #create_task_form_container, #edit_task_container, #filter_task_form {
@@ -479,4 +480,7 @@ background: #B9C9DA;
   /*text-align: center;*/
   font-weight: normal;
   font-size: 0.9em;
+}
+.alert-danger {
+  margin-bottom: 10px;
 }

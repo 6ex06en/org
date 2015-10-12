@@ -9,7 +9,12 @@ class CommentsController < ApplicationController
     comment = @task.comments.build(comment_params)
     @object_with_errors = comment unless comment.save
     respond_to do |format|
-      format.js { redirect_to user_task_path(@current_user, @task, new_comment: true)}
+      unless @object_with_errors
+        format.js { redirect_to user_task_path(@current_user, @task, new_comment: true)}
+      else
+        @comment = Comment.new
+        format.js
+      end 
     end
   end
 
