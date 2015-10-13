@@ -22,7 +22,7 @@ class CommentsController < ApplicationController
     @comment = Comment.find_by_id(params[:id])
     @edit_comment = true
     respond_to do |format|
-      format.js
+      format.js { redirect_to user_task_path(@current_user.id, params[:task_id], edit_comment: params[:id])}
     end
   end
 

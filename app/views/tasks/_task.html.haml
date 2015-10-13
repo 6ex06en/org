@@ -72,6 +72,8 @@
   :coffee
     comment_field()
 :coffee
-  $(".comments_toggle span").click( -> toggle_comments())
-  $(".menu").click( -> comment_field())
+  unless first
+    first = true
+    $(".comments_toggle span").click( -> toggle_comments())
+    $(".menu").click( -> comment_field())
 

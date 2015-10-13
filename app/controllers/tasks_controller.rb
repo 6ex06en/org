@@ -34,9 +34,14 @@ class TasksController < ApplicationController
   end
 
   def show
-    @comment = Comment.new
+    # @comment = Comment.new
+    # @task = Task.find_by_id(params[:id])
     @task = Task.includes(:comments).where(tasks: {id: params[:id]}).first
     @new_comment = true if params[:new_comment].present?
+    if params[:edit_comment].present?
+      @edit_comment = true
+      @comment = Comment.find_by_id(params[:edit_comment])
+    end 
     @comments = @task.comments
     respond_to do |format|
       format.js

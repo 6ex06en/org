@@ -16,7 +16,7 @@ window.comment_field = ->
     position = cont.offset()
     block = $(".comment_field").draggable()
     $("body").append(block)
-    block.find("textarea").val('').focus()
+    block.find("textarea").focus()
     block.css({
       "min-width": width - (width * 30 / 100) + 'px',
       "left": position.left + 10 + "px",
@@ -25,7 +25,10 @@ window.comment_field = ->
       }).toggleClass("visible hidden")
     $(".comment_field span").click ->
       block.toggleClass("visible hidden")
+      block.find("textarea").val('')
+      cont.append(block)
       $(this).off()
     $(".comment_field input[type='submit']").click ->
       block.toggleClass("visible hidden")
+      cont.append(block)
       $(this).off()

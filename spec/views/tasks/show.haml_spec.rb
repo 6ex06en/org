@@ -94,7 +94,9 @@ RSpec.describe "tasks/show.html.haml", type: :view do
 		     it {expect(page).to have_content(task.name)}
 
 		     it "should not be button accept task" do
-		     	is_expected.not_to have_selector('input[type="submit"][value="Начать"]')
+		   #   	puts current_url
+					# require 'pry'; binding.pry
+		     	expect(page).not_to have_selector('input[type="submit"][value="Начать"]')
 		     end
 		end
 
