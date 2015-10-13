@@ -1,4 +1,10 @@
-=form_for(@comment, url: task_comments_path(@task, @comment), html: {class: "text-center"}, remote:true) do |c|
-  =c.hidden_field :commenter, value: @current_user.name
-  =c.text_area :comment, :autofocus => true
-  =c.submit "Создать", class: "btn btn-primary"
+-if @edit_comment
+  =form_for(@comment, url: edit_task_comment_path(@task, @comment), html: {class: "text-center"}, remote:true) do |c|
+    =c.hidden_field :commenter, value: @current_user.name
+    =c.text_area :comment, :autofocus => true
+    =c.submit "Создать", class: "btn btn-primary"
+-else
+  =form_for(@comment, url: task_comments_path(@task, @comment), html: {class: "text-center"}, remote:true) do |c|
+    =c.hidden_field :commenter, value: @current_user.name
+    =c.text_area :comment, :autofocus => true
+    =c.submit "Создать", class: "btn btn-primary"

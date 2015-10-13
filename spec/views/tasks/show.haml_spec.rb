@@ -83,11 +83,11 @@ RSpec.describe "tasks/show.html.haml", type: :view do
 		end
 
 		describe "when click show task", js:true do
-			before do
-				find("#tasks_of_day").click
-				within "#day_tasks" do 
-		          first(:link, "task_name").click
-		        end
+				before do
+					find("#tasks_of_day").click
+					within "#day_tasks" do 
+			      first(:link, "task_name").click
+			    end
 	    	end
 
 		     it {expect(page).to have_css("#task_container")}

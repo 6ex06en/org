@@ -68,6 +68,9 @@
 -if @new_comment
   :coffee
     toggle_comments()
+-if @edit_comment
+  :coffee
+    comment_field()
 :coffee
   $(".comments_toggle span").click( -> toggle_comments())
   $(".menu").click( -> comment_field())

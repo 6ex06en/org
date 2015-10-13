@@ -1,5 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Comment, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe "validates" do
+    let(:task) { FactroryGirl.create(:task) }
+    let(:comment1) { FactroryGirl.create(:comment) }
+    let(:comment2) { FactroryGirl.create(:comment) }
+  end
 end

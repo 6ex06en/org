@@ -1,8 +1,8 @@
 FactoryGirl.define do
   factory :comment do
-    task nil
-    commenter "MyString"
-    comment "MyString"
+    task    
+    sequence(:comment) {|n|  "MyString_#{n}" }
+    commenter "user1"
   end
 
 end

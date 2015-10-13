@@ -18,6 +18,18 @@ class CommentsController < ApplicationController
     end
   end
 
+  def edit
+    @comment = Comment.find_by_id(params[:id])
+    @edit_comment = true
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def destroy
+    
+  end
+
   private
 
   def task_member?

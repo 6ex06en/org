@@ -6,7 +6,9 @@ FactoryGirl.define do
 
   factory :task do
     sequence(:name) {|n| "task_name#{n}"}
-    date_exec "2016-10-10"  
+    date_exec "2016-10-10"
+    association :manager, factory: :admin
+    association :executor, factory: :user_with_org
   end
 
   factory :user do
