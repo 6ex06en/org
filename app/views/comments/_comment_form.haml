@@ -1,7 +1,7 @@
 -if @edit_comment
-  =form_for(@comment, url: edit_task_comment_path(@task, @comment), html: {class: "text-center edit_comment"}, remote:true) do |c|
+  =form_for(@comment, url: task_comment_path(@task, @comment), html: {class: "text-center edit_comment"}, remote:true, method: :patch) do |c|
     =c.hidden_field :commenter, value: @current_user.name
-    =c.text_area :comment, value: @comment.comment
+    =c.text_area :comment
     =c.submit "Создать", class: "btn btn-primary"
 -else
   =form_for(:comment, url: task_comments_path(@task), html: {class: "text-center new_comment"}, remote:true) do |c|

@@ -29,13 +29,17 @@
           %span Добавить комментарий
         .comment_field.hidden
           %h5<
-            Создать комментарий
+            Комментарий 
             %span.glyphicon.glyphicon-remove
           =render "comments/comment_form"
     .comments_wrapper.col-md-12.col-lg-12.col-sm-12.col-xs-12
       .comments_container.hide_comments
         %ul
-          =render @comments if @comments
+          -if @comments.present?
+            =render @comments
+          -else
+            %li
+              Нет комментариев
       .comments_toggle.text-center{title: "Комментарии"}
         %span.glyphicon.glyphicon-chevron-down
 #handle_task_form.col-lg-12.col-md-12.col-sm-12.col-xs-12

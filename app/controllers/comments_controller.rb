@@ -27,7 +27,23 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    
+    Comment.find_by_id(params[:id]).destroy
+    respond_to do |format|
+      format.js { redirect_to user_task_path(@current_user, @task, new_comment: true), status: 303 }
+    end
+  end
+
+  def update
+    comment = Comment.find_by_id(params[:id])
+    respond_to do |format|
+      if comment.update_attributes(comment_params)
+        format.js { redirect_to user_task_path(@current_user, @task, new_comment: true)}
+      else
+        @object_with_errors = comment
+        @comments = Task.find_by_id(params[:task_id]).comments
+        format.js {}
+      end
+    end
   end
 
   private

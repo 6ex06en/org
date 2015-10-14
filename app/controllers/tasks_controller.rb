@@ -150,7 +150,11 @@ class TasksController < ApplicationController
       News.create_news(@task, :new_task)
     elsif params[:commit] == "Закрыть"
       @task.update_attributes(status: "archived")
+      respond_to do |format|
+        format.js { redirect_to user_tasks_path(@current_user, manager:true), status: 303 and return}
+      end
     end
+    @comments = @task.comments
     @render_task = true
     respond_to do |format|
       format.js {}
