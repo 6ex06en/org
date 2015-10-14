@@ -114,6 +114,7 @@ class TasksController < ApplicationController
 
   def create_task
     if params[:date] == "saved"
+      session[:saved_day] = Time.now.strftime("%Y-%m-%d") if session[:saved_day].nil?
       @date = session[:saved_day].to_date.strftime("%FT%R")
     else
       @date = params[:date].to_date.strftime("%FT%R")
