@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
 	has_many :assigned_tasks, through: :tasks_from_me, source: :executor
 	has_many :news
 	has_many :news_due_user, as: :target, class_name: "News", dependent: :destroy
+  has_one  :option, dependent: :destroy
 	validates :name, length: { minimum: 3, maximum: 20 }
 	validates :email, presence: true, confirmation: true, uniqueness: { case_sensitive: false }
 	validates :password, length: {minimum: 8}, on: :create

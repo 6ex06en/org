@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   end
   resources :news, only: [:index]
   resources :users do
+    resource :option
     resources :tasks do
       patch 'handle_task', on: :member, as: :handle
     end

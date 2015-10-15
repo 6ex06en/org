@@ -4,6 +4,15 @@
       %h1 Настройки профиля #{@user.name}
       .personal_info_container
         .avatar Тут будет аватар
+        =form_for([@current_user, @current_user.build_option], url: user_option_path(@current_user), html: {role: "form", class: "form-horizontal"}) do |opt|
+          .form-group
+            =opt.label "Загрузите аватар: ", for: "label_avatar", class: "control-label col-xs-3 col-sm-3 col-md-3 col-lg-3"
+            .col-xs-7.col-sm-7.col-md-7.col-lg-7
+              =opt.hidden_field :avatar_cache
+              =opt.file_field :avatar, class: "form-control", id: "label_avatar"
+          .form-group
+            .col-xs-offset-3.col-sm-offset-3.col-lg-offset-3.col-md-offset-3.col-xs-2.col-sm-2.col-md-2.col-lg-2
+              =opt.submit "Загрузить", class: "btn btn-primary"
         .task_info_container
           %span Полученные задания
           %span Назначенные задания
