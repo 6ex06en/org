@@ -69,8 +69,8 @@ class AvatarUploader < CarrierWave::Uploader::Base
     resize_to_fit(50, 50)
   end
 
-  # def public_id
-  #   return model.short_name
-  # end  
+  def public_id
+    return model.user.name
+  end  
 
 end

@@ -1,12 +1,15 @@
 class OptionsController < ApplicationController
   before_action :signed_in_user
 
-  def create
-    # option = @current_user.create_option unless @current_user.option
-    option = @current_user.build_option(option_params)
-    if option.save
+  def update
+    if @current_user.option
+      option = @current_user.option
+    else
+      option = @current_user.create_option
+    end
+    if option.update_attributes(option_params)
       respond_to do |format|
-        format.html { redirect_to edit_user_path(@current_user)}
+        format.html { redirect_to root_path}
       end
     end
   end

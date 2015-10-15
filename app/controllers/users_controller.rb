@@ -9,6 +9,7 @@ class UsersController < ApplicationController
   def edit
     @user = current_user
     @organization = Organization.find_by_id(@user.join_to)
+    @option = @user.option
   end
 
   def show

@@ -27,10 +27,10 @@ ActiveRecord::Schema.define(version: 20151015130504) do
     t.boolean  "readed",      default: false
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
-    t.integer  "user_id"
     t.integer  "target_id"
     t.string   "target_type"
     t.string   "reason"
+    t.integer  "user_id"
   end
 
   add_index "news", ["readed"], name: "index_news_on_readed"
