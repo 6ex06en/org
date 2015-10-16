@@ -9,7 +9,7 @@ class OptionsController < ApplicationController
     end
     if option.update_attributes(option_params)
       respond_to do |format|
-        format.html { redirect_to root_path}
+        format.html { redirect_to edit_user_path(@current_user)}
       end
     end
   end
