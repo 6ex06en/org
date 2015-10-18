@@ -7,7 +7,7 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.includes(:tasks_from_me, :tasks_to_me).where("tasks.status IS NOT 'archived'").where(users: {id: 1}).references(:tasks).first
+    @user = current_user
     @organization = Organization.find_by_id(@user.join_to)
     @option = @user.option
   end

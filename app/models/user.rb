@@ -38,14 +38,22 @@ def tasks
 	Task.where("executor_id = ? OR manager_id = ?", self.id, self.id)
 end
 
- def clean_tasks
+def clean_tasks
   tasks = Task.includes(:manager, :executor).where("manager_id = :id OR executor_id = :id", id: self.id)
   	.references(:user).preload(:news_due_task)
   tasks.each do |task|
   	task.destroy if task.manager.organization_id == self.organization_id || task.executor.organization_id == self.organization_id
   end
   self
- end
+end
+
+def active_tasks_from_me
+  tasks_from_me.where("tasks.status IS NOT 'archived'")
+end
+
+def active_tasks_to_me
+  tasks_to_me.where("tasks.status IS NOT 'archived'")
+end
 
 private
 

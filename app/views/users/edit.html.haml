@@ -3,15 +3,19 @@
     #profile_container.col-md-6.col-lg-6.col-sm-6.col-xs-6
       %h1 Настройки профиля #{@user.name}
       .personal_info_container
-        .avatar.col-md-3.col-lg-3.col-sm-3.col-xs-3
+        .avatar
           -if @current_user.option.try(:avatar)
             =image_tag(@current_user.option.avatar_url(:standard), alt: @current_user.name + "_avatar")
           -else
             =image_tag("#", alt: "empty_avatar", class: "empty_avatar")
-        .task_info_container.col-md-9.col-lg-9.col-sm-9.col-xs-9
-          %span Полученные задания: #{@user.tasks_to_me.count}
+        .task_info_container
+          %span 
+            Полученные задания: 
+            =link_to @user.active_tasks_to_me.count, user_tasks_path(@user, executor:true)
           %br
-          %span Назначенные задания: #{@user.tasks_from_me.count}
+          %span 
+            Назначенные задания: 
+            =link_to @user.active_tasks_from_me.count, user_tasks_path(@user, manager:true)
         =form_for(:option, url: user_option_path(@current_user), html: {class: "avatar_form col-md-12 col-lg-12 col-sm-12 col-xs-12"}, method: :patch) do |opt|
           %div
             =opt.label "Загрузите аватар: ", for: "label_avatar"
