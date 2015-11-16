@@ -8,9 +8,11 @@
 </head>
 <body>
 <div class="container-fluid">
-<div class="flash">
-  	<%= render "layouts/flash", :locals => {:flash => flash} %>
-</div>
+<% if @current_user %>
+  <div class="flash">
+    	<%= render "layouts/flash", :locals => {:flash => flash} %>
+  </div>
+<% end %>
 <div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
 <header id="header">
 <%= render "layouts/header" %>

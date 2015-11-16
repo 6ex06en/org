@@ -71,7 +71,7 @@ class AvatarUploader < CarrierWave::Uploader::Base
   end
 
   def public_id
-    return model.user.name
+    model.user.name
   end 
 
   def extension_white_list
