@@ -5,9 +5,10 @@
       .personal_info_container
         .avatar
           -if @current_user.option.try(:avatar)
-            =image_tag(@current_user.option.avatar_url(:standard), alt: @current_user.name + "_avatar")
+            =image_tag(@current_user.option.avatar_url(:standard), alt: "Ваш аватар")
           -else
-            =image_tag("#", alt: "empty_avatar", class: "empty_avatar")
+            .empty_avatar
+              =image_tag("nopic.gif", alt: "Нет аватара")
         .task_info_container
           %span 
             Полученные задания: 
