@@ -3,10 +3,27 @@
     #profile_container.col-md-6.col-lg-6.col-sm-6.col-xs-6
       %h1 Настройки профиля #{@user.name}
       .personal_info_container
-        .avatar Тут будет аватар
+        .avatar
+          -if @current_user.option.try(:avatar)
+            =image_tag(@current_user.option.avatar_url(:standard), alt: "Ваш аватар")
+          -else
+            .empty_avatar
+              =image_tag("nopic.gif", alt: "Нет аватара")
         .task_info_container
-          %span Полученные задания
-          %span Назначенные задания
+          %span 
+            Полученные задания: 
+            =link_to @user.active_tasks_to_me.count, user_tasks_path(@user, executor:true)
+          %br
+          %span 
+            Назначенные задания: 
+            =link_to @user.active_tasks_from_me.count, user_tasks_path(@user, manager:true)
+        =form_for(:option, url: user_option_path(@current_user), html: {class: "avatar_form col-md-12 col-lg-12 col-sm-12 col-xs-12"}, method: :patch) do |opt|
+          %div
+            =opt.label "Загрузите аватар: ", for: "label_avatar"
+            =opt.hidden_field :avatar_cache
+            =opt.file_field :avatar, id: "label_avatar"
+          %div
+            =opt.submit "Загрузить", class: "btn btn-sm btn-primary"
     #edit_user_invitation_container.col-md-6.col-sm-6.col-lg-6.col-xs-6.text-center
       -if @user.admin
         .invite_user_form

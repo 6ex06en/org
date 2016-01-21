@@ -45,7 +45,7 @@
           -elsif @render_tasks_of_day
             =render 'tasks/tasks_of_day'
           -elsif @render_all_tasks
-            =render 'tasks/index'
+            =render partial: 'tasks/index', :locals => {:with_archived => false}
           -elsif @render_task
             =render 'tasks/task'
           -elsif @news

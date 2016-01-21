@@ -25,7 +25,10 @@ class TasksController < ApplicationController
     end
     respond_to do |format|
       format.js {}
-      format.html { render text: params[:tasks]}
+      format.html { 
+        @render_all_tasks = true
+        render "main_pages/start"
+      }
     end
   end
 

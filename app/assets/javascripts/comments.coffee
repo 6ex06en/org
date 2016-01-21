@@ -32,3 +32,6 @@ window.comment_field = ->
       block.toggleClass("visible hidden")
       cont.append(block)
       $(this).off()
+    $(document).on "click.hide_comments", "a", (e)->
+      cont.append(block)
+      $(document).off("click.hide_comments")
