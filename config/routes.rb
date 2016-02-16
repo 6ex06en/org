@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   username == "1qa2ws3ed" && password == "1qa2ws3ed"
   end if Rails.env.production?
   mount Sidekiq::Web, at: "/sidekiq"
+  match "/chat", to: Chat.action(:chat), via: :get
 
   root "main_pages#start"
   resources :sessions, only: [:create, :destroy, :index]
