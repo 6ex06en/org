@@ -45,7 +45,22 @@ body {
     color: darkblue;
   }
 }
-
+.action_selector {
+  margin-bottom: 10px;
+  a {
+    text-decoration: none;
+  } 
+  img {
+    padding: 0 5px;
+    height: 5%;
+    width: 5%;
+  }
+  a:hover img {
+    border: 1px solid grey;
+    border-radius: 5px;
+    background: #A1BEDC;
+  }
+}
 #сontainer_create_org {
   padding: 20px;
   p {
@@ -89,6 +104,11 @@ main {
   position: relative;
   left: 41.66%;
 }
+
+#signed_container {
+  margin-top: 10px;
+}
+
 #calendar_wrapper {
 
 background: #B9C9DA;
@@ -101,10 +121,6 @@ float: left;
 position: relative;
 left: -41.66%;
 background: #B9C9DA;
-}
-
-#signed_container {
-  margin-top: 40px;
 }
 
 #header_calendar {
@@ -355,7 +371,7 @@ background: #B9C9DA;
 
 #buttons_container {
   margin: 0px 5px 20px 5px;
-  .back_to_tasks_group:hover .back_to_tasks {
+  .back_to_tasks_group:hover a {
       background: #E4A80C;
   }
   .back_to_tasks, .all_tasks, .to_home {

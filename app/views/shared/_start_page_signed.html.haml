@@ -5,7 +5,12 @@
   -title
 #wrapper_signed_container
   -if @current_user.invited?
-    #signed_container      
+    #signed_container
+      .action_selector
+        =link_to('#') do
+          =image_tag("mail.png")
+        =link_to('#') do
+          =image_tag("tasks.png")
       #calendar_wrapper.col-sm-5.col-md-5.col-lg-5.col-xs-5
         #header_calendar.text-center
           .btn-group
