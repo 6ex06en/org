@@ -1,26 +1,33 @@
 require_relative "private_message/redis.rb"
+require_relative "private_message/redis_connections.rb"
 require_relative "private_message/validator.rb"
+require_relative "private_message/clients.rb"
+require_relative "../../helpers/sessions_helper.rb"
 # проверка на ВС пройдена, пользователь current_user
 module PrivateMessage
 
     include Validator
+    include SessionsHelper
 
 
     def self.handle_message(ws)
 
       ws.on :open do |event|
+        p methods
         p [:open, ws.object_id] # сделать присоединение к каналу сразу, а не после отправки сообщения
         Clients.add(ws)
       end
 
       ws.on :message do |event|
+        p [:message, event.data]
         chat_type, chat_name = validate_name(event.data[:channel])
         message = event.data[:message]
         client = Clients.connected.find{|c| c.user == current_user}
         if client && client.channels.include?(chat_name)
           Publisher.up.publish(chat_name, message)
         elsif client && User.allowed_channel?(chat_name)
-          Subscriber.subscribe(chat_name)
+          sub = Subscriber.new
+          sub.new_listener(chat_name)
           client.channels.push chat_name # отправит сам себе
           Publisher.up.publish(chat_name, message)
         end
@@ -39,7 +46,10 @@ module PrivateMessage
           # @clients.delete(ws)
           # ws = nil
       end
+      ws.rack_response
     end
+    
+    
     # def self.get_connection
     #   if validate_request
     #     subscribe_to(:channel)
@@ -59,7 +69,7 @@ end
 
 # p PrivateMessage::CHAT_TYPE
 
-# - приходить соединение
+# - приходит соединение
 #   - проверить ws ли
 #     - если ws
 #       - при попытке установить соединение:

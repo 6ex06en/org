@@ -14,7 +14,7 @@ module PrivateMessage
     end
 
     def validate_channel?(channel_name)
-      !!(channel_name =~ /#{CHAT_TYPE[0]}/ || channel_name =~ /#{CHAT_TYPE[0]}/)
+      !!(channel_name =~ /#{CHAT_TYPE[0]}/ || channel_name =~ /#{CHAT_TYPE[1]}/)
     end
 
     def permitted_channel?(chat_params, &block)

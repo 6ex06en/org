@@ -1,5 +1,6 @@
 require 'redis'
 require_relative "adapter"
+require_relative "redis_connections"
 
 module PrivateMessage
 
@@ -26,6 +27,7 @@ module PrivateMessage
     include Adapter
 
     attr_reader :redis_sub
+    attr_accessor :channel
 
     def initialize(connection = {})
       @redis_sub = Redis.new(connection_params(connection))
@@ -45,11 +47,24 @@ module PrivateMessage
             end
           end
         rescue Redis::BaseConnectionError => error
-          puts "#{error}, retrying in 1s"
-          sleep 1
-          retry
+          # puts "#{error}, retrying in 1s"
+          # sleep 1
+          # retry
+          raise error
         end
       end
+      p self
+      self.channel = channel
+      RedisConnections.add self
+    end
+    
+    def has_connection(channel)
+      RedisConnections.all.find {|r| r.channel == channel }
+    end
+    
+    def new_listener(channel)
+      connection = has_connection(channel)
+      self.subscribe(channel) unless connection
     end
 
   end
