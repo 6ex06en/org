@@ -32,6 +32,7 @@ gem 'sidekiq'
 gem 'sinatra', :require => nil
 gem 'kaminari'
 gem 'jquery-turbolinks'
+gem 'faye-websocket'
 
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
@@ -43,6 +44,7 @@ gem 'bcrypt', '~> 3.1.7'
 # gem 'capistrano-rails', group: :development
 gem 'carrierwave'
 gem 'cloudinary'
+gem 'puma'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

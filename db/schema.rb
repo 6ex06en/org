@@ -24,17 +24,13 @@ ActiveRecord::Schema.define(version: 20151015130504) do
   add_index "comments", ["task_id"], name: "index_comments_on_task_id"
 
   create_table "news", force: :cascade do |t|
-    t.boolean  "readed",      default: false
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
-    t.integer  "target_id"
-    t.string   "target_type"
-    t.string   "reason"
+    t.boolean  "readed",     default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.integer  "user_id"
   end
 
   add_index "news", ["readed"], name: "index_news_on_readed"
-  add_index "news", ["target_type", "target_id"], name: "index_news_on_target_type_and_target_id"
   add_index "news", ["user_id"], name: "index_news_on_user_id"
 
   create_table "options", force: :cascade do |t|
