@@ -4,7 +4,7 @@ class TasksController < ApplicationController
 
   def new
   end
-  
+
   def index
     if params[:manager]
       if params[:with_archived] == 'true'
@@ -25,7 +25,10 @@ class TasksController < ApplicationController
     end
     respond_to do |format|
       format.js {}
-      format.html { render text: params[:tasks]}
+      format.html {
+        @render_all_tasks = true
+        render "main_pages/start"
+      }
     end
   end
 
@@ -41,7 +44,7 @@ class TasksController < ApplicationController
     if params[:edit_comment].present?
       @edit_comment = true
       @comment = Comment.find_by_id(params[:edit_comment])
-    end 
+    end
     @comments = @task.comments
     respond_to do |format|
       format.js
@@ -55,11 +58,11 @@ class TasksController < ApplicationController
       News.create_news(task, :new_task)
       flash.now[:success] = "Задача создана"
       @render_tasks_of_day = true
-      @build_calendar = true 
+      @build_calendar = true
     else
       @render_task_form = true
       @date = params[:task][:date_exec]
-      @object_with_errors = task 
+      @object_with_errors = task
     end
     respond_to do |format|
       format.js {}
@@ -69,7 +72,7 @@ class TasksController < ApplicationController
   def destroy
     task = Task.find_by_id(params[:id]).destroy
     @tasks = Task.collect_tasks(session[:saved_day], @current_user, only_day: true)
-    @build_calendar = true 
+    @build_calendar = true
     if params[:all_tasks]
       @render_all_tasks = true
       if params[:with_archived] == 'true'
@@ -95,14 +98,14 @@ class TasksController < ApplicationController
       @build_calendar = true
     else
       @render_edit_task = true
-      @object_with_errors = @task 
+      @object_with_errors = @task
     end
     respond_to do |format|
       format.js {}
     end
   end
 
-  def tasks_of_day    
+  def tasks_of_day
       date = params[:date]
       date = session[:saved_day] if params[:back]
       session[:saved_day] = date
@@ -114,12 +117,12 @@ class TasksController < ApplicationController
 
   def create_task
     if params[:date] == "saved"
-      session[:saved_day] = Time.now.strftime("%Y-%m-%d") if session[:saved_day].nil?
+      session[:saved_day] ||= Date.today.strftime("%FT%R")
       @date = session[:saved_day].to_date.strftime("%FT%R")
     else
       @date = params[:date].to_date.strftime("%FT%R")
       session[:saved_day] = @date
-    end  
+    end
     @build_calendar = true
     respond_to do |format|
       format.js

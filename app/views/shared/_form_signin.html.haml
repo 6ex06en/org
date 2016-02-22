@@ -1,15 +1,33 @@
-.form_main_signin
-  =form_for :session, url: sessions_path, html: {role:"form", class: "form-horizontal"} do |u|
-    .form-group
-      =u.label "E-mail", for: "inputEmail", class: "col-sm-4 control-label"
-      .col-sm-4
-        =u.email_field :email, id: "inputEmail", class: "form-control", placeholder: "email"
-    .form-group
-      =u.label :Password, for: "inputPassword", class: "col-sm-4 control-label"
-      .col-sm-4
-        =u.password_field :password, id: "inputPassword", class: "form-control", placeholder: "password"
-    .form-group
-      .col-sm-offset-4.col-sm-3
-        =u.submit :Submit, class: "btn btn-primary", id: "submit_signin"
-      .col-sm-1.main_link_signup
-        =link_to "SignUp", new_user_path
+%main
+  %section.col-sm-12-col-md-12.col-lg-12
+    .form_main_signin
+      =form_for :session, url: sessions_path, html: {role:"form", class: "form-horizontal"} do |u|
+        .form-group
+          =u.label "E-mail", for: "inputEmail", class: "col-sm-4 control-label"
+          .col-sm-4
+            =u.email_field :email, id: "inputEmail", class: "form-control", placeholder: "email"
+        .form-group
+          =u.label :Password, for: "inputPassword", class: "col-sm-4 control-label"
+          .col-sm-4
+            =u.password_field :password, id: "inputPassword", class: "form-control", placeholder: "password"
+        .form-group
+          .col-sm-offset-4.col-sm-3
+            =u.submit :Submit, class: "btn btn-primary", id: "submit_signin"
+          .col-sm-1.main_link_signup
+            =link_to "SignUp", new_user_path
+  %section.flash
+    =render "layouts/flash", locals: {flash: flash}
+  %section.about.text-center.col-sm-12-col-md-12.col-lg-12
+    .title
+      Легкий сервис для управления задачами в организации.
+    .description<
+      С помощью 
+      %span SmartDesk 
+      вы сможете:
+      %ul
+        %li Создавать задачи и вести контроль за их выполнением.
+        %li Планировать свое рабочее время на любой день и получать уведомления на почту.
+        %li Быть всегда в курсе новых событий благодаря ленте новостей и сервису легких сообщений.
+        %li< 
+          Пользоваться всем этим абсолютно 
+          %span.free бесплатно.

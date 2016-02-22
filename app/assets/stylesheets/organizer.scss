@@ -10,9 +10,9 @@ body {
   font-weight: bolder;
   border: 1px solid grey;
 }
-@mixin main_input_area_border {
+@mixin main_input_area_border($size: 2px) {
   input, select, textarea {
-    border: 2px solid grey;
+    border: $size solid grey;
   }
 }
 
@@ -45,14 +45,57 @@ body {
     color: darkblue;
   }
 }
-
+.action_selector {
+  margin-bottom: 10px;
+  a {
+    text-decoration: none;
+  } 
+  img {
+    padding: 0 5px;
+    height: 5%;
+    width: 5%;
+  }
+  a:hover img {
+    border: 1px solid grey;
+    border-radius: 5px;
+    background: #A1BEDC;
+  }
+}
 #сontainer_create_org {
   padding: 20px;
   p {
   font-size: 2vmax;
   }
 }
-
+main {
+  form {
+    margin: 30px 0;
+  }
+  .about {
+    margin: 50px 0;
+    /*background: white;*/
+    color: #D8CD45;
+    .title {
+      /*color: #D8CD45;*/
+      font-size: 25px;
+    }
+    .description {
+      text-align: left;
+      margin: 50px 30% 0;
+      /*margin-top: 50px;*/
+      font-size: 17px;
+      span {
+        color: #337ab7;
+      }
+      span.free {
+        color: red;
+      }
+      ul {
+        margin-top: 20px;
+      }
+    }
+  }
+}
 #signed_container {
   margin: 2% 0;
   width: 100%;
@@ -61,6 +104,11 @@ body {
   position: relative;
   left: 41.66%;
 }
+
+#signed_container {
+  margin-top: 10px;
+}
+
 #calendar_wrapper {
 
 background: #B9C9DA;
@@ -73,10 +121,6 @@ float: left;
 position: relative;
 left: -41.66%;
 background: #B9C9DA;
-}
-
-#signed_container {
-  margin-top: 40px;
 }
 
 #header_calendar {
@@ -174,7 +218,28 @@ background: #B9C9DA;
   }
 }
 #edit_user_container {
-  @include main_input_area_border;
+  @include main_input_area_border(1px); 
+  .avatar {
+    float: left;
+    padding: 0 15px;
+    margin-right: 1%;
+  }
+  .avatar_form {
+    margin-top: 2%;
+    font-size: 90%;
+    border-width: 1px;
+    input[type='file'] {
+      padding-left: 0;
+      background-color: #5cb85c;
+    }
+    input[type="submit"] {
+      margin-top: 2%;
+    }
+  }
+  .empty_avatar {
+    border: 1px dotted grey;
+  }
+  
 }
 #edit_user_invitation_container {
   min-height: 350px;
@@ -182,13 +247,11 @@ background: #B9C9DA;
   border-left:  1px solid grey;
 }
 .accept_invitation_form, .invite_user_form {
-    padding: 0;
-    /*margin: 5% 0; */   
+    padding: 0; 
     font-size: 1.2vmax;
     h4 {
       margin-top: 0;
       padding: 3.1% 0 3% 12.4%;
-/*      padding-left: 12.4%;*/
       font-size: 1.7vmax;
       background: #FFFF77;
       border-bottom: 1px solid grey;
@@ -308,7 +371,7 @@ background: #B9C9DA;
 
 #buttons_container {
   margin: 0px 5px 20px 5px;
-  .back_to_tasks_group:hover .back_to_tasks {
+  .back_to_tasks_group:hover a {
       background: #E4A80C;
   }
   .back_to_tasks, .all_tasks, .to_home {
