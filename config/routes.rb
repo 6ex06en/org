@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   username == "1qa2ws3ed" && password == "1qa2ws3ed"
   end if Rails.env.production?
   mount Sidekiq::Web, at: "/sidekiq"
-  match "/chat", to: Chat.action(:chat), via: :get
+  match "/chat", to: ChannelsController.action(:chat), via: :get
 
   root "main_pages#start"
   resources :sessions, only: [:create, :destroy, :index]
@@ -28,7 +28,7 @@ Rails.application.routes.draw do
       get 'tasks_of_day' => "tasks#tasks_of_day"
     end
   end
-  
+
   post "invite_user" => "organizations#invite_user", as: :invite_user
   get 'main_pages/start'
   get 'get_tasks' => "tasks#get_tasks", as: :get_tasks

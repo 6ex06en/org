@@ -7,29 +7,36 @@ require_relative "../../helpers/sessions_helper.rb"
 module PrivateMessage
 
     include Validator
-    include SessionsHelper
+    extend SessionsHelper
 
-
-    def self.handle_message(ws)
+    def self.handle_message(ws, valid_user)
 
       ws.on :open do |event|
-        p methods
         p [:open, ws.object_id] # сделать присоединение к каналу сразу, а не после отправки сообщения
-        Clients.add(ws)
+        Clients.add(ws, valid_user)
       end
 
       ws.on :message do |event|
-        p [:message, event.data]
-        chat_type, chat_name = validate_name(event.data[:channel])
-        message = event.data[:message]
-        client = Clients.connected.find{|c| c.user == current_user}
-        if client && client.channels.include?(chat_name)
-          Publisher.up.publish(chat_name, message)
-        elsif client && User.allowed_channel?(chat_name)
-          sub = Subscriber.new
-          sub.new_listener(chat_name)
-          client.channels.push chat_name # отправит сам себе
-          Publisher.up.publish(chat_name, message)
+        begin
+          p Clients.connected.first.user
+          recieved_data = JSON.parse(event.data)
+          p recieved_data
+          p [:message, recieved_data]
+          p "clients_count = #{Clients.connected.count}"
+          p "current_user - #{valid_user}"
+          chat_type, chat_name = validate_name(recieved_data[:channel])
+          message = recieved_data[:message]
+          client = Clients.connected.find{|c| c.user == valid_user}
+          if client && client.channels.include?(chat_name)
+            Publisher.up.publish(chat_name, message)
+          elsif client && User.allowed_channel?(chat_name)
+            sub = Subscriber.new
+            sub.new_listener(chat_name)
+            client.channels.push chat_name # отправит сам себе
+            Publisher.up.publish(chat_name, message)
+          end
+        rescue => e
+          p e
         end
         # p [:message, event.data]
         # # clients.each {|client| client.send(event.data) }
@@ -48,8 +55,8 @@ module PrivateMessage
       end
       ws.rack_response
     end
-    
-    
+
+
     # def self.get_connection
     #   if validate_request
     #     subscribe_to(:channel)

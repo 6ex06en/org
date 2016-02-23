@@ -17,8 +17,9 @@ class User
           users.first.organization_id == users.second.organization_id
         end
       when types[1]
-        valid_chat_name = Chat.format_name(type: types[1], name: chat_name)
-        Chat.find_by(name: valid_chat_name).nil? || Chat.find_by(name: valid_chat_name).members.ids.include?(current_user.id)
+        !!Chat.format_name(type: types[1], name: chat_name)
+        # valid_chat_name = Chat.format_name(type: types[1], name: chat_name)
+        #Chat.find_by(name: valid_chat_name).nil? || Chat.find_by(name: valid_chat_name).members.ids.include?(current_user.id)
     end
   end
 
@@ -26,18 +27,20 @@ end
 
 class Chat
 
-  CHAT_TYPE = ["ws.private:", "ws.chat:"]
+  include PrivateMessage::Validator
 
   def self.format_name(options) # TODO: протестировать
+    chat_type = PrivateMessage::Validator::CHAT_TYPE
     case options[:type]
-      when CHAT_TYPE[0]
-        first_id = User.find_by(id: options[:user1].id).id
-        second_id = User.find_by(id: options[:user2].id).id
+      when chat_type[0]
+        first_id, second_id = options[:name].split("_")
+        # first_id = User.find_by(id: options[:user1].id).id
+        # second_id = User.find_by(id: options[:user2].id).id
         if first_id && second_id
-          first_id > second_id ? "#{second_id}_#{first1}" : "#{first_id}_#{second_id}"
+          first_id > second_id ? "#{second_id}_#{first_id}" : "#{first_id}_#{second_id}"
         end
-      when CHAT_TYPE[1]
-        chat = Chat.find_by(:name => options[:ch_name])
+      when chat_type[1]
+        chat = Chat.find_by(:name => options[:name])
         "#{chat.name}_#{chat.members.first.name}"
     end
   end
