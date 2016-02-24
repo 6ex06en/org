@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
 	has_many :news
 	has_many :news_due_user, as: :target, class_name: "News", dependent: :destroy
   has_one  :option, dependent: :destroy
+	has_many :chats_relationships, class_name: "UsersChat", foreign_key: "user_id"
+	has_many :chats, through: :chats_relationships
 	validates :name, length: { minimum: 3, maximum: 20 }
 	validates :email, presence: true, confirmation: true, uniqueness: { case_sensitive: false }
 	validates :password, length: {minimum: 8}, on: :create
@@ -26,8 +28,8 @@ def invited?
 end
 
 def assign_task(user, task_name, obj= {})
-	tasks_from_me.create(executor_id: user.id, name: task_name, date_exec: obj[:date_exec], description: obj[:description], 
-		status: (obj[:status]) ? obj[:status] : "ready") 
+	tasks_from_me.create(executor_id: user.id, name: task_name, date_exec: obj[:date_exec], description: obj[:description],
+		status: (obj[:status]) ? obj[:status] : "ready")
 end
 
 def User.create_invitation(user, inviter)
@@ -55,6 +57,10 @@ def active_tasks_to_me
   tasks_to_me.where("tasks.status IS NOT 'archived'")
 end
 
+def join_chat(chat_id)
+	UsersChat.create!(user_id: self.id, chat_id: chat_id)
+end
+
 private
 
 def create_auth_token
@@ -62,4 +68,3 @@ def create_auth_token
 end
 
 end
-
