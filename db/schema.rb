@@ -11,7 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151015130504) do
+ActiveRecord::Schema.define(version: 20160224092907) do
+
+  create_table "chats", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "comments", force: :cascade do |t|
     t.integer  "task_id"
@@ -82,5 +88,15 @@ ActiveRecord::Schema.define(version: 20151015130504) do
   add_index "users", ["join_to"], name: "index_users_on_join_to"
   add_index "users", ["name"], name: "index_users_on_name"
   add_index "users", ["organization_id"], name: "index_users_on_organization_id"
+
+  create_table "users_chats", id: false, force: :cascade do |t|
+    t.integer  "chat_id"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "users_chats", ["chat_id"], name: "index_users_chats_on_chat_id"
+  add_index "users_chats", ["user_id"], name: "index_users_chats_on_user_id"
 
 end
