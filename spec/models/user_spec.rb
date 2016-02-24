@@ -1,9 +1,12 @@
 require 'rails_helper'
+#require "#{Rails.root}/app/models/user/validator"
+# autoload :Validator, "#{Rails.root}/app/models/user/validator"
+#require_relative "../../app/models/user/validator"
 
 RSpec.describe User, type: :model do
 
-  include Validator
-  
+  include User::Validator
+
   describe "User" do
   	let(:token) { SecureRandom.urlsafe_base64 }
   	let(:user) { FactoryGirl.create(:user) }
@@ -60,8 +63,9 @@ RSpec.describe User, type: :model do
       end
 
       xit "when create new chat via UsersChat model" do
-        user_with_org.new_chat("test_chat")
+        user_with_org.own_chat.create(name: "test_chat")
         expect(user_with_org.chats.first.name).to eq "test_chat"
+        expect(Chat.last.owner).to eq user_with_org.id
       end
 
       describe "join or leave chat" do

@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
 	include Validator
-	
+
 	belongs_to :organization
 	has_many :tasks_from_me, class_name: "Task", foreign_key: "manager_id", dependent: :destroy
 	has_many :tasks_to_me, class_name: "Task", foreign_key: "executor_id"
@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   has_one  :option, dependent: :destroy
 	has_many :chats_relationships, class_name: "UsersChat", foreign_key: "user_id"
 	has_many :chats, through: :chats_relationships
+	# has_many :own_chats, class_name: "Chat"
 	validates :name, length: { minimum: 3, maximum: 20 }
 	validates :email, presence: true, confirmation: true, uniqueness: { case_sensitive: false }
 	validates :password, length: {minimum: 8}, on: :create
@@ -61,6 +62,10 @@ end
 
 def join_chat(chat_id)
 	UsersChat.create!(user_id: self.id, chat_id: chat_id)
+end
+
+def leave_chat(chat_id)
+
 end
 
 private
