@@ -5,7 +5,7 @@ RSpec.describe User, type: :model do
   	let(:token) { SecureRandom.urlsafe_base64 }
   	let(:user) { FactoryGirl.create(:user) }
     let(:user_with_org) { FactoryGirl.create(:user_with_org) }
-  	let(:other_user) {user = User.new(name: "user", email: "qw@qw.ru", email_confirmation: "qw@qw.ru", password: "qwertyui", 
+  	let(:other_user) {user = User.new(name: "user", email: "qw@qw.ru", email_confirmation: "qw@qw.ru", password: "qwertyui",
   		password_confirmation: "qwertyui")}
     let(:admin) { FactoryGirl.create(:admin)}
 
@@ -45,40 +45,41 @@ RSpec.describe User, type: :model do
       end
 
     end
-    
+
     describe "channels specs" do
-      
+
       let(:allowed_channel) {FactoryGirl.create(:chat)}
       let(:disallowed_channel) {FactoryGirl.create(:chat)}
-      
-      before(:all) do
+
+      before(:each) do
         UsersChat.create(chat_id: allowed_channel.id, user_id: other_user.id)
       end
-      
+
       xit "when create new chat via UsersChat model" do
         user_with_org.new_chat("test_chat")
         expect(user_with_org.chats.first.name).to eq "test_chat"
       end
-      
+
       describe "join or leave chat" do
-        
-        xit "when join the chat and chat allowed" do
+
+        it "when join the chat and chat allowed" do
           user_with_org.join_chat(allowed_channel.id)
           expect(user_with_org.chats).to include allowed_channel
         end
-        
+
         xit "when join the chat and chat not allowed" do
           user_with_org.join_chat(disallowed_channel.id)
           expect(user_with_org.chats).to_not include disallowed_channel
           expect(user_with_org.join_chat(disallowed_channel.id)).to raise_exception
         end
-        
+
         xit "when #leave_chat" do
-          expect{user_with_org.leave_chat(allowed_channel.id)}.to change{user_with_org.chats.count}.from(1).to(0)
+          expect{user_with_org.leave_chat(allowed_channel.id)}
+            .to change{user_with_org.chats.count}.from(1).to(0)
         end
-        
+
       end
-      
+
     end
 
   end
