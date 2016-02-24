@@ -1,10 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+
+  include Validator
+  
   describe "User" do
   	let(:token) { SecureRandom.urlsafe_base64 }
   	let(:user) { FactoryGirl.create(:user) }
     let(:user_with_org) { FactoryGirl.create(:user_with_org) }
+    let(:user_with_org2) { FactoryGirl.create(:user_with_org) }
   	let(:other_user) {user = User.new(name: "user", email: "qw@qw.ru", email_confirmation: "qw@qw.ru", password: "qwertyui",
   		password_confirmation: "qwertyui")}
     let(:admin) { FactoryGirl.create(:admin)}
@@ -76,6 +80,33 @@ RSpec.describe User, type: :model do
         xit "when #leave_chat" do
           expect{user_with_org.leave_chat(allowed_channel.id)}
             .to change{user_with_org.chats.count}.from(1).to(0)
+        end
+
+        descibe "module Validator" do
+
+          let(:chat_another_user) {FactoryGirl.create(:chat)}
+
+          before(:each) do
+            user_with_org2.join_chat(chat_another_user.id)
+          end
+
+          describe "#same_organization?" do
+
+            xit "when chat from other organization - fail" do
+              expect(user_with_org.join_to(chat_another_user.id)).to be_nil
+              user_with_org.join_to(chat_another_user.id)
+              expect(error).to eq "User from other organization"
+            end
+
+            xit "when users from one organization - success" do
+              expect(user_with_org.join_to(chat_another_user.id)).to be_truthy
+            end
+
+          end
+
+          xit "#valid?" do
+          end
+
         end
 
       end

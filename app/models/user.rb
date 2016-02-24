@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+	include Validator
+	
 	belongs_to :organization
 	has_many :tasks_from_me, class_name: "Task", foreign_key: "manager_id", dependent: :destroy
 	has_many :tasks_to_me, class_name: "Task", foreign_key: "executor_id"

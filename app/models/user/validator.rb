@@ -19,7 +19,13 @@ module User::Validator
     @error = nil
   end
 
-  def allowed_channel?(channel)
+  def same_organization?(channel_id)
+    chat = Chat.find_by(id: channel_id)
+    if chat && chat.owner.organization == self.organization
+      true
+    else
+      @error = "User from other organization"
+    end
   end
 
 end
