@@ -1,5 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Chat, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+    
+    xit "#format_chat_name" do
+    end
+      
+    xit "find_by_ids" do
+    end
+    
 end

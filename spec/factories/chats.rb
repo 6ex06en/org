@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :chat do
-    name "MyString"
+    sequence(:name) {|n| "Chat_#{n}"}
   end
 
 end
