@@ -64,9 +64,19 @@ def join_chat(chat_id)
 	UsersChat.create!(user_id: self.id, chat_id: chat_id)
 end
 
-def leave_chat(arg)
-	relationship = UsersChat.where(user_id: self.id, chat_id: arg).first
-	relationship.try(:destroy)
+def leave_chat(chat_id)
+	relationship = UsersChat.where(user_id: self.id, chat_id: chat_id)
+	relationship.first.destroy if relationship.any?
+end
+
+def invite_to_chat(invited, chat)
+	if invited.is_a? User
+		if valid_channel? owner_chat?: [chat]
+			invited.join_chat(chat.id)
+		else
+			raise StandardError.new(error)
+		end
+	end
 end
 
 private

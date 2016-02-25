@@ -1,16 +1,6 @@
 require 'rails_helper'
-#require "#{Rails.root}/app/models/user/validator"
-# autoload :Validator, "#{Rails.root}/app/models/user/validator"
-# require_relative "../../app/models/user/validator"
-# require_dependency "../../app/models/user/validator"
-# RSpec.configure do |c|
-#   c.include User::Validator
-# end
 
 RSpec.describe User, type: :model do
-  
-# require_relative "../../app/models/user/validator"
-  # include User::Validator
 
   describe "User" do
   	let(:token) { SecureRandom.urlsafe_base64 }
@@ -84,6 +74,23 @@ RSpec.describe User, type: :model do
           user_with_org.join_chat(disallowed_channel.id)
           expect(user_with_org.chats).to_not include disallowed_channel
           expect(user_with_org.join_chat(disallowed_channel.id)).to raise_exception
+        end
+
+        describe "#invite_to_chat" do
+
+          it "when success" do
+            expect{user_with_org.invite_to_chat(user_with_org2, allowed_channel)}
+              .to change{user_with_org2.chats.count}.by(1)
+            user_with_org.invite_to_chat(user_with_org2, allowed_channel)
+            expect(user_with_org2.chats).to include allowed_channel
+          end
+
+          it "when invited not exist or invited is not User" do
+            expect(user_with_org.invite_to_chat(nil, allowed_channel)).to be_nil
+          end
+
+          xit "when inviter not owner the chat" do
+          end
         end
 
         it "when #leave_chat" do
