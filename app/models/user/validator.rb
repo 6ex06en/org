@@ -4,11 +4,15 @@ module User::Validator
     @error = nil
   end
 
-  def valid? validations
+  def valid_channel?(*validations)
     clear_error!
 
-    validations.each do |v|
-      v.instance_of? Hash ? send(v.keys.first.to_sym, *[v.values]) : send(v)
+    [*validations].each do |v|
+      if v.instance_of? Hash
+        send(v.keys.first.to_sym, *v.values)
+      else
+        send(v.to_sym)
+      end
     end
     error.nil?
   end

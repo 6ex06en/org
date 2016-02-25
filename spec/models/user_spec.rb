@@ -1,11 +1,16 @@
 require 'rails_helper'
 #require "#{Rails.root}/app/models/user/validator"
 # autoload :Validator, "#{Rails.root}/app/models/user/validator"
-#require_relative "../../app/models/user/validator"
+# require_relative "../../app/models/user/validator"
+# require_dependency "../../app/models/user/validator"
+# RSpec.configure do |c|
+#   c.include User::Validator
+# end
 
 RSpec.describe User, type: :model do
-
-  include User::Validator
+  
+# require_relative "../../app/models/user/validator"
+  # include User::Validator
 
   describe "User" do
   	let(:token) { SecureRandom.urlsafe_base64 }
@@ -55,17 +60,17 @@ RSpec.describe User, type: :model do
 
     describe "channels specs" do
 
-      let(:allowed_channel) {FactoryGirl.create(:chat)}
-      let(:disallowed_channel) {FactoryGirl.create(:chat)}
+      let(:allowed_channel) {FactoryGirl.create(:chat, chat_type: "private", user_id: user_with_org.id)}
+      let(:disallowed_channel) {FactoryGirl.create(:chat, chat_type: "private", user_id: user_with_org2.id)}
 
-      before(:each) do
-        UsersChat.create(chat_id: allowed_channel.id, user_id: other_user.id)
-      end
+      # before(:each) do
+      #   UsersChat.create(chat_id: allowed_channel.id, user_id: other_user.id)
+      # end
 
-      xit "when create new chat via UsersChat model" do
-        user_with_org.own_chat.create(name: "test_chat")
+      it "when create new chat via UsersChat model" do
+        user_with_org.own_chats.create(name: "test_chat", chat_type: "private")
         expect(user_with_org.chats.first.name).to eq "test_chat"
-        expect(Chat.last.owner).to eq user_with_org.id
+        expect(Chat.last.user).to eql user_with_org
       end
 
       describe "join or leave chat" do
@@ -81,12 +86,11 @@ RSpec.describe User, type: :model do
           expect(user_with_org.join_chat(disallowed_channel.id)).to raise_exception
         end
 
-        xit "when #leave_chat" do
-          expect{user_with_org.leave_chat(allowed_channel.id)}
-            .to change{user_with_org.chats.count}.from(1).to(0)
+        it "when #leave_chat" do
+          expect{user_with_org.leave_chat(allowed_channel.id)}.to change{user_with_org.chats.count}.from(1).to(0)
         end
 
-        descibe "module Validator" do
+        describe "module Validator" do
 
           let(:chat_another_user) {FactoryGirl.create(:chat)}
 

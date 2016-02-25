@@ -8,9 +8,9 @@ class User < ActiveRecord::Base
 	has_many :news
 	has_many :news_due_user, as: :target, class_name: "News", dependent: :destroy
   has_one  :option, dependent: :destroy
-	has_many :chats_relationships, class_name: "UsersChat", foreign_key: "user_id"
+	has_many :chats_relationships, class_name: "UsersChat", foreign_key: "user_id", dependent: :destroy
 	has_many :chats, through: :chats_relationships
-	# has_many :own_chats, class_name: "Chat"
+	has_many :own_chats, class_name: "Chat", dependent: :destroy
 	validates :name, length: { minimum: 3, maximum: 20 }
 	validates :email, presence: true, confirmation: true, uniqueness: { case_sensitive: false }
 	validates :password, length: {minimum: 8}, on: :create
@@ -64,8 +64,10 @@ def join_chat(chat_id)
 	UsersChat.create!(user_id: self.id, chat_id: chat_id)
 end
 
-def leave_chat(chat_id)
-
+def leave_chat(arg)
+	relationship = UsersChat.where(user_id: self.id, chat_id: arg)
+	p relationship
+	relationship.try(:destroy)
 end
 
 private

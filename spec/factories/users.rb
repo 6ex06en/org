@@ -27,5 +27,10 @@ FactoryGirl.define do
           end
       end
   end
+  
+  factory :chat do
+    sequence(:name) {|n| "Chat_#{n}"}
+    user
+  end
 
 end
