@@ -60,8 +60,8 @@ RSpec.describe User, type: :model do
 
     describe "channels specs" do
 
-      let(:allowed_channel) {FactoryGirl.create(:chat, chat_type: "private", user_id: user_with_org.id)}
-      let(:disallowed_channel) {FactoryGirl.create(:chat, chat_type: "private", user_id: user_with_org2.id)}
+      let!(:allowed_channel) {FactoryGirl.create(:chat, chat_type: "private", user_id: user_with_org.id)}
+      let!(:disallowed_channel) {FactoryGirl.create(:chat, chat_type: "private", user_id: user_with_org2.id)}
 
       # before(:each) do
       #   UsersChat.create(chat_id: allowed_channel.id, user_id: other_user.id)
@@ -69,7 +69,7 @@ RSpec.describe User, type: :model do
 
       it "when create new chat via UsersChat model" do
         user_with_org.own_chats.create(name: "test_chat", chat_type: "private")
-        expect(user_with_org.chats.first.name).to eq "test_chat"
+        expect(user_with_org.chats.last.name).to eq "test_chat"
         expect(Chat.last.user).to eql user_with_org
       end
 
@@ -92,11 +92,7 @@ RSpec.describe User, type: :model do
 
         describe "module Validator" do
 
-          let(:chat_another_user) {FactoryGirl.create(:chat)}
-
-          before(:each) do
-            user_with_org2.join_chat(chat_another_user.id)
-          end
+          let(:chat_another_user) {FactoryGirl.create(:chat, chat_type: "chat", user_id: user_with_org2.id)}
 
           describe "#same_organization?" do
 

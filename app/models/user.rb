@@ -65,8 +65,7 @@ def join_chat(chat_id)
 end
 
 def leave_chat(arg)
-	relationship = UsersChat.where(user_id: self.id, chat_id: arg)
-	p relationship
+	relationship = UsersChat.where(user_id: self.id, chat_id: arg).first
 	relationship.try(:destroy)
 end
 
