@@ -1,7 +1,7 @@
 module User::Validator
 
   def error
-    @error = nil
+    @error
   end
 
   def valid_channel?(*validations)
@@ -16,7 +16,7 @@ module User::Validator
     end
     error.nil?
   end
-
+  
   private
 
   def clear_error!
@@ -31,9 +31,11 @@ module User::Validator
       @error = "User from other organization"
     end
   end
-
+  
   def owner_chat?(chat)
     @error = "User not owner the chat" unless chat.user == self
   end
+
+  
 
 end
