@@ -28,6 +28,7 @@ Rails.application.routes.draw do
       get 'tasks_of_day' => "tasks#tasks_of_day"
     end
   end
+  resources :chats
 
   post "invite_user" => "organizations#invite_user", as: :invite_user
   get 'main_pages/start'
