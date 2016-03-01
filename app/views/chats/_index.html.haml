@@ -1,0 +1,5 @@
+#chat
+	.chat__users-list
+		%ul
+			= render partial: "chats/shared/organization_user", collection: organization_users, as: :user
+	.chat__chats-list
