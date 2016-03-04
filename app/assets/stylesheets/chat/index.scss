@@ -1,0 +1,48 @@
+$chat_bg_color: grey;
+$chat_border_color: darkgrey;
+
+.chat__users-list {
+    display: inline-block;
+    width: 20%;
+    border: 1px solid $chat_border_color;
+    border-radius: 8px;
+    background: $chat_bg_color;
+    
+    ul {
+        padding: 3% 0 3% 7%;
+       
+        li:first-child:last-child {
+          margin: 5% 0 5% -7%;
+          border-radius: 4px;  
+        }
+        
+        li:first-child:not(:last-child) {
+          margin-top: 5%;
+          border-radius: 4px 4px 0 0;
+        }
+        
+        li:last-child:not(:first-child) {
+          margin-bottom: 5%;
+          border-radius: 0 0 4px 4px;
+        }
+        
+        li {
+            margin-left: -7%;
+            padding: 2% 7%;
+            list-style: none;
+            background: #5cb85c;
+            border: 1px solid $chat_border_color;
+        }
+        
+        li:hover {
+            font-weight: bold;
+            background: white;
+            cursor: pointer;
+        }
+    }
+}
+
+.chat__chats-list {
+    display: inline-block;
+    width: 79%;
+}

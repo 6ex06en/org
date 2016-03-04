@@ -5,7 +5,12 @@ module UsersHelper
 	end
 	
 	def has_organization?
-		@current_user.organization.present?
+		current_user.organization.present?
+	end
+	
+	def no_alone?
+		users = current_user.organization.users
+		users.many?
 	end
 
 end

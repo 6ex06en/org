@@ -1,5 +1,12 @@
+- content_for(:head)
 #chat
-	.chat__users-list
-		%ul
-			= render partial: "chats/shared/organization_user", collection: organization_users, as: :user
-	.chat__chats-list
+	- if has_organization? && no_alone?
+		.chat__users-list
+			%ul
+				Список контактов:
+				= render( partial: "chats/shared/organization_user", collection: organization_users, as: :user)
+		.chat__chats-list
+			Тут будут Ваши диалоги
+	- else 
+		.chat__no-organization
+			Не с кем вести диалог - пригласите пользователя в Вашу организацию.
