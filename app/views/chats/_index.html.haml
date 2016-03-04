@@ -1,4 +1,4 @@
-- content_for(:head)
+- content_for :script, javascript_include_tag("main")
 #chat
 	- if has_organization? && no_alone?
 		.chat__users-list
