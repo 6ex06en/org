@@ -11,5 +11,19 @@ require 'rails_helper'
 #   end
 # end
 RSpec.describe ChatsHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:user1) {FactoryGirl.create(:user_with_org)}
+  let(:user2) {FactoryGirl.create(:user_with_org, organization_id: user1.organization_id)}
+
+  describe "#organization_users" do
+
+    it "without argumets" do
+      assign(:current_user, user2)
+      expect(helper.organization_users).to contain_exactly(user1, user2)
+    end
+
+    it "with :without_me params" do
+      assign(:current_user, user2)
+      expect(helper.organization_users(:without_me)).to contain_exactly(user1)
+    end
+  end
 end
