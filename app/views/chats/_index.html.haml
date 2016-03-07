@@ -1,12 +1,15 @@
-= load_script "main", execute: "asCalendarHeight('.chat__users-list')"
+= load_script "main", execute: "asCalendarHeight('#chat')"
 #chat
 	- if has_organization? && no_alone?
 		.chat__users-list
-			%ul
+			%ul<
 				Список контактов:
 				= render( partial: "chats/shared/organization_user", collection: organization_users(:without_me), as: :user)
 		.chat__chats-list
-			Тут будут Ваши диалоги
+			.chats__headers
+				.chat__header.chat__header--main.chat__header--active< Все
+			.chat__body
+				Тут будут Ваши диалоги
 	- else
 		.chat__no-organization
 			Не с кем вести диалог - пригласите пользователя в Вашу организацию.
