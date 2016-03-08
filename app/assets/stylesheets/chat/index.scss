@@ -53,7 +53,6 @@ $chat_border_color: darkgrey;
 
     .chats__headers {
       padding: 0.8% 0 0 0.5%;
-      text-align: center;
       border-radius: 0 8px 0 0;
       background: #E8E8E8;
 
@@ -61,6 +60,7 @@ $chat_border_color: darkgrey;
         display: inline-block;
         width: 10%;
         line-height: 2;
+        text-align: center;
 
         border: 1px solid $chat_border_color;
         border-radius: 0 5px 0 0;

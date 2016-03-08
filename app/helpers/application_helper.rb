@@ -10,7 +10,7 @@ module ApplicationHelper
 
 	def load_script script, options = {}
  		result = content_tag :script, nil, src: asset_path(script)
-		result << content_tag(:script, options[:execute].html_safe) if options[:execute]
+		options[:execute] ? result << content_tag(:script, options[:execute].html_safe) : result
 	end
 
 end

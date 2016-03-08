@@ -4,20 +4,16 @@ require File.expand_path("../../private_message/lib/private_message", __FILE__)
 class ChannelsController < ApplicationController
 
     KEEPALIVE_TIME = 15
-    #puts self.methods
 
     def chat
         puts "req +++ "
-        #p request
-        # p request.env
         puts Faye::WebSocket.websocket?(request.env)
-        # puts Faye::WebSocket.websocket?(request)
         redirect_to root_path and return unless Faye::WebSocket.websocket?(request.env)
         ws = Faye::WebSocket.new(request.env, nil, {ping: KEEPALIVE_TIME})
         p "current_user - #{current_user}"
         PrivateMessage.handle_message(ws, current_user)
-        render :nothing => true if Faye::WebSocket.websocket?(request.env)
-        #redirect_to test_chat_path
+        render :nothing => true
+        # render :nothing => true if Faye::WebSocket.websocket?(request.env)
     end
 
     def call(env)
