@@ -3,10 +3,10 @@ require_relative "errors"
 module PrivateMessage
   class RedisConnections
       
-      @connections = []
+      # @connections = []
       
       def self.all
-         @connections
+         @connections ||= []
       end
       
       def self.add(subscriber)

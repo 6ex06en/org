@@ -27,6 +27,10 @@ module PrivateMessage
         [chat_type, chat_name.sub(chat_type, '')]
       end
     end
+    
+    def correct_data?(json)
+      json.keys.sort == [:channel, :message] 
+    end
 
   end
 end

@@ -40,6 +40,9 @@ module PrivateMessage
           redis_sub.subscribe(channel) do |on|
             on.message do |chan, mes|
               puts "#{chan}: #{mes}"
+              Clients.connected.each do |client|
+                client.connection.send(mes) if client.has_channel? chan
+              end
               redis_sub.unsubscribe(chan) if mes == "unsubscribe"
             end
             on.unsubscribe do |chan|
@@ -47,9 +50,6 @@ module PrivateMessage
             end
           end
         rescue Redis::BaseConnectionError => error
-          # puts "#{error}, retrying in 1s"
-          # sleep 1
-          # retry
           raise error
         end
       end
@@ -58,13 +58,13 @@ module PrivateMessage
       RedisConnections.add self
     end
     
-    def has_connection(channel)
+    def has_connection?(channel)
       RedisConnections.all.find {|r| r.channel == channel }
     end
     
     def new_listener(channel)
-      connection = has_connection(channel)
-      self.subscribe(channel) unless connection
+      connection = has_connection?(channel)
+      subscribe(channel) unless connection
     end
 
   end

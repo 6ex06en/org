@@ -11,7 +11,7 @@ class ChannelsController < ApplicationController
         redirect_to root_path and return unless Faye::WebSocket.websocket?(request.env)
         ws = Faye::WebSocket.new(request.env, nil, {ping: KEEPALIVE_TIME})
         p "current_user - #{current_user}"
-        PrivateMessage.handle_message(ws, current_user)
+        PrivateMessage.handle_message(ws, current_user) if current_user
         render :nothing => true
         # render :nothing => true if Faye::WebSocket.websocket?(request.env)
     end

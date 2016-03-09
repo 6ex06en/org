@@ -85,4 +85,10 @@ def create_auth_token
 	self.auth_token = User.encrypt(User.new_token)
 end
 
+protected
+
+def allowed_channel?(channel_name)
+	chats.find {|c| c.name == channel_name}
+end
+
 end

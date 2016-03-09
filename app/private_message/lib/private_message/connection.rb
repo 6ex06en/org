@@ -1,25 +1,31 @@
-require_relative "../../../helpers/sessions_helper.rb"
+# require_relative "../../../helpers/sessions_helper.rb"
 
 module PrivateMessage
   class Connection
 
-    include SessionsHelper
+    # include SessionsHelper
 
     attr_reader :channels, :connection, :user
 
     def initialize(ws, valid_user)
       begin
-        #p current_user
         @channels = []
         @connection = ws
         @user = valid_user
+        cache_channels
       rescue => e
         raise e
       end
     end
 
-    def test
-      p methods
+    def cache_channels
+      @user.chats.each do |c|
+        @channels << c.name
+      end
+    end
+    
+    def has_channel?(channel_name)
+      channels.include? channel_name
     end
 
   end
