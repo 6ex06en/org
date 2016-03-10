@@ -19,7 +19,8 @@ module PrivateMessage
       ws.on :message do |event|
         begin
           recieved_data = parse_data(event.data)
-          if correct_data?(recieved_data) && validate_channel?(recieved_data[:channel])
+          p recieved_data
+          if correct_data?(recieved_data) && validate_channel?(recieved_data["channel"])
             send_message(recieved_data, valid_user)
           end
         rescue => e
@@ -34,8 +35,8 @@ module PrivateMessage
       ws.on :close do |event|
           p [:close, event.code, event.reason]
           recieved_data = parse_data(event.data)
-          Publisher.up.publish(recieved_data[:channel], "unsubscribe")
-          clear_redis(valid_user, recieved_data[:channel])
+          Publisher.up.publish(recieved_data["channel"], "unsubscribe")
+          clear_redis(valid_user, recieved_data["channel"])
           # p [:close, ws.object_id, event.code, event.reason]
           # @clients.delete(ws)
           # ws = nil
@@ -58,9 +59,11 @@ module PrivateMessage
       p "current_user - #{user}"
       # chat_name = data[:channel]
       # message = data[:message]
-      chat_name, message = data.values_at(:channel, :message)
+      chat_name, message = data.values_at("channel", "message")
       client = Clients.connected.find{|client| client.user == user}
-      if client && client.channels.include?(chat_name)
+      #вместо проверки присутствия канала у пользователя сделать проверку запущенного редис клиента с таким каналом
+      # т.е канал такой у пользователя может быть, а редис не запущен, некуда будет отправлять сообщение
+      if client && client.channels.include?(chat_name) 
         Publisher.up.publish(chat_name, message)
       elsif client && client.allowed_channel?(chat_name)
         sub = Subscriber.new
@@ -71,7 +74,8 @@ module PrivateMessage
     
     def self.clear_redis(user, channel)
       Clients.connected.delete_if {|c| c.user == user}
-      RedisConnections.all.delete_if {|r| r.channel == channel}
+      with_channel = RedisConnections.all.select {|r| r.channel == channel}
+      RedisConnections.all.delete(with_channel.first) if with_channel.one?
     end
     
 end

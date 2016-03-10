@@ -29,7 +29,8 @@ module PrivateMessage
     end
     
     def correct_data?(json)
-      json.keys.sort == [:channel, :message] 
+      p "correct_data? - #{json.keys.sort == ["channel", "message"]}"
+      json.keys.sort == ["channel", "message"] 
     end
 
   end
