@@ -28,6 +28,10 @@ module PrivateMessage
 
     attr_reader :redis_sub
     attr_accessor :channel
+    
+    def self.sub_threads
+      @waiting ||= [] 
+    end
 
     def initialize(connection = {})
       @redis_sub = Redis.new(connection_params(connection))
@@ -36,10 +40,10 @@ module PrivateMessage
 
     def subscribe(channel)
       Thread.new do
+        Subscriber.sub_threads.push(Thread.current)
         begin
           redis_sub.subscribe(channel) do |on|
             on.message do |chan, mes|
-              puts "#{chan}: #{mes}"
               Clients.connected.each do |client|
                 client.connection.send(mes) if client.has_channel? chan
               end
@@ -48,10 +52,13 @@ module PrivateMessage
             on.unsubscribe do |chan|
               puts "unsubscribe from #{chan}"
             end
+            p "#{Subscriber.sub_threads} - sub_threads from thread"
+            p "subscribe running"
           end
         rescue Redis::BaseConnectionError => error
           raise error
         end
+        Subscriber.sub_threads.delete(Thread.current)
       end
       p self
       self.channel = channel

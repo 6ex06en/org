@@ -3,6 +3,7 @@ require_relative "private_message/redis_connections.rb"
 require_relative "private_message/validator.rb"
 require_relative "private_message/clients.rb"
 require_relative "../../helpers/sessions_helper.rb"
+require "timeout"
 # проверка на ВС пройдена, пользователь current_user
 module PrivateMessage
 
@@ -53,22 +54,29 @@ module PrivateMessage
     end
     
     def self.send_message(data, user)
-      p data
       p [:message, data]
       p "clients_count = #{Clients.connected.count}"
       p "current_user - #{user}"
-      # chat_name = data[:channel]
-      # message = data[:message]
       chat_name, message = data.values_at("channel", "message")
       client = Clients.connected.find{|client| client.user == user}
-      #вместо проверки присутствия канала у пользователя сделать проверку запущенного редис клиента с таким каналом
-      # т.е канал такой у пользователя может быть, а редис не запущен, некуда будет отправлять сообщение
-      if client && client.channels.include?(chat_name) 
+      if client && RedisConnections.find_by_channel(chat_name) 
         Publisher.up.publish(chat_name, message)
-      elsif client && client.allowed_channel?(chat_name)
+      elsif client && client.has_channel?(chat_name)
         sub = Subscriber.new
         sub.new_listener(chat_name)
+        wait_redis_up
+        p "start publishing"
         Publisher.up.publish(chat_name, message)
+        p "end publishing"
+      end
+    end
+    
+    def self.wait_redis_up
+      Timeout.timeout(2) do
+        loop do 
+          p "#{Subscriber.sub_threads.count}  - from loop"
+          break if Subscriber.sub_threads.empty?
+        end
       end
     end
     

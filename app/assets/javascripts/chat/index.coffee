@@ -15,6 +15,6 @@ class PrivateMessageWS
     @connection.send(JSON.stringify({channel: options.channel, message: options.message}))
 
   onRecieve: (data)->
-    console.log(data)
+    console.log(data.data)
   onError:  ->
 window.private = PrivateMessageWS

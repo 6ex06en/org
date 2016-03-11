@@ -3,8 +3,6 @@ require_relative "connection"
 module PrivateMessage
   class Clients
 
-    # @connected = []
-
     def self.connected
       @connected ||= []
     end
@@ -23,8 +21,3 @@ module PrivateMessage
     
   end
 end
-
-# PrivateMessage::Clients.add(:dfdf)
-# PrivateMessage::Clients.add(:dfdff)
-# PrivateMessage::Clients.add("434")
-# p PrivateMessage::Clients.connected

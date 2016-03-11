@@ -1,9 +1,5 @@
-# require_relative "../../../helpers/sessions_helper.rb"
-
 module PrivateMessage
   class Connection
-
-    # include SessionsHelper
 
     attr_reader :channels, :connection, :user
 
@@ -25,6 +21,7 @@ module PrivateMessage
     end
     
     def has_channel?(channel_name)
+      p "current_user has_channel #{channel_name}? - #{channels.include? channel_name}"
       channels.include? channel_name
     end
 
