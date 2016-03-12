@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-# require_relative "../../app/models/user/validator"
+# require_relative "../../app/private_message/lib/private_message"
 
 # RSpec.configure do |c|
 #   c.include Validator
@@ -8,6 +8,7 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   include User::Validator
+  include PrivateMessage
 
   describe "User" do
   	let(:token) { SecureRandom.urlsafe_base64 }
@@ -62,7 +63,7 @@ RSpec.describe User, type: :model do
 
       it "when create new chat via UsersChat model" do
         user_with_org.own_chats.create(name: "test_chat", chat_type: "private")
-        expect(user_with_org.chats.last.name).to eq "test_chat"
+        expect(user_with_org.chats.last.name).to eq "test_chat_#{user_with_org.id}"
         expect(Chat.last.user).to eql user_with_org
       end
 
@@ -73,6 +74,18 @@ RSpec.describe User, type: :model do
           expect(user_with_org.chats).to include allowed_channel
         end
 
+        describe "after joined to channel" do
+
+          it "increase count #cache_chennels in PrivateMessage::Connection instance" do
+            ws_client = PrivateMessage::Clients.add("fake_ws", user_with_org)
+            expect(ws_client.chats).to_not include allowed_channel.name
+          end
+        end
+
+        xit "удалять users_chat при выходе из канала, а если это создатель канала, то и own_chats" do
+        end
+
+
         describe "#invite_to_chat" do
 
           it "when success" do
@@ -81,6 +94,7 @@ RSpec.describe User, type: :model do
             user_with_org.invite_to_chat(user_with_org2, allowed_channel)
             expect(user_with_org2.chats).to include allowed_channel
           end
+
 
           it "when invited not exist or invited is not User" do
             expect(user_with_org.invite_to_chat(nil, allowed_channel)).to be_nil
@@ -114,41 +128,38 @@ RSpec.describe User, type: :model do
           end
 
           describe "#valid?" do
-            
             describe "when all valid" do
-              
+
               subject(:validation) {user_with_org2.valid_channel? owner_chat?: [chat_another_user]}
-              
+
               it "method return true" do
                 expect(validation).to be_truthy
               end
-              
+
               it "method #error return nil" do
                 expect{validation}.not_to change{user_with_org2.error}.from nil
               end
-              
+
             end
-            
+
             describe "when validation fail" do
-              
+
               subject(:validation) {user_with_org.valid_channel? owner_chat?: [chat_another_user]}
-              
+
               it "method return false" do
                 expect(validation).to be_falsey
               end
-              
+
               it "method #error return not nil" do
                 expect{validation}.to change{user_with_org.error}.from nil
               end
-              
+
             end
-            
+
             it "when argument it is a not exists method" do
               expect{user_with_org.valid_channel?(:validation_method)}.to raise_error(NoMethodError)
             end
-            
           end
-
         end
 
       end

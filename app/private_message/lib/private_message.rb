@@ -4,11 +4,10 @@ require_relative "private_message/validator.rb"
 require_relative "private_message/clients.rb"
 require_relative "../../helpers/sessions_helper.rb"
 require "timeout"
-# проверка на ВС пройдена, пользователь current_user
+
 module PrivateMessage
 
     include Validator
-    # extend SessionsHelper
 
     def self.handle_message(ws, valid_user)
 
@@ -44,7 +43,7 @@ module PrivateMessage
       end
       ws.rack_response
     end
-    
+
     def self.parse_data(data)
       begin
         JSON.parse(data)
@@ -52,14 +51,14 @@ module PrivateMessage
         puts "WebSocket: Data is a not json"
       end
     end
-    
+
     def self.send_message(data, user)
       p [:message, data]
       p "clients_count = #{Clients.connected.count}"
       p "current_user - #{user}"
       chat_name, message = data.values_at("channel", "message")
       client = Clients.connected.find{|client| client.user == user}
-      if client && RedisConnections.find_by_channel(chat_name) 
+      if client && RedisConnections.find_by_channel(chat_name)
         Publisher.up.publish(chat_name, message)
       elsif client && client.has_channel?(chat_name)
         sub = Subscriber.new
@@ -70,22 +69,22 @@ module PrivateMessage
         p "end publishing"
       end
     end
-    
+
     def self.wait_redis_up
       Timeout.timeout(2) do
-        loop do 
-          p "#{Subscriber.sub_threads.count}  - from loop"
+        loop do
+          # p "#{Subscriber.sub_threads.count}  - from loop"
           break if Subscriber.sub_threads.empty?
         end
       end
     end
-    
+
     def self.clear_redis(user, channel)
       Clients.connected.delete_if {|c| c.user == user}
       with_channel = RedisConnections.all.select {|r| r.channel == channel}
       RedisConnections.all.delete(with_channel.first) if with_channel.one?
     end
-    
+
 end
 
 
