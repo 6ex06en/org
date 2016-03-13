@@ -74,6 +74,20 @@ RSpec.describe User, type: :model do
           expect(user_with_org.chats).to include allowed_channel
         end
 
+        describe "when #leave_chat" do
+
+          it "count of chats must be decreased" do
+            expect{user_with_org.leave_chat(allowed_channel.id)}.to change{user_with_org.chats.count}.from(1).to(0)
+          end
+
+          it "chat must be deleted if no users" do
+            user_with_org.leave_chat(allowed_channel.id)
+            expect(user_with_org.chats).not_to include allowed_channel
+            expect(Chat.find_by(id: allowed_channel.id)).to be_nil
+          end
+
+        end
+
         describe "after joined to channel" do
 
           it "increase count #cache_chennels in PrivateMessage::Connection instance" do
@@ -90,10 +104,6 @@ RSpec.describe User, type: :model do
               .to change{ws_client.channels.count}.by(-1)
           end
         end
-
-        xit "удалять users_chat при выходе из канала, а если это создатель канала, то и own_chats" do
-        end
-
 
         describe "#invite_to_chat" do
 
@@ -114,9 +124,6 @@ RSpec.describe User, type: :model do
           end
         end
 
-        it "when #leave_chat" do
-          expect{user_with_org.leave_chat(allowed_channel.id)}.to change{user_with_org.chats.count}.from(1).to(0)
-        end
 
         describe "module Validator" do
 

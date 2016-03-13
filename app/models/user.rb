@@ -68,7 +68,11 @@ def leave_chat(chat_id)
 	relationship = UsersChat.where(user_id: self.id, chat_id: chat_id)
 	if relationship.any?
 		relationship = relationship.first
-		relationship.destroy
+		if UsersChat.where(chat_id: chat_id).count == 1
+			Chat.destroy(chat_id)
+		else
+			relationship.destroy
+		end
 		delete_cached_channel(relationship.user, relationship.chat)
 	end
 end
