@@ -1,15 +1,16 @@
 class Chat < ActiveRecord::Base
 
-  before_create :format_chat_name
-  after_create :create_relationship_with_user, :invite_addressee
   belongs_to :user
+  has_many   :users_relationships, class_name: "UsersChat", foreign_key: "chat_id", dependent: :destroy
+
+  after_create     :create_relationship_with_user, :invite_addressee
+  after_validation :format_chat_name
 
   validates :name, :chat_type, :user_id, presence: true
+  validates :name, uniqueness: true
   validates :chat_type, inclusion: {in: %w(private chat)}
-
-  #TODO:cоздать валидацию на проверку имени при создании чата с типом "чат"
-  #имя должно быть числом
-  #TODO:создать валидацию на уникальность имени
+  validates :name, numericality: {only_integer: true}, if: ->(c) {c.chat_type == "private"}
+  validate  :has_user?, on: :create, if: ->(c) {c.chat_type == "private"}
 
   private
 
@@ -19,16 +20,22 @@ class Chat < ActiveRecord::Base
 
     def format_chat_name
       case chat_type
-        when "chat"
+      when "private"
           minmax = [name.to_i, user.id].sort
           self.name = "#{minmax[0]}_#{minmax[1]}"
-        when "private"
+        when "chat"
           self.name = "#{name}_#{user.id}"
       end
     end
 
+    def has_user?
+      if chat_type == "private"
+        errors.add(:base, "User not found") unless User.find_by(id: self.name)
+      end
+    end
+
     def invite_addressee
-      if chat_type == "chat"
+      if chat_type == "private"
         users_id = name.split("_")
         users_id.each do |id|
           if user_id.to_i == id.to_i
@@ -40,19 +47,3 @@ class Chat < ActiveRecord::Base
       end
     end
 end
-
-#TODO:
-# Создать через js по клику канал "чат" с именем - id ресипиента и типом чат
-# на before_save повесить переименовку канала на имя типа sort(self.id, target.id) - #{id_id}
-# либо переименовку канала #{channel_name}_#{current_user.id} if chat_type == private
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#

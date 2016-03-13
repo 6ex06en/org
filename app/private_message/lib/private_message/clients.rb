@@ -15,7 +15,7 @@ module PrivateMessage
 
     def self.connected?(user)
       connected.find do |c|
-        c.user.name == user.name
+        c.user.id == user.id
       end
     end
 

@@ -58,11 +58,11 @@ RSpec.describe User, type: :model do
 
     describe "channels specs" do
 
-      let!(:allowed_channel) {FactoryGirl.create(:chat, chat_type: "private", user_id: user_with_org.id)}
-      let!(:disallowed_channel) {FactoryGirl.create(:chat, chat_type: "private", user_id: user_with_org2.id)}
+      let!(:allowed_channel) {FactoryGirl.create(:chat, chat_type: "chat", user_id: user_with_org.id)}
+      let!(:disallowed_channel) {FactoryGirl.create(:chat, chat_type: "chat", user_id: user_with_org2.id)}
 
       it "when create new chat via UsersChat model" do
-        user_with_org.own_chats.create(name: "test_chat", chat_type: "private")
+        user_with_org.own_chats.create(name: "test_chat", chat_type: "chat")
         expect(user_with_org.chats.last.name).to eq "test_chat_#{user_with_org.id}"
         expect(Chat.last.user).to eql user_with_org
       end
@@ -77,8 +77,17 @@ RSpec.describe User, type: :model do
         describe "after joined to channel" do
 
           it "increase count #cache_chennels in PrivateMessage::Connection instance" do
-            ws_client = PrivateMessage::Clients.add("fake_ws", user_with_org)
-            expect(ws_client.chats).to_not include allowed_channel.name
+            ws_client = PrivateMessage::Clients.add("fake_ws", user_with_org).last
+            expect(ws_client.channels).to contain_exactly allowed_channel.name
+            user_with_org2.invite_to_chat(user_with_org, disallowed_channel)
+            expect(ws_client.channels).to include disallowed_channel.name
+          end
+
+          it "decrease count #cache_chennels in PrivateMessage::Connection instance" do
+            ws_client = PrivateMessage::Clients.add("fake_ws", user_with_org).last
+            user_with_org2.invite_to_chat(user_with_org, disallowed_channel)
+            expect{user_with_org.leave_chat(disallowed_channel.id)}
+              .to change{ws_client.channels.count}.by(-1)
           end
         end
 

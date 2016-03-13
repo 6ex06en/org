@@ -66,13 +66,18 @@ end
 
 def leave_chat(chat_id)
 	relationship = UsersChat.where(user_id: self.id, chat_id: chat_id)
-	relationship.first.destroy if relationship.any?
+	if relationship.any?
+		relationship = relationship.first
+		relationship.destroy
+		delete_cached_channel(relationship.user, relationship.chat)
+	end
 end
 
 def invite_to_chat(invited, chat)
 	if invited.is_a? User
 		if valid_channel? owner_chat?: [chat]
 			invited.join_chat(chat.id)
+			cache_ws_channel(invited, chat)
 		else
 			raise StandardError.new(error)
 		end
@@ -83,6 +88,16 @@ private
 
 def create_auth_token
 	self.auth_token = User.encrypt(User.new_token)
+end
+
+def cache_ws_channel(client, channel)
+	ws_client = PrivateMessage::Clients.connected?(client)
+	ws_client.channels << channel.name if ws_client
+end
+
+def delete_cached_channel(client, channel)
+	ws_client = PrivateMessage::Clients.connected?(client)
+	ws_client.channels.delete(channel.name) if ws_client
 end
 
 protected
