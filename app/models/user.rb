@@ -61,19 +61,19 @@ def active_tasks_to_me
 end
 
 def join_chat(chat_id)
-	UsersChat.create!(user_id: self.id, chat_id: chat_id)
+	UsersChat.create!(user_id: self.id, chat_id: chat_id) if valid_channel? same_organization?: [chat_id]
 end
 
 def leave_chat(chat_id)
 	relationship = UsersChat.where(user_id: self.id, chat_id: chat_id)
 	if relationship.any?
 		relationship = relationship.first
+		delete_cached_channel(self, relationship.chat.name)
 		if UsersChat.where(chat_id: chat_id).count == 1
 			Chat.destroy(chat_id)
 		else
 			relationship.destroy
 		end
-		delete_cached_channel(relationship.user, relationship.chat)
 	end
 end
 
@@ -96,12 +96,19 @@ end
 
 def cache_ws_channel(client, channel)
 	ws_client = PrivateMessage::Clients.connected?(client)
+	#p "#{ws_client} - add to cahche"
 	ws_client.channels << channel.name if ws_client
+	#p "#{ws_client.channels} - ws_client channels after cahche" if ws_client
 end
 
-def delete_cached_channel(client, channel)
+def delete_cached_channel(client, channel_name)
+	p "#{client.name} - client delete_cached_channel"
+	# p "#{channel_name} - channel"
 	ws_client = PrivateMessage::Clients.connected?(client)
-	ws_client.channels.delete(channel.name) if ws_client
+	p "#{ws_client} - ws_client"
+	p "#{ws_client.channels} - ws_client channels before" if ws_client
+	ws_client.channels.delete(channel_name) if ws_client
+	p "#{ws_client.channels} - ws_client channels after" if ws_client
 end
 
 protected

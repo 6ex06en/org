@@ -89,23 +89,46 @@ RSpec.describe User, type: :model do
         end
 
         describe "after joined to channel" do
+          
+          let(:ws_client) {PrivateMessage::Clients.add("fake_ws", user_with_org).last}
+          before { user_with_org.update_attributes(organization_id: user_with_org2.organization_id) }
+          
 
-          it "increase count #cache_chennels in PrivateMessage::Connection instance" do
-            ws_client = PrivateMessage::Clients.add("fake_ws", user_with_org).last
+          it "increase count #cache_channels in PrivateMessage::Connection instance" do
+            # ws_client = PrivateMessage::Clients.add("fake_ws", user_with_org).last
             expect(ws_client.channels).to contain_exactly allowed_channel.name
             user_with_org2.invite_to_chat(user_with_org, disallowed_channel)
             expect(ws_client.channels).to include disallowed_channel.name
           end
 
-          it "decrease count #cache_chennels in PrivateMessage::Connection instance" do
-            ws_client = PrivateMessage::Clients.add("fake_ws", user_with_org).last
+          it "decrease count #cache_channels in PrivateMessage::Connection instance" do
+            p "------+++="
+            p "#{ws_client.channels} - ws_client"
+            p "#{user_with_org.chats.map &:name} - user_with_org"
+            p "++++++++++++++"
+            # ws_client = PrivateMessage::Clients.add("fake_ws", user_with_org).last
+            #puts "user_with_org1 chats before inviting #{user_with_org.chats.count}"
+            #p "user_with_org1 chats before inviting #{ws_client.channels}"
             user_with_org2.invite_to_chat(user_with_org, disallowed_channel)
-            expect{user_with_org.leave_chat(disallowed_channel.id)}
-              .to change{ws_client.channels.count}.by(-1)
+            #puts "user_with_org1 chats after inviting #{user_with_org.chats.count}"
+            #p "user_with_org1 chats after inviting #{ws_client.channels}"
+            # p user_with_org.chats
+            expect(ws_client.channels).to include disallowed_channel.name
+            p "ws_client.name - #{ws_client.user.name}"
+            p "ws_client.channels - #{ws_client.channels}"
+            p "----------"
+            user_with_org.leave_chat(disallowed_channel.id)
+            expect(ws_client.channels).to_not include disallowed_channel.name
+            #   .to change{ws_client.channels.count}.by(-1)
+            # expect{user_with_org.leave_chat(disallowed_channel.id)}
+            #   .to change{ws_client.channels.count}.by(-1)
+            # p ws_client.channels
           end
         end
 
         describe "#invite_to_chat" do
+          
+          before { user_with_org.update_attributes(organization_id: user_with_org2.organization_id) }
 
           it "when success" do
             expect{user_with_org.invite_to_chat(user_with_org2, allowed_channel)}
@@ -131,10 +154,10 @@ RSpec.describe User, type: :model do
 
           describe "#same_organization?" do
 
-            xit "when chat from other organization - fail" do
-              expect(user_with_org.join_to(chat_another_user.id)).to be_nil
-              user_with_org.join_to(chat_another_user.id)
-              expect(error).to eq "User from other organization"
+            it "when chat from other organization - fail" do
+              # expect(user_with_org.join_to(user_with_org2, chat_another_user.id)).to be_nil
+              user_with_org.join_chat(chat_another_user.id)
+              expect(user_with_org.error).to eq "User from other organization"
             end
 
             xit "when users from one organization - success" do
