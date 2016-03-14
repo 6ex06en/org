@@ -89,45 +89,28 @@ RSpec.describe User, type: :model do
         end
 
         describe "after joined to channel" do
-          
+
           let(:ws_client) {PrivateMessage::Clients.add("fake_ws", user_with_org).last}
-          before { user_with_org.update_attributes(organization_id: user_with_org2.organization_id) }
-          
+          before(:each) { user_with_org.update_attributes(organization_id: user_with_org2.organization_id) }
+          after(:each) { PrivateMessage::Clients.connected.clear}
+
 
           it "increase count #cache_channels in PrivateMessage::Connection instance" do
-            # ws_client = PrivateMessage::Clients.add("fake_ws", user_with_org).last
             expect(ws_client.channels).to contain_exactly allowed_channel.name
             user_with_org2.invite_to_chat(user_with_org, disallowed_channel)
             expect(ws_client.channels).to include disallowed_channel.name
           end
 
           it "decrease count #cache_channels in PrivateMessage::Connection instance" do
-            p "------+++="
-            p "#{ws_client.channels} - ws_client"
-            p "#{user_with_org.chats.map &:name} - user_with_org"
-            p "++++++++++++++"
-            # ws_client = PrivateMessage::Clients.add("fake_ws", user_with_org).last
-            #puts "user_with_org1 chats before inviting #{user_with_org.chats.count}"
-            #p "user_with_org1 chats before inviting #{ws_client.channels}"
             user_with_org2.invite_to_chat(user_with_org, disallowed_channel)
-            #puts "user_with_org1 chats after inviting #{user_with_org.chats.count}"
-            #p "user_with_org1 chats after inviting #{ws_client.channels}"
-            # p user_with_org.chats
             expect(ws_client.channels).to include disallowed_channel.name
-            p "ws_client.name - #{ws_client.user.name}"
-            p "ws_client.channels - #{ws_client.channels}"
-            p "----------"
             user_with_org.leave_chat(disallowed_channel.id)
             expect(ws_client.channels).to_not include disallowed_channel.name
-            #   .to change{ws_client.channels.count}.by(-1)
-            # expect{user_with_org.leave_chat(disallowed_channel.id)}
-            #   .to change{ws_client.channels.count}.by(-1)
-            # p ws_client.channels
           end
         end
 
         describe "#invite_to_chat" do
-          
+
           before { user_with_org.update_attributes(organization_id: user_with_org2.organization_id) }
 
           it "when success" do

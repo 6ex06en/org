@@ -96,19 +96,12 @@ end
 
 def cache_ws_channel(client, channel)
 	ws_client = PrivateMessage::Clients.connected?(client)
-	#p "#{ws_client} - add to cahche"
 	ws_client.channels << channel.name if ws_client
-	#p "#{ws_client.channels} - ws_client channels after cahche" if ws_client
 end
 
 def delete_cached_channel(client, channel_name)
-	p "#{client.name} - client delete_cached_channel"
-	# p "#{channel_name} - channel"
 	ws_client = PrivateMessage::Clients.connected?(client)
-	p "#{ws_client} - ws_client"
-	p "#{ws_client.channels} - ws_client channels before" if ws_client
 	ws_client.channels.delete(channel_name) if ws_client
-	p "#{ws_client.channels} - ws_client channels after" if ws_client
 end
 
 protected
