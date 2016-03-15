@@ -55,31 +55,33 @@ $chat_border_color: darkgrey;
       padding: 0.8% 0 0 0.5%;
       border-radius: 0 8px 0 0;
       background: #E8E8E8;
+      overflow: hidden;
 
       .chat__header {
         display: inline-block;
         line-height: 2;
         text-align: center;
         padding: 0 10px;
-        // margin-right: 0.5%;
 
         border: 1px solid $chat_border_color;
         border-radius: 0 5px 0 0;
         background: $chat_bg_color;
 
-        .chat__header--active {
-        }
-
-        .chat__header--main {
-        }
       }
-      
+
+      .chat__header--active {
+      }
+
+      .chat__header--main {
+        margin-right: -0.4%; //непонятный отступ
+      }
+
       .chat__header:hover {
         font-weight: bold;
         background: white;
         cursor: pointer;
       }
-      
+
     }
 
     .chat__body {
@@ -88,10 +90,14 @@ $chat_border_color: darkgrey;
 
 .chat__scroll-headers {
   float: right;
-  
+  line-height: 2.5;
+  border: 1px solid $chat_border_color;
+  margin-top: -0.8%;
+  background: #5cb85c;
+
   span {
   }
-  
+
   span:hover {
     color: white;
     cursor: pointer;
