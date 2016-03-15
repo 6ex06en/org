@@ -58,9 +58,10 @@ $chat_border_color: darkgrey;
 
       .chat__header {
         display: inline-block;
-        width: 10%;
         line-height: 2;
         text-align: center;
+        padding: 0 10px;
+        // margin-right: 0.5%;
 
         border: 1px solid $chat_border_color;
         border-radius: 0 5px 0 0;
@@ -72,9 +73,27 @@ $chat_border_color: darkgrey;
         .chat__header--main {
         }
       }
-
+      
+      .chat__header:hover {
+        font-weight: bold;
+        background: white;
+        cursor: pointer;
+      }
+      
     }
 
     .chat__body {
     }
+}
+
+.chat__scroll-headers {
+  float: right;
+  
+  span {
+  }
+  
+  span:hover {
+    color: white;
+    cursor: pointer;
+  }
 }
