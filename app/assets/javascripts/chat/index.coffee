@@ -67,6 +67,12 @@ class Chat
     if @headers[@headers.length - 1].is(".hide") || @headers[0].is(".hide")
       scrollContainer.removeClass("hide")
 
+  scrollLeft: ->
+    @lastLeft = if @lastLeft then @lastLeft.next() else @headers[0]
+
+  scrollRight: ->
+    @firstRight = if @firstRight then @firstRight.prev() else @headers[@headers.length - 1]
+
 
   insertHeader: (elem) ->
     header = @buildHeader(elem)
@@ -75,7 +81,6 @@ class Chat
     else
       @HEADERS_CONTAINER.append(header)
     @addHeader(header)
-    # @HEADERS_CONTAINER.append(header)
 
   addHeader: (elem) ->
     @headers.push elem
@@ -103,5 +108,3 @@ class Chat
   debugger;
 
 window.chatBuilder = new Chat()
-//# sourceURL=index.js
-//# sourceURL=index.coffee
